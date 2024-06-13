@@ -9,6 +9,7 @@ Repository for INIKA project - Code development and sharing
 If you wish to learn how to use version control and basic usage of github
 we recommend sofware carpentry lession as startup : <https://swcarpentry.github.io/git-novice/> 
 
+You can also make use of the Wiki to share important info about this repository and how to use your code (eg. guidelines)
 
 Subdirectories
 ## Code
