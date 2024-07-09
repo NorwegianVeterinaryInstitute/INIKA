@@ -1,7 +1,18 @@
 #setwd("//vetinst.no/dfs-felles/Stasjon/FAG/Tverrfaglig/AMR/FoU-aktiviteter & prosjekter/31218_INIKA_OH_TZ/WP2")
+##
 
+#Install needed libraries
+
+install.packages(dplyr, tidyverse, readxl)
+library(readxl)
+
+
+library(dbplyr)
+library(tidyverse)
+
+library(readxl)
 INIKA_SURVEY_ORIGINAL <- read_excel("//vetinst.no/dfs-felles/StasjonK/FAG/Tverrfaglig/AMR/FoU-aktiviteter & prosjekter/31218_INIKA_OH_TZ/WP2/inputDataset/INIKA_SURVEY_ORIGINAL.xlsx")
-
+library(dplyr)
 INIKA<-INIKA_SURVEY_ORIGINAL%>%
   filter(Comment!="TEST")
 colnames(INIKA)
