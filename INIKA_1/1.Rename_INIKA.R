@@ -1,7 +1,11 @@
 #setwd("//vetinst.no/dfs-felles/Stasjon/FAG/Tverrfaglig/AMR/FoU-aktiviteter & prosjekter/31218_INIKA_OH_TZ/WP2")
 ##
 
-#Install needed libraries
+#This is the first script of 3 scripts -named 1. Rename_INIKA.R- dataset QUEST is generated, 2. Categorisation of varables.R Dataset INIKAKAT is generated and 3. Recoding_INIKA_IDs Dataset INIKA_SURVEY_ID is generated and printed to be used for the matching and identifaction of farms
+# which cleans the KAP survey from KoboToolbox
+# Before starting to clean the datasets from the survey, the testfarms were identified in the excelfile and given a new columnname "Comment", then I removed thos that were identified as TEST
+
+#Install needed libraries and set those active!
 
 install.packages(dplyr, tidyverse, readxl)
 library(readxl)
@@ -11,13 +15,14 @@ library(dbplyr)
 library(tidyverse)
 
 library(readxl)
+# Reads in the original file downloaded from KoboToolbox
 INIKA_SURVEY_ORIGINAL <- read_excel("//vetinst.no/dfs-felles/StasjonK/FAG/Tverrfaglig/AMR/FoU-aktiviteter & prosjekter/31218_INIKA_OH_TZ/WP2/inputDataset/INIKA_SURVEY_ORIGINAL.xlsx")
 library(dplyr)
 INIKA<-INIKA_SURVEY_ORIGINAL%>%
   filter(Comment!="TEST")
 colnames(INIKA)
 
-# sette in kordinater her!
+# Names of the variables are changed to make it easier to handle!
 
 QUEST<-INIKA%>%
   dplyr::rename(Respondent= "Name of the respondent",
