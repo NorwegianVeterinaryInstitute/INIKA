@@ -14,7 +14,8 @@ we recommend sofware carpentry lession as startup : <https://swcarpentry.github.
 
 -Learning R recommendations: 
   - Software and data carpentry courses : <https://datacarpentry.org/lessons/> and here <https://software-carpentry.org/lessons/>
-  - Coursera (its possible to follow courses for Free - as long as one does not want to take exam and get the diploma), I recommend this one <https://www.coursera.org/specializations/jhu-data-science> that was very good 
+  - Coursera (its possible to follow courses for Free - as long as one does not want to take exam and get the diploma), I recommend this one <https://www.coursera.org/specializations/jhu-data-science> that was very good
+  - Book: R for data science : <https://r4ds.had.co.nz/>
 
 - A guide for markdown synthax (that is used to simply write those documents with .md extension, and make them looking good enough to be viewed online), <https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax> 
 
