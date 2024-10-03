@@ -1,0 +1,146 @@
+---
+title: "`r params$title`"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+author: Eve Zeyl Fiskebeck
+params:
+  title: "01 - Introduction: State of mind and Ressources" 
+  script_name: "01 - Introduction and Basic R Setup"  
+  project_path: "`r here::here()`"
+output: 
+  
+  rmdformats::readthedown:
+      css: style.css
+      self_contained: true
+      code_download: true
+      toc_depth: 4
+      df_print: paged
+      code_folding: hide
+      author: params$author
+      highlight: espresso
+      
+
+  
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+# Goal 
+
+- 1. **Develop a mental model :  how to think about programming, data analysis and data management**
+so can become independent learners 
+- 2. Learn the basics of data wrangling, exploration and visualization and analysis using R,
+
+
+## What to expect and the learning process  
+
+In programming for data analysis, there are some basic concepts to learn but 
+afterwards we usually manage by finding the information we need when we need it.
+We never know it all, but we get better and better at finding information. 
+
+![Humor and markdown way to insert images in markdown!](https://i.redd.it/ms8u3bl2kw351.jpg) {.width=50%}
+
+
+When you have a problem to solve, the solution is most certainly (99.999% of the 
+cases) already available on internet. You will need to search for the answer.
+The resources for learning are not lacking. 
+
+What is lacking well is type to 
+explore it all ! and know what to search for. How how can you search for 
+something you do not know exists yet ?
+
+## What to expect about the code you produce
+
+Learning to write code, is learning how to get up after stumbling... and there is
+a lot of stumbling is totally normal. 
+No code is ever perfect, writing good code takes practice, experience, and a lot
+of trials and errors. Coding is a creative process to solve problems. 
+Code does not need to be nice, nor perfect. It needs to 
+do what you want it to do. However, documenting your intent is a very good practice
+so you in 3 months or any other person can understand what you were trying to do. 
+<!-- I am not writing good code, but it usually work for the
+scientific analysis I do. --> 
+
+![What to expect in code?](https://miro.medium.com/v2/resize:fit:1400/0*_lbfkH2RdWvQyLSQ.png)
+
+## What about AI 
+
+
+AI, for sure can help you find resources and even to help you do some coding for 
+you (eg. ChatGTP, GitHub Copilot, etc.). 
+
+**BUT!** Should you use it - I would not advise you to trust blindly the code it 
+delivers (could be wrong and difficult to detect its wrong). Should you use it, 
+you need to understand what it does. Consequently, you need to have learn
+enough to be able to do so! 
+
+
+# Some Ressources to learn more R 
+
+Here I link several external resources. Some contain material that we have seen 
+here but presented differently. They will help you go further. 
+This is far from being an exhaustive list.
+
+Resources are available in different forms :
+
+-   R Books for specific themes (incl., online books) such as [An
+    Introduction to R](https://intro2r.com/) and [R for Data
+    Science](https://r4ds.had.co.nz/). Many books treat the same theme,
+    eg. [R Markdown: The Definitive
+    Guide](R%20Markdown:%20The%20Definitive%20Guide) and [R markdown
+    cookbook](https://bookdown.org/yihui/rmarkdown-cookbook/) and [R bookdown](
+    https://bookdown.org/yihui/bookdown/) and the book for the nice visualisation
+    plots [ggplot2](https://ggplot2-book.org/), and many others ... 
+    you cant read them all!
+
+-   Statistical analysis books where R is used for the analyses: eg.
+    [Modern Statistics for Modern
+    Biology](https://web.stanford.edu/class/bios221/book/)
+
+-   Tutorials eg. [Setting up a reproducible
+    project](https://alexd106.github.io/intro2R/project_setup.html) and
+    already made courses made eg. by the [Carpenties
+    community](https://carpentries.org/community-lessons/), incl. course
+    in development where you also can contribute [Carpentries
+    incubator](https://carpentries.org/community-lessons/) AND I managed
+    to find one treating AMR [R for AMR
+    epidemiology](https://github-pages.arc.ucl.ac.uk/r-amr-epidemiology/index.html)
+
+-   Blogs eg. [R-bloggers](https://www.r-bloggers.com/) or other
+    websites eg. [R graph Gallery](https://r-graph-gallery.com/) which
+    can provide either inspiration or small solutions to problems you
+    are having
+
+-   Forums where you can ask specific questions eg.
+    [Stackoverflow](https://stackoverflow.com/) or [Rstudio
+    community](https://community.rstudio.com/). Do not forget to read
+    how you should ask questions eg. for
+    [statckoverflow](https://stackoverflow.com/help/how-to-ask).
+
+-   Repositories associated to statistical courses eg. the online
+    [Statistical Rethinking
+    course](https://www.youtube.com/playlist?list=PLDcUM9US4XdPz-KxHM4XHt7uUVGWWVSus)
+    has this [code
+    repository](https://github.com/rmcelreath/stat_rethinking_2023?tab=readme-ov-file)
+    associated.
+
+-   Some R packages also have vignettes <!-- explain --> that can show
+    examples how to use their code; eg. package
+    [prettydoc](https://cran.r-project.org/web/packages/prettydoc/vignettes/hpstr.html) 
+    
+-   There are of course online courses: eg at Coursera^1 , 
+    and [MIT OpenCourseWare](https://ocw.mit.edu/). 
+    
+-   Some usefull tricks [here for Rstudio](https://swcarpentry.github.io/git-novice/instructor/04-changes.html)
+    
+
+    
+-   ...
+
+- [R for AMR epidemiology package](https://github-pages.arc.ucl.ac.uk/r-amr-epidemiology/)

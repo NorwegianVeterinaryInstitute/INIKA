@@ -1,0 +1,306 @@
+---
+title: "`r params$title`"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+author: Eve Zeyl Fiskebeck
+params:
+  title: "02 - Introduction to data analysis with R" 
+  script_name: "01 - Introduction and Basic R Setup"  
+  project_path: "`r here::here()`"
+output: 
+  
+  rmdformats::readthedown:
+      css: style.css
+      self_contained: true
+      code_download: true
+      toc_depth: 4
+      df_print: paged
+      code_folding: hide
+      author: params$author
+      highlight: espresso
+      
+
+  
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+- [ ]   
+ 
+# Eve Tmp: 
+
+- [ ]  &ensp; 
+
+## Resources
+- https://www.r-bloggers.com/2022/09/r-markdown-lesser-known-tips-tricks-4-looks-better-works-better/ 
+- Folds https://bookdown.org/yihui/rmarkdown-cookbook/fold-show.html
+- Styling https://rpubs.com/cohensh/833550
+- Whitespaces html &ensp; https://stackoverflow.com/questions/44810511/how-to-add-empty-spaces-into-md-markdown-readme-on-github
+- alternative html tables: pandr https://cran.r-project.org/web/packages/pander/vignettes/knitr.html 
+- https://mybinder.org/ : executable environments 
+- reproducible research intro https://datacarpentry.org/rr-intro/aio.html
+- Humor code content https://miro.medium.com/v2/resize:fit:1400/0*_lbfkH2RdWvQyLSQ.png
+
+## ToDos 
+
+ - [ ]  as Håkon if more things need to be added.
+ - [ ] run tutorial by madelaine 
+
+---
+
+
+# 1.Introduction
+
+## 1.1 Data analysis, management, reproducibility 
+
+- [Reproducible research in R]
+- [R for reproductive Scientific analysis]
+
+## 1.2 What is R?
+
+# 2 Preliminary: preparing your work - getting organized 
+
+
+
+```{r}
+DiagrammeR::mermaid(
+  "
+  graph TB
+  subgraph  
+    A[Preparing your work]
+    A --> C[Directory structure]
+    C --> D[Project Setup]
+  end
+  subgraph  
+    B[Work : one or several analyses] --> E[eg. Analysis one]
+    E --> F[Code]
+    F --> H[Session Setup]
+    F --> I[Analysis]
+    F --> K[Prettyfying]
+    H --> G[Results : output]
+    I --> G
+    K --> G
+  end
+  ")
+```
+
+
+
+
+`R project` Directory & structure :
+
+-   Favors good organisation
+
+-   Allows git / version control
+
+-   Easier to share - allows others to have the same organisation
+
+-   Reproducibility
+
+Requires a little setup
+
+
+
+### 1. Setting up a R project
+
+-   Setting up a reproducible project
+    1.  [ ]()
+-   Rmarkdown VS script : differences
+-   Setup - This can serve as template
+-   installing packages
+-   list of packages you will need (those loaded)
+
+
+[ ] &ensp;Creates or open a R project with Rstudio (existing directory)
+<!-- explain what it does: setup path -->
+
+> Open project - 
+
+
+## 2.2 Files in directory 
+
+- exploration directory 
+- create a markdown notebook
+
+## 2.xx Installing packages so you can use them 
+
+> Once 
+
+And the different ways to send instructions  to R :
+
+<u> Exercise: </u> Installing package and the different ways of running code 
+
+- [ ] &ensp;With R studio <!-- GUI knowledge --> 
+- [ ] using the console  <!-- interactive running notion -->
+- [ ] running a cell <!-- running code notion in a notebook -->
+- [ ] inline code <!-- running code notion in a notebook : explain why -->
+- [ ] using a script <!-- sourcing code notion --> 
+ - [ ] using source at save
+ - [ ] sourcing a script (eg: within a cell) 
+ 
+We will install the following packages: 
+
+- [ ] [renv](https://rstudio.github.io/renv/articles/renv.html) 
+- [ ] [rmdformats](https://prettydoc.statr.me/) : to create pretty html page 
+- [ ] [tidyverse](https://www.tidyverse.org/) : 
+- [ ] [DiagrammeR](https://rich-iannone.github.io/DiagrammeR/) : to create diagrams
+- [ ] [pacman](https://github.com/trinker/pacman) : to install and **explore** packages
+a collection of packages for data science that work well together which allow to make 
+diagrams using [Mermaid js](https://mermaid.js.org/)
+<!-- easier to install as bundle 
+- [ ] take long time -> so can be USED AS A BREAK FOR SOME EXPLANATION ...
+--> 
+
+
+<u>Question:</u> Why do we need to install packages ?
+
+
+```{r class.source = "fold-hide" , eval = FALSE}
+# Rstudio 
+install.packages("renv")
+?install.packages # Help on the function - to get the synthax and arguments
+# click + F1
+```
+
+-   Reproducible project : `renv` package
+
+- We will install (bellow)
+- will allow to keep track of all the packages we need,
+and will allow another person to easily reproduce our environment. 
+
+<!-- Non R standard packages --> 
+<u> Info: </u> 
+
+R package Repository VS other ways to install packages : different repositories. 
+
+- [Bioconductor](https://www.bioconductor.org/) : mostly for bioinformatics
+but there might be some things useful 
+- [AMR package in Github](https://github.com/msberends/AMR) : source code of packages
+
+
+# 3. Data wrangling 
+
+Taking messy and inconsistent raw data, and transforming those into a clean 
+data set that can be used for data analysis. This includes data quality insurence,
+aka exploring the dataset to identify potential issues with variables formatting 
+and missing values.
+
+
+If the data was registered following the 
+[spreadsheet best practices](https://ucdavisdatalab.github.io/workshop_keeping_data_tidy/#spreadsheet-best-practices)
+then this step should be nearly obsolete and relatively rapid. However, data are
+seldom perfectly recorded. Therefore quality insurance is necessary. 
+<!-- Unfortunately, this is rarely the case --> 
+
+# Objectives 
+He we will learn how to :
+- [ ] check data for errors, missing data
+- [ ] reformat the data
+- [ ] explore raw data content 
+- [ ] find and eventually filter data that have been registered but will not be used
+- [ ] manipulate format: transformation from long/wide format
+- [ ] create simple but powerfull plots based 
+
+By doing each a series of small data manipulation steps, we will see that
+we can create a powerful combination of steps allowing data cleaning. 
+
+In this tutorial, I will transform and adapt the content of two existing courses
+for your purpose and will use your current data sets. 
+Those courses are: [Programming with R](https://swcarpentry.github.io/r-novice-inflammation/)
+and [R for reproducible Scientific Analysis](https://swcarpentry.github.io/r-novice-gapminder/)
+
+
+# 
+```{r}
+my_dataframe <- ...
+```
+
+
+```{r}
+my_dataframe
+
+head(my_dataframe)
+tail(my_dataframe)
+
+
+my_dataframe %>% 
+  head()
+
+my_dataframe %>% 
+  View()
+```
+
+
+```{r}
+colnames(my_dataframe)
+dim(my_dataframe)
+```
+
+
+- Each individual step combined is powerfull: pipeline / pipes
+
+
+# Session Info
+
+# Additional 
+
+
+
+
+
+
+
+\> This little introduction will give you the tools to learn and to
+become independent. As I have no idea of your background with data
+analysis, I have to assume that you are a novice with data analysis,
+tell me if its not the case.
+
+`-   [ ]` Are check list of things we need to learn. If not explained in
+the text here, then its explained and easily understandable from one of
+the external resources mentioned.
+
+- R https://cran.r-project.org/  vs Rstudio https://posit.co/
+
+
+## 1.1 About development of this tutorial : (optional)
+
+This tutorial is written using [Markdown
+syntax](https://www.markdownguide.org/basic-syntax/), which can also be
+combined with a little html to make pretty documents. <!-- Comment: 
+- a syntax that is easy to learn and makes things looks good easily 
+
+- Rmarkdown : Rmd VS quarto (comming up)
+--> In R we can use markdown with
+[Rmarkdown](https://rmarkdown.rstudio.com/) or
+[quarto](https://quarto.org/docs/get-started/) notebooks.
+<!-- Ask if you know jupiter notebooks ? --> Notebooks contains: - Text
+(cells) in markdown/html, - Code blocks that you can run - some
+instructions for formatting and rendering eg. (yaml header). This allows
+you to make pretty documents, including your analyses and text. Eg. for an overview of [themes](https://www.datadreaming.org/posts/2018-04-11-r-markdown-theme-gallery/2018-04-11-r-markdown-theme-gallery).
+
+<!-- 
+Show !
+
+Explain why : 
+- can learn and take notes at the same time
+- practice for feature reproducible analyses they will do
+- can render (eg. knit) in different formats (show html / doc)
+
+
+- Explain can also write code in script - but then comments only way to have text 
+-->
+
+
+
+# Eve need Check further :
+
+-   [ ] [AMR-R package](https://msberends.github.io/AMR/index.html)
+    [video](https://www.youtube.com/watch?v=TkTPUO7NRlU&ab_channel=M.S.Berends)
+    
+    
+    
+
