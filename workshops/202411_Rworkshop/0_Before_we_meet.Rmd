@@ -55,11 +55,11 @@ Note: Should you want to know more, the guided tour for
     will use Rmarkdown to run code during the course, this will also
     allow you to take notes at the same time
     
-- [ ]   if you are uncertain of what are the best practices for registering and organizing 
+- [ ]   If you are uncertain of what are the best practices for registering and organizing 
 your data please read this tutorial, particularly the section of 
 [spreadsheet best practices](https://ucdavisdatalab.github.io/workshop_keeping_data_tidy/#content).
 NB: Tools like KoboToolbox and WHONET are usually useful to help following those principles
-when registering data, but understanding more about the reasoning behing those requirements
+when registering data, but understanding more about the reasoning behind those requirements
 is best.  
 
 - [ ]  Please install [git](https://git-scm.com/downloads/win) version control 
@@ -80,28 +80,12 @@ but it is worth it !)
 [this tutorial](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account)
 
 
-- [ ]   Please try to connect your github account to your Rstudio.
+- [ ]   Please try to connect your github account to your Rstudio, 
+you can have a look to [this tutorial](https://happygitwithr.com/rstudio-git-github) 
+can be helpful.
 
-# EVE do Think - that will be alot alone already ... we need planning how much time we can have 
-<!-- Madelaine --> 
-- [ ]   On github each student can have gihub own folder or make furk ? 
-
-- create subfolder for each student 
-- We will furk Inika project in each account 
-- 
-- 
-
-create a repository where you will be able to work on the code 
-for INIKA project
-
-
-
-# TODO EVE !!! AD link 
-<!-- but I want by ssh --> 
-
-
-<mark><b>PLEASE LET ME KNOW IF YOU DID NOT MANAGE THIS BEFORE WE MEET.</b></mark>
-We can eg. have a look with an online meeting if necessary.**
+**<mark><b>PLEASE LET ME KNOW IF YOU DID NOT MANAGE THIS BEFORE WE MEET.</b></mark>
+We can eg. have a look during an online meeting.**
 
 
 # Why to do this ? - reproducible science and Open data science 
@@ -109,9 +93,13 @@ We can eg. have a look with an online meeting if necessary.**
 The way we will work will help us to do reproducible research. It will 
 help you (and us) to organize the data analysis work and document what you 
 have done, including the reasons behind your choices.
-The YOU 3 month from Now might not remember the reasoning and all the 
-steps you have done in your analyses, but this will be essential information
+The YOU, three month from now might not remember the reasoning and all the 
+steps you have done in your analyses, documenting what you are doing at the 
+same time you are doing the analyses is a very good practice. This will save
+you time and struggles. What you have done will be essential information
 for publication and manuscript revision. 
+
+<!-- lab journal to data journal-->
 
 Moreover, working this way, will allow you to start setting up your analyses 
 BEFORE all the data are collected. You will be able to rerun all your code
@@ -133,8 +121,13 @@ The following article mention  [10 Rules of reproducible research](https://journ
 
 We will see that using R and Rstudio can help you to relatively easy follow all 
 steps but 4 and 10. The latest, which require using a version control system 
-like Git, and eventually associated platform like github (or another system for public
-access eg. zenodo). 
+like Git, and eventually associated online platform like github that allows 
+to store your code on the web. Github can be then be used during the publication 
+process, to create a DOI for your code.
+
+
+Zenodo eg. can help you create a doi from any code store in github, allowing people
+to cite your data analysis work!. 
 
 <mark><u>WARNING:</u> NEVER PUT YOUR DATA ON GITHUB (unless you are really sure)
 DO PUT your data on github for this project!. 
@@ -157,9 +150,10 @@ the command line - aka `Terminal` panel that is available in Rstudio):
 
 # Preliminary training program 
 
-- github and R - get started with a project
+- github and R - get started with a project (understand the basic principles)
 - data wrangling
-- data exploration and visualisation 
+- data exploration and visualization (ensure data quality, what do I have)
+- eventually ... going further
 
 
 

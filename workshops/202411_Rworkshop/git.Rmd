@@ -1,0 +1,25 @@
+---
+title: "Untitled"
+author: "Eve Fiskebeck"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Decide
+
+
+# EVE do Think - that will be alot alone already ... we need planning how much time we can have 
+<!-- Madelaine --> 
+- [ ]   On github each student can have gihub own folder or make furk ? 
+
+- create subfolder for each student 
+- We will furk Inika project in each account 
+- 
+- 
+
+create a repository where you will be able to work on the code 
+for INIKA project
