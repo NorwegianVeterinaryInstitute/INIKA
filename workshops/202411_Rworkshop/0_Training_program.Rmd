@@ -1,0 +1,53 @@
+---
+title: "`r params$title`"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+author: Eve Zeyl Fiskebeck
+params:
+  title: "Training program" 
+  project_path: "`r here::here()`"
+output: 
+  
+  rmdformats::readthedown:
+      css: style.css
+      self_contained: true
+      code_download: true
+      toc_depth: 4
+      df_print: paged
+      code_folding: hide
+      author: params$author
+      highlight: espresso
+      
+
+  
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+
+# Program to run by madelaine about training order and content 
+
+
+
+
+
+
+# Github - and R 
+
+- principles of github for code 
+- setup - project and code 
+
+- additional ressources already mentionned 
+
+# Eventually 
+- github and zenodo - can show them article 
+
+
+
+
+
+- github and R - get started with a project (understand the basic principles)
+- data wrangling
+- data exploration and visualization (ensure data quality, what do I have)
+- eventually ... going further
+
