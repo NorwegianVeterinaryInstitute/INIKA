@@ -26,28 +26,85 @@ editor_options:
 
 
 # Program to run by madelaine about training order and content 
+> Trying to reduce the load - brain ...and have a way to come back for repeats day after
+> example whonet test data 
 
 
+# Before we come: Setup  
+
+# 1. Introduction (to review - ca ok)
+- state of mind 
+- what to expect
+- additional resources (you can come to that later)
+
+# 2. Basic R and github with Rstudio (to review - ca ok)
+
+- creating / open R project 
+- git usage in Rstudio
+- Using a notebook in Rstudio 
+- Basic of R programming language - with R studio interface
+  - installation packages 
+    - R notions ...about R objects (not in depth)
+      - some common data types
+      - awareness 
+      - help introduction
+      - small intro functions
+      - sub-setting / indexes
+      - a bit of view of objects 
+      
+- Saving your code and notes. 
+  - push / pull to github
+
+# 3. Basic R for data analysis
+> data from Human (Kobo toolbox)
+
+- A good organisation of your project for data analysis
+- First steps in data analysis
+  - Reading a data frame
+  - checking and setting correct data types 
+    - data types (review, and add)
+  - Obtaining a fast overview of the data contained in a dataframe
+  - Object Visualization (code and Rstudio environment)
+  - Getting a fast summary of the data contained in your dataframe
+    - counts (col, row)
+    - factors and levels (summary table / tally)
+
+- Data frame manipulation with dplyr 
+  - filtering
+  - mutating
+  - changing values (eg. NA and spaces) 
+  - selecting columns 
+  - group by
+  - summary 
 
 
+# Where 
+? - decimals ... warning ! not done -> do that during transformation 
+- ? where: joining data frames
+(ensure data quality, what do I have)
+# R and whonet
 
+- connecting to a sqlite database and getting the data contained in tables (for whonet)
+- data exploratioon and visualization
+  - tables of levels factors for the different variables
+  - reproducing whonet graphs 
+  
+- data wide and long format 
+  - example: trick for making boxplots from long format 
 
-# Github - and R 
-
-- principles of github for code 
-- setup - project and code 
-
-- additional ressources already mentionned 
 
 # Eventually 
 - github and zenodo - can show them article 
+- functions using dplyr / tidyverse ... oops
+
+##  Creating or recreating an environment 
+We use [renv](https://rstudio.github.io/renv/articles/renv.html)
+
+R environment setup 
+```{r renv setup}
+library(renv)
+```
 
 
 
-
-
-- github and R - get started with a project (understand the basic principles)
-- data wrangling
-- data exploration and visualization (ensure data quality, what do I have)
-- eventually ... going further
 

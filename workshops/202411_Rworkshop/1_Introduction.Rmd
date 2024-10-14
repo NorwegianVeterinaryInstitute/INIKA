@@ -35,7 +35,9 @@ knitr::opts_chunk$set(echo = TRUE)
 
 - 1. **Develop a mental model :  how to think about programming, data analysis and data management**
 so can become independent learners 
-- 2. Learn the basics of data wrangling, exploration and visualization and analysis using R,
+- 2. Learn the basics of data wrangling, exploration and visualization and analysis using R
+- 3. Learn good practices of data analyses, including how to use R for version control with git and github
+- 4. Provide useful resources to go further about data analysis   
 
 
 ## What to expect and the learning process  
@@ -68,6 +70,9 @@ so you in 3 months or any other person can understand what you were trying to do
 scientific analysis I do. --> 
 
 ![What to expect in code?](https://miro.medium.com/v2/resize:fit:1400/0*_lbfkH2RdWvQyLSQ.png)
+
+<u>What should you aim for (discussion)?</u>
+
 
 ## What about AI 
 
@@ -109,8 +114,8 @@ Resources are available in different forms :
     community](https://carpentries.org/community-lessons/), incl. course
     in development where you also can contribute [Carpentries
     incubator](https://carpentries.org/community-lessons/) AND I managed
-    to find one treating AMR [R for AMR
-    epidemiology](https://github-pages.arc.ucl.ac.uk/r-amr-epidemiology/index.html)
+    to find one treating AMR 
+    [R for AMR epidemiology](https://github-pages.arc.ucl.ac.uk/r-amr-epidemiology/index.html)
 
 -   Blogs eg. [R-bloggers](https://www.r-bloggers.com/) or other
     websites eg. [R graph Gallery](https://r-graph-gallery.com/) which
@@ -137,10 +142,15 @@ Resources are available in different forms :
 -   There are of course online courses: eg at Coursera^1 , 
     and [MIT OpenCourseWare](https://ocw.mit.edu/). 
     
--   Some usefull tricks [here for Rstudio](https://swcarpentry.github.io/git-novice/instructor/04-changes.html)
+-   Some useful tricks [here for Rstudio](https://swcarpentry.github.io/git-novice/instructor/04-changes.html)
     
 
-    
 -   ...
 
-- [R for AMR epidemiology package](https://github-pages.arc.ucl.ac.uk/r-amr-epidemiology/)
+
+Note that this course will be greatly inspired from two core software carpentry 
+lessons: 
+- [Programming with R](https://swcarpentry.github.io/r-novice-inflammation/)
+- [R for Reproducible Scientific Analysis](https://swcarpentry.github.io/r-novice-gapminder/)
+
+
