@@ -31,14 +31,13 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
-# Goal 
+## Goal 
 
 - 1. **Develop a mental model :  how to think about programming, data analysis and data management**
 so can become independent learners 
-- 2. Learn the basics of data wrangling, exploration and visualization and analysis using R
+- 2. Learn and understand the basics of data wrangling, exploration and visualization and analysis using R
 - 3. Learn good practices of data analyses, including how to use R for version control with git and github
-- 4. Provide useful resources and pointers for you to be able to learn further about reproducible research and data analysis   
-
+- 4. We hope that at the end of this course, you have learned enough to be able to use the additional resources and pointers provided in those document to learn further and independently about reproducible research and data analysis.    
 
 
 ## What to expect and the learning process  
@@ -58,7 +57,7 @@ What is lacking well is type to
 explore it all ! and know what to search for. How how can you search for 
 something you do not know exists yet ?
 
-## What to expect about the code you produce
+### What to expect about the code you produce
 
 Learning to write code, is learning how to get up after stumbling... and there is
 a lot of stumbling is totally normal. 
@@ -75,19 +74,22 @@ scientific analysis I do. -->
 <u>What should you aim for (discussion)?</u>
 
 
-## What about AI 
+### What about using AI to help you code ?
 
 
 AI, for sure can help you find resources and even to help you do some coding for 
-you (eg. ChatGTP, GitHub Copilot, etc.). 
+you (eg. ChatGTP, GitHub Copilot, etc.). It can also to a certain extend help 
+understand code. 
 
-**BUT!** Should you use it - I would not advise you to trust blindly the code it 
-delivers (could be wrong and difficult to detect its wrong). Should you use it, 
-you need to understand what it does. Consequently, you need to have learn
+**BUT!** Should you use it - I would not advise you to trust AI blindly; 
+and I would not advise you to use it to write code for you, as the code it 
+delivers could be wrong and it might be difficult to detect that it is wrong. 
+Should you use AI, you still need to be certain you understand what the code does,
+this is your responsability. Consequently, you need to have learn
 enough to be able to do so! 
 
 
-# Some Ressources to learn more R 
+## Some major ressources to further learn R and data analysis
 
 Here I link several external resources. Some contain material that we have seen 
 here but presented differently. They will help you go further. 
@@ -147,8 +149,11 @@ Resources are available in different forms :
 and for 
 [Rmarkdown fast leassonm incl. syntax summary](https://ucsbcarpentry.github.io/R-markdown/01-why/index.html)
     
-
 -   ...
+
+
+NB, you will find also some additional resources through the course.  
+
 
 
 Note that this course will be greatly inspired from two core software carpentry 
