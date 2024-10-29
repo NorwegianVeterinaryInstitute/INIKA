@@ -10,10 +10,7 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# INIKA
-# TOC 
-
-# Description 
+# INIKA 
 Repository for INIKA project - Code development and sharing
 
 
