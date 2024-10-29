@@ -6,7 +6,6 @@ params:
   title: "2. Basic R and github with Rstudio" 
   project_path: "`r here::here()`"
 output: 
-  
   rmdformats::readthedown:
       css: style.css
       self_contained: true
@@ -16,6 +15,9 @@ output:
       code_folding: hide
       author: params$author
       highlight: espresso
+      number_sections: true
+  
+
 
   
 editor_options: 
@@ -27,6 +29,7 @@ editor_options:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+
 ```{r libraries, include=FALSE}
 library(here)
 library(DiagrammeR)
@@ -34,31 +37,38 @@ library(DiagrammeR)
 
 # Basic startup
 
-## Create/Open a project in Rstudio
+## Starting point
 
-Starting point: - after cloning a github repository
+The detailed git setup instructions must have been followed.
+
+- a github repository `learning_R` has been made in your account 
+- the github repository has been cloned locally on your PC
+
+Now we will learn how to use git in Rstudio to backup your code. This is
+a very simple way to use git, but it is enough for a starter. 
+
+## Create/Open a project in Rstudio
 
 External resource: see also  [Project Management with RStudio](https://swcarpentry.github.io/r-novice-gapminder/02-project-intro.html)
 
 1.  Open Rstudio
-2.  Browse to the directory where you cloned the git repository:
+2.  Browse to the directory where you cloned the `learning_R`git repository:
 
 -   create : `File -> New Project -> Existing Directory`
--   open : `File -> Open Project -> file with extension .Rproj`
 
-... 
-## EVE ADD
+Note: after to re-open the project you will need to do: 
 
-## Git usage in Rstudio :
+-   open : `File -> Open Project -> chose the file with extension .Rproj`
 
-workflow github with R:
+
+## Simple git worfklow in Rstudio to backup code and notes :
 
 ```{r}
 DiagrammeR::mermaid(
   "graph TB
-      A[Working directory] --git add--> B[Staging area: preparation]
-      B --git commit --> C[Local Repository : git directory on PC] 
-      C --push --> D[Remote Repository : github]
+      A[R project directory] --git add--> B[Staging area: preparation]
+      B --git commit --> C[Local Repository : version control locally on PC] 
+      C --push --> D[copy code to remote Repository : github]
       D --pull --> A
   ")
 ```
@@ -66,34 +76,62 @@ DiagrammeR::mermaid(
 In Git window in R studio : The status (`git status`) allows you to
 check if files have been modified, if they are under-version control
 (tracked) or not.
+- yellow `?` the file is not tracked = not currently version controlled and not ignored
+- red `D` deleted, the file has been deleted (or renamed outside of git)
+- rosa `R`renamed, the file has been renamed
+- blue `M` the file has been modified 
 
-Stating the files = preparing the files for saving (one or several
-files) - When ? often - What ? a logical block of work eg. creating a
-graph OR fixing a bug.\
-- how: you select the file(s) to stage and then you can commit.
+Staging the files = preparing the files for saving the version in the version control system
+- You can stage one or several files. Only save several files when there is a logical block of work
+that has been done eg. creating a graph OR fixing a bug.
+- you select the file(s) to stage and then you can commit.
 
-Write a commit message that explain your logical point
+Write a commit message that explain what you have done since your last commit. Eg. 
+clarified the code for summary statistics of antibiotic resistance of E.coli from year 2024.
 
-Then Push: - sends the changes to online repository (github)
+Do this often, it is fast to do. Then all you have done is saved in the version control system.
+
+Then Push: This sends the changes to the remote repository (github / cloud)
 
 If you work on different computer, or with different people, or need to
 recover your files, you might need to pull changes - Pull take the
 changes from online repository (github) and put them in the local
-repository. <!-- we wont explain this specifically for now -->
+repository. 
+
+NB: We likely wont have time to do this during this course, but it is good to know 
+that its possible to do so if needed. 
+<!-- we wont explain this specifically for now -->
 
 ## Exercise: modify `.gitignore` and push the changes to github
 
-<!-- This allows us to make the configuration of things we do not want to track -->
+Modify or create `.gitignore` file in your project directory. 
+A gitignore file is a file that tells git what files to ignore during the version
+control system. 
 
+Note: 
+> we wont version control raw and intermediary data, because we do not want them to finish in the public
+directory. 
+    - Raw data need to be backed-up regularly in another system 
+    - Processed data (eg. outlier removed, quality ensured) 
+      should be recovered using raw data + preprocessing code, and thus can be recovered.
+
+> The preprocessing code is part of the code that should be under version control. 
+As well as the data analysis code. 
+
+
+<!-- This allows us to make the configuration of things we do not want to track 
+Explain
+-->
 <!-- use the checkbooxes when is done ! -->
 
--   [ ]  Verify that those lines are present in the .gitignore file, if
+
+-   [ ]  Verify that those lines are present in the `.gitignore file, if
     not, add them
 
 ``` text
 **/.*xlsx
-**/data
-**/results
+data/
+results/
 **.Rprofile
 **.Rhistory
 **.Rproj
@@ -117,9 +155,20 @@ document.
 <!-- R markdown for code and notes (what is what) -->
 
 -   [ ]  Open a new Rmarkdown document: `File -> New File -> Rmarkdown`
--   [ ]  fill tile information, keep as html
--   [ ]  save this file (or your project) your current R project directory
--   [ ]  Read what the text in the document is
+-   [ ]  fill tile information, keep as html (`output: word_document` can be used as alternative to create word documents)
+-   [ ]  save this file (or your project) your current R project directory, 
+    in a sub-directory called notes (as you will use it to take notes during this course)
+    choose eg, `date_learningR.Rmd` as filename. ISO date is eg. 2024-10-09.
+    **! Do not use spaces in the filename, use underscore `_` instead.**
+-   [ ]  Read what the text that appears in the document. 
+
+<!-- code directory can be done at saving time, using right click on the mouse 
+then new directory 
+write:  notes
+-->
+
+<!-- explain the text --> 
+    
 
 ![<u>Fig: Anatomy of a R markdown
 document</u>](https://nkaza.github.io/intro2Rbook/images/rm_components.png)
@@ -140,7 +189,12 @@ in Markdown)
 <!-- Explain code -->
 -   [ ]  Knit the document to see how it can create a document from your notes
 
+
 ## EVE : to test if html is ok or needs doc
+
+We will do a series of small exercises to get you familiar with Rstudio and how code is written in R.
+It is important than you stop us if you do not understand what the code is doing
+<!-- Explain all the steps of the code --> 
 
 ```{r first object, echo=TRUE, eval=FALSE, class.source = "fold-show"}
 my_message <- "Hello World"
@@ -148,24 +202,25 @@ print(my_message)
 ```
 
 <!-- Some other way with code --> 
-Small exercises of code to try (unhide): 
 
-```{r  echo=TRUE, eval=FALSE}
+
+```{r  echo=TRUE, eval=FALSE, class.source = "fold-show"}
 my_message
 typeof(my_message)
 str(my_message)
 ```
 
-- [ ]  Run one line of code at in a cell (`ctrl+Enter` cursor at the end of the line)
+- [ ]  Run one line of code at in a cell (`ctrl+Enter` cursor at the end of the line, look at the results in Rstudio console)
 - [ ]  Check what does my_message object contains
 - [ ]  Check the type of my_message  what is its abbreviation ? 
 - [ ]  Check the structure of my_message object  
 - [ ]  Access the help (cursor + F1 on the function) : check in help window
+- [ ]  run the whole cell. What is the difference of running line by line than running the whole cell ? 
 
 See also [Help in R studio](https://swcarpentry.github.io/r-novice-gapminder/03-seeking-help.html)
 
 
-```{r  echo=TRUE, eval=FALSE}
+```{r  echo=TRUE, eval=FALSE,  class.source = "fold-show"}
 length(my_message)
 nchar(my_message)
 
@@ -174,16 +229,17 @@ nb_char + 10
 nb_char * nchar(my_message)
 ```
 
-- [ ]  we can results objects from cell to cell in the same notebook 
+- [ ]  we can reuse objects from cell to cell in the same notebook 
 - [ ]  vector of length one VS number of characters of a string .... 
 (be sure to always check if your results make sense according to what you expect !)
 
 Bellow we show you a small introduction to: 
-- types of objects in R
-- character vectors 
-- lists and sub-setting of list
-- manipulations with functions that allows to transform objects
-- several operations are possible one after another - hierarchy parentheses
+- **assignment** of **objects** in R
+- **types** of **objects** in R
+- **character** **vectors** 
+- **lists** and **sub-setting** of list using **indexes**
+- manipulations with **functions** that allows to transform objects
+- several **operations** are possible one after another - hierarchy parentheses
 
 ```{r echo=TRUE, eval=FALSE}
 strsplit(my_message, split = "")
@@ -196,10 +252,10 @@ split_test[[1]]
 split_test[[1]][1]
 ```
 
-- transforming a string into a list of characters (types conversion)
-- sub-setting and extracting elements from indexed objects
-- reassignment variables - replacement in memory
-- using arrow(s) to recall the last result(s) in console
+- transforming a string into a list of characters (**types conversion**)
+- sub-setting is extracting elements from indexed objects
+- **reassignment** of objects - replacement in memory
+
 
 ```{r echo=TRUE, eval=FALSE}
 unlist(split_test)
@@ -211,9 +267,16 @@ typeof(split_test)
 length(split_test)
 ```
 
-Do not worry, if this goes fast. We will come back to that during the course. 
+Tricks:
+- [ ] using arrow(s) to recall the last result(s) in console
+- [ ] using tab to auto complete the name of the object
+- [ ] using `ctrl+L` to clear the console
 
-<mark><b>What you need to retain from here is: to have a have critical sense and check your results</b></mark>
+Do not worry, if this goes fast. We will come back to that during the course. During the course
+you will have to pay attention to the key-words in bold, and figure out what they mean. Those
+words are usefull when you need to find on the web how you should do things further.
+
+<mark><b>Moreover, you need to retain from here is: to have a have critical sense and check your results, to be sure the code is doing what we want it to do</b></mark>
 
 - [ ] please check that you saved your notes and do all the required steps to push those
 on github.
@@ -221,6 +284,7 @@ on github.
 ## Installing packages
 
 Packages are a way to extend the functionality of R.
+
 ```{r install packages, echo=TRUE, eval=FALSE, class.source = "fold-show"}
 # A comment
 # Another way to get help on a function
@@ -231,8 +295,10 @@ install.packages("here", dependencies = TRUE)
 ```
 
 
-Library is a function that allows you to load (into memory, and make it available 
-to you) a package in your R session.
+Library is a function that allows you to load (into memory), and make the functions
+contained a package available to you, in the current R session.
+<!-- Explain Rsession --> 
+
 
 <u>The function here() gives the path of the project</u>
 ```{r eval=FALSE}
@@ -246,7 +312,7 @@ of what you have installed)
 You can call functions from packages that are not loaded to memory if they are 
 installed on your system. This can be convenient if you only want to use one function.
 
-Calling functions while specifying the package can be usefull also, if you have
+Calling functions while specifying the package can be useful also, if you have
 loaded some packages that have functions with the same name. 
 It is generally a good practice to do so (but takes time to do so .... ) 
 <!-- recommends to do so when we are happy of what our code does  --> 
@@ -341,3 +407,24 @@ to do.
 
 
 - [ ]   save, push your notes on github, and close your notes and project. Ask questions if you do not know what to answer to questions Rstudio might ask
+
+
+# Exercises
+
+## Printing your code in a word document
+
+- [ ]   Install  `webshot2` package
+- [ ]   write the code to load the `webshot2` package into R memory
+- [ ] change the output format of the Rmarkdown document you are using and which contains your notes? (in the YAML header) to `word_document` and press `Knit` button. Was a word document produced ? (note that indentations have meaning)
+
+
+```{r solution exercise: Printing your code in a word document , eval=FALSE, echo=TRUE}
+install.packages("webshot2", dependencies = TRUE)
+# YALM header
+output: 
+  word_document
+
+library(webshot2)
+```
+
+

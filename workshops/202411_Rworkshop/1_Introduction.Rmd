@@ -17,6 +17,7 @@ output:
       code_folding: hide
       author: params$author
       highlight: espresso
+      number_sections: true
       
 
   
@@ -30,14 +31,14 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
-
 # Goal 
 
 - 1. **Develop a mental model :  how to think about programming, data analysis and data management**
 so can become independent learners 
 - 2. Learn the basics of data wrangling, exploration and visualization and analysis using R
 - 3. Learn good practices of data analyses, including how to use R for version control with git and github
-- 4. Provide useful resources to go further about data analysis   
+- 4. Provide useful resources and pointers for you to be able to learn further about reproducible research and data analysis   
+
 
 
 ## What to expect and the learning process  
@@ -143,6 +144,8 @@ Resources are available in different forms :
     and [MIT OpenCourseWare](https://ocw.mit.edu/). 
     
 -   Some useful tricks [here for Rstudio](https://swcarpentry.github.io/git-novice/instructor/04-changes.html)
+and for 
+[Rmarkdown fast leassonm incl. syntax summary](https://ucsbcarpentry.github.io/R-markdown/01-why/index.html)
     
 
 -   ...

@@ -1,39 +1,7 @@
----
-title: "`r params$title`"
-date: "`r format(Sys.time(), '%d %B, %Y')`"
-author: Eve Zeyl Fiskebeck
-params:
-  title: "02 - Introduction to data analysis with R" 
-  script_name: "01 - Introduction and Basic R Setup"  
-  project_path: "`r here::here()`"
-output: 
-  
-  rmdformats::readthedown:
-      css: style.css
-      self_contained: true
-      code_download: true
-      toc_depth: 4
-      df_print: paged
-      code_folding: hide
-      author: params$author
-      highlight: espresso
-      
-
-  
-editor_options: 
-  markdown: 
-    wrap: 72
----
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
-- [ ]   
- 
-# Eve Tmp: 
 
 - [ ]  &ensp; 
+
+
 
 ## Resources
 - https://www.r-bloggers.com/2022/09/r-markdown-lesser-known-tips-tricks-4-looks-better-works-better/ 
@@ -52,56 +20,6 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ---
 
-
-# 1.Introduction
-
-## 1.1 Data analysis, management, reproducibility 
-
-- [Reproducible research in R]
-- [R for reproductive Scientific analysis]
-
-## 1.2 What is R?
-
-# 2 Preliminary: preparing your work - getting organized 
-
-
-
-```{r}
-DiagrammeR::mermaid(
-  "
-  graph TB
-  subgraph  
-    A[Preparing your work]
-    A --> C[Directory structure]
-    C --> D[Project Setup]
-  end
-  subgraph  
-    B[Work : one or several analyses] --> E[eg. Analysis one]
-    E --> F[Code]
-    F --> H[Session Setup]
-    F --> I[Analysis]
-    F --> K[Prettyfying]
-    H --> G[Results : output]
-    I --> G
-    K --> G
-  end
-  ")
-```
-
-
-
-
-`R project` Directory & structure :
-
--   Favors good organisation
-
--   Allows git / version control
-
--   Easier to share - allows others to have the same organisation
-
--   Reproducibility
-
-Requires a little setup
 
 
 

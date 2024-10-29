@@ -16,6 +16,7 @@ output:
       code_folding: hide
       author: params$author
       highlight: espresso
+      number_sections: true
       
 
   
@@ -25,19 +26,21 @@ editor_options:
 ---
 
 
-# Program to run by madelaine about training order and content 
+> Program to run by madelaine about training order and content 
 > Trying to reduce the load - brain ...and have a way to come back for repeats day after
 > example whonet test data 
 
 
-# Before we come: Setup  
+# Before we come: Setup
 
-# 1. Introduction (to review - ca ok)
+- control before starting the data course
+
+# Introduction (to review - ca ok)
 - state of mind 
 - what to expect
 - additional resources (you can come to that later)
 
-# 2. Basic R and github with Rstudio (to review - ca ok)
+# Basic R and github with Rstudio (to review - ca ok)
 
 - creating / open R project 
 - git usage in Rstudio
@@ -55,7 +58,7 @@ editor_options:
 - Saving your code and notes. 
   - push / pull to github
 
-# 3. Basic R for data analysis
+# Basic R for data analysis
 > data from Human (Kobo toolbox)
 
 - A good organisation of your project for data analysis
@@ -94,8 +97,9 @@ editor_options:
 
 
 # Eventually 
-- github and zenodo - can show them article 
-- functions using dplyr / tidyverse ... oops
+- pulling from github  - recovery of what has been done and collaboration
+- github and Zenodo - can show them article 
+- writing functions using dplyr / tidyverse ... oops
 
 ##  Creating or recreating an environment 
 We use [renv](https://rstudio.github.io/renv/articles/renv.html)
