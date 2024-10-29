@@ -3,8 +3,6 @@
 **Table of Contents**
 
 - [INIKA](#inika)
-- [TOC](#toc)
-- [Description](#description)
   - [Available ressources](#available-ressources)
   - [Code](#code)
 
