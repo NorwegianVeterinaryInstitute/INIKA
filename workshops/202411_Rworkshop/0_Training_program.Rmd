@@ -25,90 +25,108 @@ editor_options:
     wrap: 72
 ---
 
+> Program to run by madelaine about training order and content Trying to
+> reduce the load - brain ...and have a way to come back for repeats day
+> after example whonet test data
 
-> Program to run by madelaine about training order and content 
-> Trying to reduce the load - brain ...and have a way to come back for repeats day after
-> example whonet test data 
+## Before we come: Setup
 
+At arrival :
 
-# Before we come: Setup
+-   [ ]  Control before starting the data course
+-   [ ]  Rscript to run to install packages ?
 
-- control before starting the data course
+## Introduction (to review - ca ok)
 
-# Introduction (to review - ca ok)
-- state of mind 
-- what to expect
-- additional resources (you can come to that later)
+-   [ ]  Goal of the course
+-   [ ]  what to expect and state of mind
+-   [ ]  what about using AI to write code ?
+-   [ ]   additional resources you can use to learn more, here and
+    through the course
 
-# Basic R and github with Rstudio (to review - ca ok)
+## Basic R and github with Rstudio (to review - ca ok)
 
-- creating / open R project 
-- git usage in Rstudio
-- Using a notebook in Rstudio 
-- Basic of R programming language - with R studio interface
-  - installation packages 
-    - R notions ...about R objects (not in depth)
-      - some common data types
-      - awareness 
-      - help introduction
-      - small intro functions
-      - sub-setting / indexes
-      - a bit of view of objects 
-      
-- Saving your code and notes. 
-  - push / pull to github
+Starting point -`learning_R` git repo has been cloned locally
 
-# Basic R for data analysis
+-   [ ]   Rstudio usage: creating / opening a Rproject
+
+-   [ ]   Git used to backup notes and code via Rstudio. Workflow
+
+-   [ ]   .gitignore file exercise
+
+-   [ ]   Using a notebook in Rstudio: anatomy, text, code and rendering
+
+-   Basic of R programming language - with R studio interface
+
+    -   installation packages
+        -   R notions ...about R objects (not in depth)
+            -   some common data types
+            -   awareness
+            -   help introduction
+            -   small intro functions
+            -   sub-setting / indexes
+            -   a bit of view of objects
+
+-   Saving your code and notes.
+
+    -   push / pull to github
+
+## Basic R for data analysis
+
 > data from Human (Kobo toolbox)
 
-- A good organisation of your project for data analysis
-- First steps in data analysis
-  - Reading a data frame
-  - checking and setting correct data types 
-    - data types (review, and add)
-  - Obtaining a fast overview of the data contained in a dataframe
-  - Object Visualization (code and Rstudio environment)
-  - Getting a fast summary of the data contained in your dataframe
-    - counts (col, row)
-    - factors and levels (summary table / tally)
+-   [ ]  
 
-- Data frame manipulation with dplyr 
-  - filtering
-  - mutating
-  - changing values (eg. NA and spaces) 
-  - selecting columns 
-  - group by
-  - summary 
+-   A good organisation of your project for data analysis
 
+-   First steps in data analysis
 
-# Where 
-? - decimals ... warning ! not done -> do that during transformation 
-- ? where: joining data frames
-(ensure data quality, what do I have)
-# R and whonet
+    -   Reading a data frame
+    -   checking and setting correct data types
+        -   data types (review, and add)
+    -   Obtaining a fast overview of the data contained in a dataframe
+    -   Object Visualization (code and Rstudio environment)
+    -   Getting a fast summary of the data contained in your dataframe
+        -   counts (col, row)
+        -   factors and levels (summary table / tally)
 
-- connecting to a sqlite database and getting the data contained in tables (for whonet)
-- data exploratioon and visualization
-  - tables of levels factors for the different variables
-  - reproducing whonet graphs 
-  
-- data wide and long format 
-  - example: trick for making boxplots from long format 
+-   Data frame manipulation with dplyr
 
+    -   filtering
+    -   mutating
+    -   changing values (eg. NA and spaces)
+    -   selecting columns
+    -   group by
+    -   summary
 
-# Eventually 
-- pulling from github  - recovery of what has been done and collaboration
-- github and Zenodo - can show them article 
-- writing functions using dplyr / tidyverse ... oops
+## Where
 
-##  Creating or recreating an environment 
+? - decimals ... warning ! not done -\> do that during transformation -
+? where: joining data frames (ensure data quality, what do I have)
+
+## R and whonet
+
+-   connecting to a sqlite database and getting the data contained in
+    tables (for whonet)
+-   data exploratioon and visualization
+    -   tables of levels factors for the different variables
+    -   reproducing whonet graphs
+-   data wide and long format
+    -   example: trick for making boxplots from long format
+
+## Eventually
+
+-   pulling from github - recovery of what has been done and
+    collaboration
+-   github and Zenodo - can show them article
+-   writing functions using dplyr / tidyverse ... oops
+
+### Creating or recreating an environment
+
 We use [renv](https://rstudio.github.io/renv/articles/renv.html)
 
-R environment setup 
+R environment setup
+
 ```{r renv setup}
 library(renv)
 ```
-
-
-
-

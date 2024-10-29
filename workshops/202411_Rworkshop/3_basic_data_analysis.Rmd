@@ -160,3 +160,13 @@ See also: [Data frame manipulation with dplyr](https://swcarpentry.github.io/r-n
 <!-- 
 <mark><b> </b></mark>
 --> 
+
+## When you are ready to go further: 
+
+You can use those lessons to repeat what you have learned (but in another way) 
+and go further in your learning
+
+- [R for Reproducible Scientific Analysis](https://swcarpentry.github.io/r-novice-gapminder/)
+- [Programming with R](https://swcarpentry.github.io/r-novice-inflammation/)
+
+- [Programming with Databases - R](https://swcarpentry.github.io/sql-novice-survey/11-prog-R.html)
