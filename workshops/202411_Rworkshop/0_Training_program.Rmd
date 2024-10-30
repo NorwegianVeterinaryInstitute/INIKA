@@ -34,7 +34,7 @@ editor_options:
 At arrival :
 
 -   [ ]  Control before starting the data course
--   [ ]  Rscript to run to install packages ?
+-   [ ]  Rscript to run to install packages ? or Renv ? 
 
 ## Introduction (to review - ca ok)
 
@@ -45,6 +45,8 @@ At arrival :
     through the course
 
 ## Basic R and github with Rstudio (to review - ca ok)
+ 
+ > learning how to use a R markdown document and git backup, small intro to R programming language
 
 Starting point -`learning_R` git repo has been cloned locally
 
@@ -52,26 +54,29 @@ Starting point -`learning_R` git repo has been cloned locally
 
 -   [ ]   Git used to backup notes and code via Rstudio. Workflow
 
--   [ ]   .gitignore file exercise
+-   [ ]   .gitignore file exercise (setup at the same time)
 
 -   [ ]   Using a notebook in Rstudio: anatomy, text, code and rendering
 
--   Basic of R programming language - with R studio interface
+-   [ ]   Exercise Using a R markdown document & Fast overview of R programming language (introduction terms and running things in cells) ! THIS NEED TO BE EXPLAINED DURING THE COURSE 
 
-    -   installation packages
-        -   R notions ...about R objects (not in depth)
-            -   some common data types
-            -   awareness
-            -   help introduction
-            -   small intro functions
-            -   sub-setting / indexes
-            -   a bit of view of objects
+> We have during the course here : 
+- installation packages and loading them
+- R notions ...about R objects (not in depth)
+  -   some common data types
+  -   introduction to use help
+  -   small intro functions
+  -   sub-setting / indexes
+  -   a bit of view of objects
+  -   notions in R - different ways to do things
+  -   pipes 
+  -   some tricks 
+  -   Saving your code and notes to git and push to github.
+  
+-   [ ]   Exercise : Printing your code in a word document
 
--   Saving your code and notes.
 
-    -   push / pull to github
-
-## Basic R for data analysis
+## Basic R for data analysis (TO continue )
 
 > data from Human (Kobo toolbox)
 

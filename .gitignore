@@ -4,7 +4,7 @@
 **.Rprofile
 **.Rhistory
 **.html
-
+**/results
 # do not version control renders 
 **/202411_Rworkshop/*.html
 **/*.pdf

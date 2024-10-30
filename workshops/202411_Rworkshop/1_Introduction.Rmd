@@ -31,7 +31,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
-## Goal 
+# Goal 
 
 - 1. **Develop a mental model :  how to think about programming, data analysis and data management**
 so can become independent learners 
@@ -40,13 +40,13 @@ so can become independent learners
 - 4. We hope that at the end of this course, you have learned enough to be able to use the additional resources and pointers provided in those document to learn further and independently about reproducible research and data analysis.    
 
 
-## What to expect and the learning process  
+# What to expect and the learning process  
 
 In programming for data analysis, there are some basic concepts to learn but 
 afterwards we usually manage by finding the information we need when we need it.
 We never know it all, but we get better and better at finding information. 
 
-![Humor and markdown way to insert images in markdown!](https://i.redd.it/ms8u3bl2kw351.jpg) {.width=50%}
+![Humor and markdown way to insert images in markdown!](https://i.redd.it/ms8u3bl2kw351.jpg)
 
 
 When you have a problem to solve, the solution is most certainly (99.999% of the 
@@ -57,7 +57,7 @@ What is lacking well is type to
 explore it all ! and know what to search for. How how can you search for 
 something you do not know exists yet ?
 
-### What to expect about the code you produce
+## What to expect about the code you produce
 
 Learning to write code, is learning how to get up after stumbling... and there is
 a lot of stumbling is totally normal. 
@@ -74,7 +74,7 @@ scientific analysis I do. -->
 <u>What should you aim for (discussion)?</u>
 
 
-### What about using AI to help you code ?
+## What about using AI to help you code ?
 
 
 AI, for sure can help you find resources and even to help you do some coding for 
@@ -89,7 +89,7 @@ this is your responsability. Consequently, you need to have learn
 enough to be able to do so! 
 
 
-## Some major ressources to further learn R and data analysis
+# Some major ressources to further learn R and data analysis
 
 Here I link several external resources. Some contain material that we have seen 
 here but presented differently. They will help you go further. 
