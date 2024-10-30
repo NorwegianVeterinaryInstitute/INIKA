@@ -154,6 +154,7 @@ control system should ignore (eg. any files that contains raw data).
 
 ``` text
 **/.*xlsx
+**/.*csv
 data/
 results/
 **.Rprofile
