@@ -77,6 +77,8 @@ Markdown](https://ucsbcarpentry.github.io/R-markdown/02-intro/index.html):
     version control
 -   [ ]   `src`OR `code`: for the code you write - under version control
 
+Please make those directories if they do not exist yet, in your project
+
 Optional :
 
 -   `bin` : for external code or binaries (eg. a compiled program) -
@@ -336,6 +338,7 @@ human_data_selection <-
 
 human_data_selection %>% View()
 ```
+
 
 
 ### Some data verification and removing one emtpy column
@@ -787,8 +790,11 @@ summary(human_data_selection %>% select(-INIKA_OH_TZ_ID))
 "If_yes__where_did_you_get_these_drugs_from",  
 "If_it_was_drug_sellers_or_pharmacy__did_you_have_a_prescription_from_the_doctor_prescriber"
 
-are columns we can expect many NAs due to the question was asked, 
+Are columns we can expect many NAs due to the question was asked, 
 because it was a continuation of a particular case. 
+
+However, we need to inspect closer the columns
+"Which_class_grade_are_you", and "Who_is_your_caretaker"  
 
 
 ### Exercise : Counting the number of NAs in each column  (we do not do)
@@ -811,7 +817,269 @@ human_data_selection %>%
 now we have obtained the list of columns with NA that I had put in the comments
 (hidden in html) above. 
 
+# ! Recheck up to here - the need to recheck the duplicate ID osv and see logic
+# ##########################################################################
 
+
+### Distinct values : Checking that IDs are unique
+
+We need to ensure that ID is unique. If not, there is probably 
+a problem with the data, or the data has been registred incompletly or several 
+times and we need to find out what is correct.
+
+We need first to remove eventual duplicated rows, where the ID and all values in 
+all columns are identical. If some columns hare removed, this means there can 
+have been some problems during the registering of the data (eg. sent several
+times and accepted by the database)
+
+
+
+```{r}
+dim(human_data_selection)
+
+human_data_selection_dedup <- 
+  human_data_selection %>%
+  distinct() 
+
+dim(human_data_selection_dedup)
+```
+
+**10 rows of totally identical rows were removed**
+
+Now we need to consider rows where the ID is duplicated, but the rest of 
+the data is not identical. Again this can be an error in registring or a 
+human error (eg. using the same ID)
+
+#!Need to transformate the types before here 
+```{r}
+# removing eventual duplicated rows 
+duplicated_data <- 
+  human_data_selection_dedup %>%
+  mutate_at(vars(INIKA_OH_TZ_ID), as.character) %>%
+  mutate_at(vars(INIKA_OH_TZ_ID), as.integer) %>%
+  # order 
+  arrange(INIKA_OH_TZ_ID) %>%
+  # This add 
+  group_by(INIKA_OH_TZ_ID) %>%
+  # This add a column of count 
+  mutate(count = n(), .after = "INIKA_OH_TZ_ID") %>%
+  # This filter out the rows that are not unique
+  filter(count > 1) 
+  
+duplicated_data  %>% View()
+```
+
+
+we can get a list of unique identifier in those that are duplicated, then we can check one my one
+
+```{r}
+unique(duplicated_data$INIKA_OH_TZ_ID)
+```
+
+<!--
+211  2374 23143
+-->
+
+we filter out the incomplete data - to do this, we need to identify which column
+a way to identify it (example ID and what is missing in the most incomplete and not on the other)
+```{r}
+duplicated_data %>% 
+  filter(INIKA_OH_TZ_ID == 211) %>% 
+print(width = Inf)
+```
+
+Who_is_your_caretaker is NA in the row we want to suppress this row. 
+We first check that our code is working on the duplicated_data 
+then when we are sure its ok, we can do that on the human_data_selection_dedup
+
+```{r}
+duplicated_data %>% 
+  filter(INIKA_OH_TZ_ID == 211 & is.na(Who_is_your_caretaker)) %>% 
+  print(width = Inf)
+
+# Oops this is the selection of the one that is not complete - we want the opposite
+
+duplicated_data %>% 
+  filter(INIKA_OH_TZ_ID == 211 & !is.na(Who_is_your_caretaker)) %>% 
+  print(width = Inf)
+
+# good, this is correct. So now we can filter out this row in the human_data_selection
+human_data_selection <- 
+  human_data_selection %>%
+  filter(!(INIKA_OH_TZ_ID == 211 & is.na(Who_is_your_caretaker)))
+
+# Control that its the correct value is there and that there are no duplicates
+human_data_selection %>% filter(INIKA_OH_TZ_ID == 211)
+```
+
+> Note : if you do errors, you will have to rerun everything up to this
+point ! 
+
+# ! HERE 
+
+
+Now we can repeat those steps for the other duplicated data
+```{r}
+duplicated_data %>% 
+  filter(INIKA_OH_TZ_ID == 2374) %>% 
+  print(width = Inf)
+```
+
+Here, we see we have a problem. The data is incompatible. 
+If we can find out what data is correct, then we need to rectify the data.
+This is done by script - so we know it has been done (changes in the raw data
+are not desirable). 
+
+Assuming that The record with the Female is correct we can remove the column with 
+The Male. 
+
+```{r}
+# Selecting the column that we want to remove
+duplicated_data %>% 
+  filter(INIKA_OH_TZ_ID == 2374 & Gender == "Male") %>% 
+  print(width = Inf)
+
+# Removing the column - we filter by the negation of the column we want to remove
+human_data_selection <- 
+  human_data_selection %>%
+  filter(!(INIKA_OH_TZ_ID == 2374 & Gender == "Male")) 
+  
+```
+
+### Exercise (we do not do during the course)
+
+Then we need to continue the list of IDs where we detected data that was
+potentially incorrect
+
+21101, 21102, 21103, 21104, 21107, 23115, 23143
+```{r}
+duplicated_data %>% 
+  filter(INIKA_OH_TZ_ID == 21101) %>% 
+  distinct() 
+  print(width = Inf)
+
+```
+
+
+ 
+Verification if we can see something indicating the correct registered data 
+
+<!-- 
+```{r}
+test <- 
+  human_data %>%
+  mutate_at(vars(INIKA_OH_TZ_ID), as.character) %>%
+  mutate_at(vars(INIKA_OH_TZ_ID), as.integer) %>%
+  # order 
+  arrange(INIKA_OH_TZ_ID) %>%
+  # This add 
+  group_by(INIKA_OH_TZ_ID) %>%
+  # This add a column of count 
+  mutate(count = n(), .after = "INIKA_OH_TZ_ID") %>%
+  # This filter out the rows that are not unique
+  filter(count > 1) 
+
+View(test)
+
+test %>%
+  filter(INIKA_OH_TZ_ID == 2374) %>%
+  t() %>%
+  as.data.frame() %>%
+  rownames_to_column() ->  
+  madelaine_check
+  
+View(madelaine_check)  
+
+write_csv(madelaine_check, here::here("results", "madelaine_check.csv"))
+```
+
+--> 
+
+We can filter the data that has been registered several times identically 
+(eg. identical data sent several times to the data registering system)
+
+```{r}
+#distinct_duplicated <- 
+  duplicated_data %>% 
+  group_by(INIKA_OH_TZ_ID) %>%
+  distinct(.keep_all = TRUE) %>%
+  View()  
+  
+
+distinct_duplicated %>% View()
+
+nrow(distinct_duplicated)
+```
+
+This is the data that is problematic and that needs to be verified manually.
+
+We select one of the ID as an example how we can correct the values. 
+(Look here I go back to the data I will want to correct to be sure I have all 
+the information)
+```{r}
+human_data_selection %>%
+  filter(INIKA_OH_TZ_ID == 21104) %>%
+  print(n = Inf)
+  
+
+```
+
+# #############################################################################
+
+## Closer inspection of missing values - Finding out to with Identifier it corresponds.
+
+
+```{r}
+colnames(human_data_selection)
+
+subset_NA <- 
+  human_data_selection %>%
+  select(c(INIKA_OH_TZ_ID,Which_class_grade_are_you, Who_is_your_caretaker)) %>%
+  filter(if_any(everything(), is.na)) 
+
+subset_NA
+```
+
+We have created a subset of data where columns have missing values. 
+
+hum ... we want to have the identifiers ordered as numbers, ascending, because
+it will be easier to find back in my notes, at those numbers are sequetials.
+So I need to transform a bit the subset data frame 
+
+```{r}
+# we need the type to be integer to be able to sort as a number, not as a factor level as it is
+# then we sort the data frame by the identifier.
+subset_NA <- 
+  subset_NA %>%
+  mutate(INIKA_OH_TZ_ID = as.integer(INIKA_OH_TZ_ID)) %>%
+  arrange(INIKA_OH_TZ_ID)
+
+subset_NA %>% View()
+# You can also sort ascending or descending in the window on the view 
+```
+
+
+We can save this subset into a spreasheet so you can. eg. print this dataframe
+if you need to go back to some notes (eg. lab notes on paper) to verify those 
+values. 
+
+```{r}
+write_csv(subset_NA, here::here("results", "subset_NA.csv"))
+```
+
+
+Should you replace few missing values, eg. if you had forgotten to register 
+and if it was on a paper note, you can do that by selecting the cell where the 
+value should be and then assiging it. 
+
+In our example we use the subset_NA to show that, but if you had to change the
+values they should go into the human_data_selection, which is the cleaned data
+that will be used later on for analysis. 
+
+1. Finding the cell we want eg: ID 
+```{r}
+
+```
 
 
 
@@ -822,18 +1090,7 @@ now we have obtained the list of columns with NA that I had put in the comments
 
 
 
--   str glimpse
 
-
-
-
-
-We already have seen some data types - character (vector) - list - data
-frames are a special type of list
-
-### Distinct values 
-- We need to ensure that ID is unique. If not, there is proobably 
-a problem with the data.
 
 ### Object Visualisation
 
@@ -844,21 +1101,10 @@ View head tail Rstudio
 
 printinf ? find out where
 
-note we see also other objects example functions - code of a function
 
-allow to find \### Getting a fast summary of your data
 
--   inlc. maybe filter \## Data frame manipulation with dplyr
 
-See also: [Data frame manipulation with
-dplyr](https://swcarpentry.github.io/r-novice-gapminder/12-dplyr.html)
 
--   filtering
--   mutating
--   changing values (eg. NA and spaces)
--   selecting columns
--   group by
--   summary
 
 ## Basic plotting
 
@@ -877,6 +1123,12 @@ dplyr](https://swcarpentry.github.io/r-novice-gapminder/12-dplyr.html)
 - `Ctrl + L` to clear the console
 - `Ctrl + Enter` to run the current line
 - `Tab` is your fried to avoid a lot of writing, it helps you auto-complete and go faster and without spelling errors 
+- `Ctrl + Alt + I ` to insert a new code chunk (might be different for you - write the shortcut here ! )
+- `F1` to get the help on a function, of `?function`.
+- `Arrows up and down` to recall or go down your history of commands in the console
+- `Ctrl + S` to save the file containing your code (! differ to git hub "commit as save your version" )
+
+
 
 - Do not forget about the possibility to visualize the data frame in another window, so you can look at it and write code at the same time.
 

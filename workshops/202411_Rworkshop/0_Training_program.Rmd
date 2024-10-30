@@ -80,8 +80,6 @@ Starting point -`learning_R` git repo has been cloned locally
 
 > data from Human (Kobo toolbox)
 
--   [ ]  
-
 -   A good organisation of your project for data analysis
 
 -   First steps in data analysis
@@ -102,21 +100,28 @@ Starting point -`learning_R` git repo has been cloned locally
     -   mutating
     -   filtering
     -   Finding specific columns
+    -   arranging raws by values in a columns  
+    -   saving into a spreadsheet 
+    -   summary (base::)
+    -   checking if values are unique (ID)
     
     
-    -   summary (base not summarize)
     -   group_by
-    -   arranging columns  
-      
-    Exercises to go further (we do not need to do all). Solution are patterns the can reuse.   
 
+
+      
+Exercises to go further (we do not need to do all). Solution are patterns the can reuse.   
     
+All in the spirit of inspecting if data if of proper quality and detecting 
+mistakes or inconsitencies . 
+    
+
 ## Where
 
 ? - decimals ... warning ! not done -\> do that during transformation -
 ? where: joining data frames (ensure data quality, what do I have)
 
-## R and whonet
+## Data from a database (Whonet) and merging datasets. 
 
 -   connecting to a sqlite database and getting the data contained in
     tables (for whonet)
