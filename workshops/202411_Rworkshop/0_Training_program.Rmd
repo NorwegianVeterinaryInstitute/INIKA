@@ -41,7 +41,7 @@ At arrival :
 -   [ ]  Goal of the course
 -   [ ]  what to expect and state of mind
 -   [ ]  what about using AI to write code ?
--   [ ]   additional resources you can use to learn more, here and
+-   [ ]  additional resources you can use to learn more, here and
     through the course
 
 ## Basic R and github with Rstudio (to review - ca ok)
@@ -51,17 +51,14 @@ At arrival :
 Starting point -`learning_R` git repo has been cloned locally
 
 -   [ ]   Rstudio usage: creating / opening a Rproject
-
 -   [ ]   Git used to backup notes and code via Rstudio. Workflow
-
 -   [ ]   .gitignore file exercise (setup at the same time)
-
 -   [ ]   Using a notebook in Rstudio: anatomy, text, code and rendering
-
 -   [ ]   Exercise Using a R markdown document & Fast overview of R programming language (introduction terms and running things in cells) ! THIS NEED TO BE EXPLAINED DURING THE COURSE 
 
 > We have during the course here : 
 - installation packages and loading them
+- taking notes in Rmarkdown and runnign cells
 - R notions ...about R objects (not in depth)
   -   some common data types
   -   introduction to use help
@@ -72,6 +69,7 @@ Starting point -`learning_R` git repo has been cloned locally
   -   pipes 
   -   some tricks 
   -   Saving your code and notes to git and push to github.
+- Using git in R to backup your code in github (add - commit - push)
   
 -   [ ]   Exercise : Printing your code in a word document
 
@@ -121,6 +119,7 @@ mistakes or inconsitencies .
 ? - decimals ... warning ! not done -\> do that during transformation -
 ? where: joining data frames (ensure data quality, what do I have)
 
+
 ## Data from a database (Whonet) and merging datasets. 
 
 -   connecting to a sqlite database and getting the data contained in
@@ -142,8 +141,15 @@ mistakes or inconsitencies .
 
 We use [renv](https://rstudio.github.io/renv/articles/renv.html)
 
-R environment setup
+R environment setup for a reproducible project
 
 ```{r renv setup}
 library(renv)
 ```
+
+## ToDos 
+
+ - [ ]  as Håkon if more things need to be added.
+ - [ ] run tutorial by madelaine 
+
+

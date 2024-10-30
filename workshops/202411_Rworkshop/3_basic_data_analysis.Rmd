@@ -1083,34 +1083,9 @@ that will be used later on for analysis.
 
 
 
+## Basic plotting to check your data 
 
 
-
-# !!!! HERE 
-
-
-
-
-
-### Object Visualisation
-
--   Visualization of objects in the environment and without the
-    environment (eg, view, print) example of data frame
-
-View head tail Rstudio
-
-printinf ? find out where
-
-
-
-
-
-
-## Basic plotting
-
-# To put somewhere
-
--   decimals ... warning ! not done -\> do that during transformation
 
 ```{=html}
 <!-- 
@@ -1181,3 +1156,17 @@ another way) and go further in your learning
 The [CRAN](https://cran.r-project.org/) website you can find the reference manuals
 for R programming language. If you really want to understand the basics of the language
 you need to start reading the "introduction to R" manual. 
+
+
+## Other ressources that I either used or look at and found if could be useful for you one day ... 
+...  and for me to remind where I found this information
+
+- [Rblogger examples](https://www.r-bloggers.com/2022/09/r-markdown-lesser-known-tips-tricks-4-looks-better-works-better/)
+- [Folds in Rmarkdown](https://bookdown.org/yihui/rmarkdown-cookbook/fold-show.html)
+- [Styling](https://rpubs.com/cohensh/833550)
+- [Whitespaces html &ensp;](https://stackoverflow.com/questions/44810511/how-to-add-empty-spaces-into-md-markdown-readme-on-github)
+- [alternative html tables: pandr](https://cran.r-project.org/web/packages/pander/vignettes/knitr.html)
+- [executable environments](https://mybinder.org/)
+- [reproducible research](intro https://datacarpentry.org/rr-intro/aio.html)
+- [Humor code content](https://miro.medium.com/v2/resize:fit:1400/0*_lbfkH2RdWvQyLSQ.png)
+

@@ -1,22 +1,4 @@
-
-- [ ]  &ensp; 
-
-
-
-## Resources
-- https://www.r-bloggers.com/2022/09/r-markdown-lesser-known-tips-tricks-4-looks-better-works-better/ 
-- Folds https://bookdown.org/yihui/rmarkdown-cookbook/fold-show.html
-- Styling https://rpubs.com/cohensh/833550
-- Whitespaces html &ensp; https://stackoverflow.com/questions/44810511/how-to-add-empty-spaces-into-md-markdown-readme-on-github
-- alternative html tables: pandr https://cran.r-project.org/web/packages/pander/vignettes/knitr.html 
-- https://mybinder.org/ : executable environments 
-- reproducible research intro https://datacarpentry.org/rr-intro/aio.html
-- Humor code content https://miro.medium.com/v2/resize:fit:1400/0*_lbfkH2RdWvQyLSQ.png
-
-## ToDos 
-
- - [ ]  as Håkon if more things need to be added.
- - [ ] run tutorial by madelaine 
+TO CHECK if all incorporated or not 
 
 ---
 
@@ -36,19 +18,6 @@
 [ ] &ensp;Creates or open a R project with Rstudio (existing directory)
 <!-- explain what it does: setup path -->
 
-> Open project - 
-
-
-## 2.2 Files in directory 
-
-- exploration directory 
-- create a markdown notebook
-
-## 2.xx Installing packages so you can use them 
-
-> Once 
-
-And the different ways to send instructions  to R :
 
 <u> Exercise: </u> Installing package and the different ways of running code 
 
@@ -120,7 +89,7 @@ He we will learn how to :
 - [ ] reformat the data
 - [ ] explore raw data content 
 - [ ] find and eventually filter data that have been registered but will not be used
-- [ ] manipulate format: transformation from long/wide format
+- [ ] manipulate format: transformation from long/wide format (no) 
 - [ ] create simple but powerfull plots based 
 
 By doing each a series of small data manipulation steps, we will see that
@@ -132,42 +101,7 @@ Those courses are: [Programming with R](https://swcarpentry.github.io/r-novice-i
 and [R for reproducible Scientific Analysis](https://swcarpentry.github.io/r-novice-gapminder/)
 
 
-# 
-```{r}
-my_dataframe <- ...
-```
-
-
-```{r}
-my_dataframe
-
-head(my_dataframe)
-tail(my_dataframe)
-
-
-my_dataframe %>% 
-  head()
-
-my_dataframe %>% 
-  View()
-```
-
-
-```{r}
-colnames(my_dataframe)
-dim(my_dataframe)
-```
-
-
-- Each individual step combined is powerfull: pipeline / pipes
-
-
 # Session Info
-
-# Additional 
-
-
-
 
 
 
