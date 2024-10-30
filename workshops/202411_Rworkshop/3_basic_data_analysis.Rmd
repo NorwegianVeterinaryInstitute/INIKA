@@ -119,6 +119,11 @@ library(tidyverse)
 
 ## Reading our data (our data is contained in a dataframe)
 
+
+Data frames (tabular format - similar to spreadsheets) - columns :
+variables (including identifiant) - raws : observations
+
+
 ```{r  echo=TRUE, eval=TRUE, class.source = "fold-show"}
 human_data <- 
   readr::read_csv2(
@@ -252,7 +257,7 @@ new_columns
 # a series of , or ; or . or * or ( or )
 
 new_columns <- 
-  original_columns %>%
+  colnames(human_data) %>%
   str_replace_all(" ", "_") %>%
   str_replace_all( "[?/,;.*()-]", "_") %>%
   str_remove_all("(^_*)|(_*$)")
@@ -408,7 +413,13 @@ We can look at the different levels (the different values, here answers, taken
 by a variable)
 
 `NA` (missing values are NOT transformed into a level by default, by default
-they are excluded, so we need to correct this). Type F1 for help. 
+they are excluded). Type F1 for help. 
+
+> Here we will treat them as a level of a factor, just you show you that you need
+to have critical sense, otherwise you might not detect mistakes. 
+We will show you how to correct this mistakes. 
+
+**Normally we do not use the exclude option here.**
  
 
 ```{r}
@@ -500,7 +511,7 @@ human_data_selection <-
 glimpse(human_data_selection)
 ```
 
-### Summary of the data
+### Summary of the data : a fast overview of the data contained in the dataset
 
 Now we can have an overview of the data content.
 We will count the number of values taken by factor and have some summary statistics
@@ -514,7 +525,10 @@ Its useful but not very nice. It can be done with dplyr ... but is not as comple
 I had written a function that we can use to have a formatted summary. 
 We can use external function by sourcing the file.
 
-#### Bonus - formatting the summary table and export in a file.
+#### Bonus - formatting the summary table and export in a file (we do not do during the course)
+
+This is a little quirk to make the results more readable to make it visible, 
+were we transform the summary into a fake table (emtpy lines are added)
 
 Try to load those packages, if it does not work, you need to install them, because
 the function relies on those packages
@@ -537,34 +551,276 @@ You can also open the file, to look at it. This is a bit to advanced for now.
 There is some explanation included in the file on how to use it. 
 
 ```{r}
-format_summary_statistics_fun(human_data_selection) %>%
-  View()
+format_summary_statistics_fun(human_data_selection) %>% View()
 ```
 
 It is a bit more readable, if you had a `results` directory then it should be
 saved there as a tsv (tabulation separated values) file.
 
+### Filtering out unwanted values. 
 
+Oops, we see that we have registered rows that should not be there. 
+We will filter out those data from the data set. 
 
-# !!!!!!!!!!!!! HERE
-
-
-
-
+Another way to confirm is to look at the range of values
 ```{r}
-human_data %>%
+human_data_selection %>%
   select(Age__yrs) %>%
   range(na.rm = TRUE)
 ```
 
+how many of those data we need to remove ? 
+- by transforming the data type to factor, I can have a contingency table of the 
+different values of the variable (here - age). 
+```{r}
+factor((human_data_selection$Age__yrs), exclude = NULL) %>%
+  table()
+```
+
+We see that `r 15 + 72` rows should be removed from the data set. 
+<!-- inline computation can be used, when you rerun the data, this will be 
+automatically updated in your text --> 
+
+We remove the data that we do not want by applying a filter, to only select
+rows from which values in a certain column contains values we want. 
+```{r}
+test <- 
+  human_data_selection %>%
+  filter(Age__yrs >= 12) 
+  
+nrow(human_data_selection)
+nrow(test)
+```
+
+We filtered out `r nrow(human_data_selection) - nrow(test)` rows.
+
+Oops ... We filtered one too much. We removed the row where the value was missing.
+The choice of removing this value definitively depends on the context. 
+Can the value be recovered from (eg. field notes ?) and then corrected HERE !. 
+Will it influence our analyses or not ? 
+Can it be estimated from other values ?
+
+<!-- Madelaine needs to comment --> 
+
+For now we will keep the NA value ( we are learning)
+```{r}
+test <- 
+  human_data_selection %>%
+  filter(Age__yrs >= 12 | is.na(Age__yrs)) 
+
+nrow(human_data_selection) - nrow(test)  
+
+table(factor((test$Age__yrs), exclude = NULL))
+```
+
+This now correct. We can apply this filter to the data frame. 
+
+```{r}
+human_data_selection <- 
+  human_data_selection %>%
+  filter(Age__yrs >= 12 | is.na(Age__yrs)) 
+```
+
+We can look again at the data content: 
+
+```{r}
+summary(human_data_selection)
+```
 
 
-Make available a data frame into memory for usage.
+> Note : you always need to check that you are doing the right thing.
+You can also write small dataset tests to be sure that you do the correct thing.
+When you have written code, it easy to rerun it when we have found our mistakes 
+and corrected them. It is not possible to detect mistakes and correct them when
+we correct values on a spreadsheet directly. This is why the raw data should NOT
+be modified directly. 
 
-Data frames (tabular format - similar to spreadsheets) - columns :
-variables (including identifiant) - raw : observations
 
-## Obtaining a fast overview of the data contained in a dataframe
+### Selecting rows with missing data to see if we can recover them from field notes
+
+```{r}
+human_data_selection %>%
+  filter(is.na(Age__yrs)) %>%
+  # this allows to ensure that we see all the columns in the console 
+  print(width=Inf)
+```
+
+hum, all the data of this ID appears to be missing.
+We can remove this raw from the dataset 
+
+#### Exercise : remove the row from the dataset 
+
+Remove the row containing missing value in Age from the data set.
+
+Hint: this means that you need to keep everything that is Not missing (put ! in 
+front of is.na command).
+
+Do not forget to do a test, and control that is does what you want. 
+
+
+```{r}
+# this should work  to only keep those with NA
+test <- 
+  human_data_selection %>%
+  filter(!is.na(Age__yrs))
+
+# control  - I check if I find those with NA again 
+test %>%
+  filter(is.na(Age__yrs)) %>%
+  # this allows to ensure that we see all the columns in the console 
+  print(width=Inf)
+
+# OR a trick 
+is.na(test$Age__yrs)
+sum(is.na(test$Age__yrs))
+# TRUE has a value of 1, FALSE has a value of 0
+# example 
+sum(c(TRUE, FALSE, TRUE))
+```
+
+NB:  `c()` function is a way to write vectors (one dimentional arrays). 
+
+## Selecting rows that contains missing data in any column
+
+If we have few missing data, we can go faster in our check by selecting rows
+that contains missing data in any column. 
+
+
+```{r}
+View(human_data_selection) 
+# I see some other columns with NA (show how to do) - eg who is your caretaker
+
+
+human_data_selection %>%
+  filter(if_any(everything(), is.na))
+
+```
+
+Euhh ... this does not work as intended ... why ? 
+
+This is because I have transformed the data type of the columns to factor, 
+and NA values are considered as a level. 
+
+When we look at factors, we see characters labels. Actually factors are encoded
+in R as integers. Lets try to understand this. 
+
+```{r}
+# I create a vector character with some values
+test_vector <- c("1", "3", "C", NA)
+test_factor <- factor(test_vector, exclude = NULL)
+
+test_factor
+as.integer(test_factor) # its a factor - it can be coerced to a number
+attributes(test_factor)
+
+as.integer(test_vector) # its character - "C" letter cannot be coerced ("1" can be)
+attributes(test_vector)
+
+# another example 
+test <- factor(2:4)
+test
+
+as.integer(test) # the levels starts at 1 ... the levels are filed in order they are populated
+
+# test 
+which(levels(test_factor) == "C")
+which(levels(test_factor) == NA) # this is not the correct way to test, NA is particular
+
+is.na(levels(test_factor))
+which(is.na(levels(test_factor)))
+```
+
+Ok, so we need to change the data type of the columns again, to be able to 
+see which factors contains NA. 
+
+> Note: You see why its important to have critical sense. A single error at a
+line can induce error to your dataset. Therefore you need to check that 
+the code you write does what you want.
+
+To change the data types of factors, we need to revert first to characters, then
+we can re-change to factor and this time NA will not be included in the levels. 
+
+```{r}
+# changing the data types (a remoinder)
+test <- 
+  human_data_selection %>%
+  mutate_if(is.factor, as.character) %>%
+  mutate_if(is.character, as.factor) 
+
+glimpse(test)
+
+levels(test$Who_is_your_caretaker)  # NA are not in levels 
+unique(test$Who_is_your_caretaker)  # but the are listed in unique as missing values
+
+# good this worked - so we can make the changes to the data frame
+human_data_selection <- test
+```
+
+Now we can test again if we have missing values in any column. 
+
+```{r}
+human_data_selection %>%
+  filter(if_any(everything(), is.na)) 
+```
+
+```{r}
+human_data_selection %>%
+  filter(if_any(everything(), is.na)) %>%
+  dim()
+```
+
+We have missing many values in the data set, in 402 rows over 20 columns.
+Lets have another look at the summary, is this distributed over all columns
+or are there some columns where its expected to have many NAs ? 
+```{r}
+summary(human_data_selection %>% select(-INIKA_OH_TZ_ID))
+```
+
+<!-- 
+[1] "Which_class_grade_are_you"                                                                  "Who_is_your_caretaker"                                                                     
+[3] "If_others__mention"                                                                         "If_yes__how_did_you_get_this_information"                                                  
+[5] "If_yes__where_did_you_get_these_drugs_from"                                                 "If_it_was_drug_sellers_or_pharmacy__did_you_have_a_prescription_from_the_doctor_prescriber"
+--> 
+
+
+"If_others__mention", "If_yes__how_did_you_get_this_information", 
+"If_yes__where_did_you_get_these_drugs_from",  
+"If_it_was_drug_sellers_or_pharmacy__did_you_have_a_prescription_from_the_doctor_prescriber"
+
+are columns we can expect many NAs due to the question was asked, 
+because it was a continuation of a particular case. 
+
+
+### Exercise : Counting the number of NAs in each column  (we do not do)
+... and using it to find column with many NAs
+
+We can have a different approach to find which columns containing many NAs,
+eg by counting the number of NAs in each column. 
+
+```{r}
+# filter columns that contain more than 10 NAs
+human_data_selection %>%
+  mutate(across(everything(), is.na)) %>% # this will transform the data frame to TRUE/FALSE (TRUE it its na)
+  summarise_all(sum) %>% # because TRUE is 1, FALSE is 0, we can sum to count the number of NAs
+  select(where(~sum(.) > 10)) %>% # now we select the columns where the sum is above 10
+  colnames() # and we get the column names 
+
+# trick comment %>% and exectue before to see what it does
+```
+
+now we have obtained the list of columns with NA that I had put in the comments
+(hidden in html) above. 
+
+
+
+
+
+
+
+
+# !!!! HERE 
+
+
 
 -   str glimpse
 
@@ -574,6 +830,10 @@ variables (including identifiant) - raw : observations
 
 We already have seen some data types - character (vector) - list - data
 frames are a special type of list
+
+### Distinct values 
+- We need to ensure that ID is unique. If not, there is proobably 
+a problem with the data.
 
 ### Object Visualisation
 
@@ -611,9 +871,19 @@ dplyr](https://swcarpentry.github.io/r-novice-gapminder/12-dplyr.html)
 <mark><b> </b></mark>
 -->
 ```
-# Some usefull tricks
+# Some usefull tricks and notes
 
-NB: A package that I find practical to use (but you can also search on
+- `Escape` when you had done typing error and that the console starts with a + (to abort your typing)
+- `Ctrl + L` to clear the console
+- `Ctrl + Enter` to run the current line
+- `Tab` is your fried to avoid a lot of writing, it helps you auto-complete and go faster and without spelling errors 
+
+- Do not forget about the possibility to visualize the data frame in another window, so you can look at it and write code at the same time.
+
+
+---
+
+A package that I find practical to use (but you can also search on
 the internet instead) when I do not know what functions a package
 contains is the package pacman. It allows you to look at which functions
 are contained in a package.
@@ -629,6 +899,18 @@ You can also use the embedded help function in Rstudio for that:
 ?dplyr # gives you info on where to find info
 dplyr:: # and use the arrows to explore the different functions contained in the package
 ```
+
+---
+
+There are several exercises you can do here on your own. 
+Try to understand what it does and use the help. 
+I let those exercises because you should be able to modify them to use with other variables
+which can help you start (and avoid searching a lot on the internet). 
+
+> I had actually to google to find out how to do things. And even if I have some experience
+with using R, I still control that the code is doing what it is supposed to do. Error
+is human ! 
+
 
 # When you are ready to go further:
 

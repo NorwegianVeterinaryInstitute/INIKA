@@ -76,7 +76,7 @@ Starting point -`learning_R` git repo has been cloned locally
 -   [ ]   Exercise : Printing your code in a word document
 
 
-## Basic R for data analysis (TO continue )
+## chap 3. Basic R for data analysis (TO continue )
 
 > data from Human (Kobo toolbox)
 
@@ -97,13 +97,20 @@ Starting point -`learning_R` git repo has been cloned locally
 
 -   Data frame manipulation with dplyr
 
-    -   filtering
-    -   mutating
-    -   changing values (eg. NA and spaces)
+    -   cleaning colum names ( values (eg. NA and spaces, special characters))
     -   selecting columns
-    -   group by
-    -   summary
+    -   mutating
+    -   filtering
+    -   Finding specific columns
+    
+    
+    -   summary (base not summarize)
+    -   group_by
+    -   arranging columns  
+      
+    Exercises to go further (we do not need to do all). Solution are patterns the can reuse.   
 
+    
 ## Where
 
 ? - decimals ... warning ! not done -\> do that during transformation -
