@@ -294,7 +294,7 @@ we can do that by column names:
 glimpse(human_data)
 
 human_data %>% 
-  select(INIKA_OH_TZ_ID, Age__yrs_, Gender) %>%
+  select(INIKA_OH_TZ_ID, Age__yrs, Gender) %>%
   View(.)
 
 ```
@@ -422,7 +422,7 @@ they are excluded). Type F1 for help.
 to have critical sense, otherwise you might not detect mistakes. 
 We will show you how to correct this mistakes. 
 
-**Normally we do not use the exclude option here.**
+**Normally we do not use the exclude option, but I want to show you how it affects the rest. We will fix that later**
  
 
 ```{r}
@@ -471,6 +471,14 @@ human_data_selection %>%
 ```
 
 As you can see, there are several solutions, pick one that you understand
+
+> You can also see that because I did not reassign the changes, then I can 
+test the way to do things without modifying my data. 
+When I am sure that what I do is correct, then I can reassign the changes to the
+original object.
+
+> If I do a mistake, well, this is still not a catastrophe, I rerun the whole
+code until were I made the mistake, and can correct this mistake.
 
 ---
 
@@ -649,7 +657,7 @@ human_data_selection %>%
 ```
 
 hum, all the data of this ID appears to be missing.
-We can remove this raw from the dataset 
+We can remove this raw from the data set 
 
 #### Exercise : remove the row from the dataset 
 
@@ -667,6 +675,11 @@ test <-
   human_data_selection %>%
   filter(!is.na(Age__yrs))
 
+test
+```
+
+
+```{r}
 # control  - I check if I find those with NA again 
 test %>%
   filter(is.na(Age__yrs)) %>%
@@ -676,14 +689,18 @@ test %>%
 # OR a trick 
 is.na(test$Age__yrs)
 sum(is.na(test$Age__yrs))
+```
+
+
+```{r}
 # TRUE has a value of 1, FALSE has a value of 0
 # example 
 sum(c(TRUE, FALSE, TRUE))
 ```
 
-NB:  `c()` function is a way to write vectors (one dimentional arrays). 
+NB:  `c()` function is a way to write vectors (one dimensional arrays). 
 
-## Selecting rows that contains missing data in any column
+### Selecting rows that contains missing data in any column
 
 If we have few missing data, we can go faster in our check by selecting rows
 that contains missing data in any column. 
@@ -707,7 +724,9 @@ and NA values are considered as a level.
 When we look at factors, we see characters labels. Actually factors are encoded
 in R as integers. Lets try to understand this. 
 
-```{r}
+> Here is a little test to understand how factor works.
+
+```{r eval=FALSE}
 # I create a vector character with some values
 test_vector <- c("1", "3", "C", NA)
 test_factor <- factor(test_vector, exclude = NULL)
@@ -744,7 +763,8 @@ To change the data types of factors, we need to revert first to characters, then
 we can re-change to factor and this time NA will not be included in the levels. 
 
 ```{r}
-# changing the data types (a remoinder)
+# changing the data types (a reminder)
+# mutate if does a test - if the test is True then the type change is applied
 test <- 
   human_data_selection %>%
   mutate_if(is.factor, as.character) %>%
@@ -797,7 +817,7 @@ However, we need to inspect closer the columns
 "Which_class_grade_are_you", and "Who_is_your_caretaker"  
 
 
-### Exercise : Counting the number of NAs in each column  (we do not do)
+#### Exercise : Counting the number of NAs in each column  (we do not do)
 ... and using it to find column with many NAs
 
 We can have a different approach to find which columns containing many NAs,
@@ -805,35 +825,42 @@ eg by counting the number of NAs in each column.
 
 ```{r}
 # filter columns that contain more than 10 NAs
-human_data_selection %>%
+temp <- human_data_selection %>%
   mutate(across(everything(), is.na)) %>% # this will transform the data frame to TRUE/FALSE (TRUE it its na)
-  summarise_all(sum) %>% # because TRUE is 1, FALSE is 0, we can sum to count the number of NAs
-  select(where(~sum(.) > 10)) %>% # now we select the columns where the sum is above 10
-  colnames() # and we get the column names 
+  summarise_all(sum) # because TRUE is 1, FALSE is 0, we can sum to count the number of NAs
 
-# trick comment %>% and exectue before to see what it does
+temp # where we see howm many Nas we have
+
+human_data_selection %>%
+  mutate(across(everything(), is.na)) %>%
+  summarise_all(sum) %>%
+  select(where(~sum(.) > 10)) %>% # now we select the columns where the sum is above 10
+  colnames() # and we get the column names where there are mores than 10 NAs
+
+# trick comment %>% and execute before to see what it does
 ```
 
 now we have obtained the list of columns with NA that I had put in the comments
 (hidden in html) above. 
 
-# ! Recheck up to here - the need to recheck the duplicate ID osv and see logic
-# ##########################################################################
+### Checking that IDs are unique - Distinct values usage
 
+We need to ensure that IDs are unique. If not, there is probably 
+a problem with the data. The data might have been registered incompletely or 
+several times. We need also to check that if we have duplicated IDs that
+the information, if incompletely registered is not incompatible. This can allow
+to identify errors in data registration. 
 
-### Distinct values : Checking that IDs are unique
-
-We need to ensure that ID is unique. If not, there is probably 
-a problem with the data, or the data has been registred incompletly or several 
-times and we need to find out what is correct.
+> NB: Such errors are not uncommon
 
 We need first to remove eventual duplicated rows, where the ID and all values in 
-all columns are identical. If some columns hare removed, this means there can 
+all columns are identical. 
+If some columns are empty, this means there can 
 have been some problems during the registering of the data (eg. sent several
-times and accepted by the database)
+times and accepted by the database).
 
-
-
+- Distinct allows to filter out rows that are totally identical (it means identical 
+in all columns)
 ```{r}
 dim(human_data_selection)
 
@@ -844,24 +871,49 @@ human_data_selection_dedup <-
 dim(human_data_selection_dedup)
 ```
 
-**10 rows of totally identical rows were removed**
+`r dim(human_data_selection)[1] - dim(human_data_selection_dedup)[1]` **rows of totally identical rows were removed**
 
 Now we need to consider rows where the ID is duplicated, but the rest of 
-the data is not identical. Again this can be an error in registring or a 
-human error (eg. using the same ID)
+the data is not identical. 
+Again this can be an error in data having being first partially registred, followed
+by a better registering, or human error (eg. using the same ID)
 
-#!Need to transformate the types before here 
+
 ```{r}
+glimpse(human_data_selection_dedup)
+```
+
+Here there is something I did not recheck. 
+I will need to use the ID to filter rows that are problematic and inspect them further.
+But It is not practical doing that when the IDs are of type factor (this complicate making
+the correspondence between actual ID and factor value). So I prefer to re-convert 
+the ID to character. 
+
+> Note: I should have thought better when I originally converted the types. 
+The best way to do things fastg, is not always evident at first. This is normal.
+
+We will obtain duplicated rows that are not totally identical. 
+Grouping by the ID, we can count the number of rows per ID. 
+
+<u>NOTE IMPORTANT</u>
+> ! FOR NOW ON - human_data_selection_dedup  will be the version of the data we
+will be working on (this allows us not to have to run everything again if we make a
+mistake. Then we can only run again since the creation of human_data_selection_dedup)
+
+```{r}
+# changing the type of the ID to character
+human_data_selection_dedup <- 
+  human_data_selection_dedup %>%
+  mutate_at(vars(INIKA_OH_TZ_ID), as.character) %>%
+  # order - trick to use the ID as a number
+  arrange(as.integer(INIKA_OH_TZ_ID))
+
 # removing eventual duplicated rows 
 duplicated_data <- 
   human_data_selection_dedup %>%
-  mutate_at(vars(INIKA_OH_TZ_ID), as.character) %>%
-  mutate_at(vars(INIKA_OH_TZ_ID), as.integer) %>%
-  # order 
-  arrange(INIKA_OH_TZ_ID) %>%
-  # This add 
+  # grouping data that have same ids 
   group_by(INIKA_OH_TZ_ID) %>%
-  # This add a column of count 
+  # This add a column of count  - the count counts BY GROUP
   mutate(count = n(), .after = "INIKA_OH_TZ_ID") %>%
   # This filter out the rows that are not unique
   filter(count > 1) 
@@ -869,6 +921,61 @@ duplicated_data <-
 duplicated_data  %>% View()
 ```
 
+#### Exercise: Understanding group_by
+
+We prepare the common part for the test. As done abouve, but before the group by.
+```{r}
+test <- 
+  human_data_selection_dedup %>%
+  mutate_at(vars(INIKA_OH_TZ_ID), as.character) %>%
+  arrange(as.integer(INIKA_OH_TZ_ID)) 
+```
+
+Group by gender 
+```{r}
+test %>%
+  ungroup() %>%
+  group_by(Gender) %>%
+  # This add a column of count 
+  mutate(count = n(), .after = "INIKA_OH_TZ_ID") 
+```
+
+The count is now actually identical to the number of males and females. 
+Because we added the column count as we did, this count appears in each column.
+
+One way (functional but not the best) to create a contingency table : 
+
+```{r}
+test %>%
+  ungroup() %>%
+  group_by(Gender) %>%
+  # This add a column of count 
+  mutate(count = n(), .after = "INIKA_OH_TZ_ID") %>%
+  select(Gender, count) %>% 
+  distinct()
+```
+
+This gives use the number of females and males. 
+
+
+This technique of grouping can become powerful, when you want to create contingency
+tables where you count interactions between groups.
+
+```{r}
+human_data_selection_dedup %>% 
+  select(Sample, Season, District) %>%
+  arrange(Sample, Season, District) %>%
+  group_by(Sample, Season, District) %>%
+  mutate(count = n()) %>%
+  distinct()
+```
+
+> Here is normal that we have one with NA NA NA, because we did not finish the data cleaning.
+
+
+#### Finding which unique ID are duplicated 
+
+... and which some rows are different beween duplicates 
 
 we can get a list of unique identifier in those that are duplicated, then we can check one my one
 
@@ -884,156 +991,129 @@ we filter out the incomplete data - to do this, we need to identify which column
 a way to identify it (example ID and what is missing in the most incomplete and not on the other)
 ```{r}
 duplicated_data %>% 
-  filter(INIKA_OH_TZ_ID == 211) %>% 
+  filter(INIKA_OH_TZ_ID == "211") %>% 
 print(width = Inf)
 ```
 
-Who_is_your_caretaker is NA in the row we want to suppress this row. 
+> Note here I use "211" because ID is a type character. If it was a number I would have used 211 without the quotes. Errors can happen if you use a number instead of character or vice/versa.
+
+Who_is_your_caretaker is NA in the row we want to suppress (less complete). 
+There is no incompatibility between rows for this sample ID. 
+
 We first check that our code is working on the duplicated_data 
 then when we are sure its ok, we can do that on the human_data_selection_dedup
 
+- We select the row that is not complete
+
 ```{r}
 duplicated_data %>% 
-  filter(INIKA_OH_TZ_ID == 211 & is.na(Who_is_your_caretaker)) %>% 
-  print(width = Inf)
+  filter(INIKA_OH_TZ_ID == "211" & is.na(Who_is_your_caretaker)) %>% 
+  print(width = Inf) # you can change for view if its more convenient
+```
 
-# Oops this is the selection of the one that is not complete - we want the opposite
+- To filter out, we need to use the OPPOSITE of the condition we used to select the row.
+This is where we use `!` in front of the WHOLE condition of selection; the position 
+of brackets are important. 
 
-duplicated_data %>% 
-  filter(INIKA_OH_TZ_ID == 211 & !is.na(Who_is_your_caretaker)) %>% 
-  print(width = Inf)
-
-# good, this is correct. So now we can filter out this row in the human_data_selection
-human_data_selection <- 
-  human_data_selection %>%
-  filter(!(INIKA_OH_TZ_ID == 211 & is.na(Who_is_your_caretaker)))
+```{r}
+human_data_selection_dedup <- 
+  human_data_selection_dedup %>%
+  filter(! (INIKA_OH_TZ_ID == "211" & is.na(Who_is_your_caretaker)) )
 
 # Control that its the correct value is there and that there are no duplicates
-human_data_selection %>% filter(INIKA_OH_TZ_ID == 211)
+human_data_selection_dedup %>% filter(INIKA_OH_TZ_ID == 211)
 ```
 
 > Note : if you do errors, you will have to rerun everything up to this
 point ! 
 
-# ! HERE 
-
 
 Now we can repeat those steps for the other duplicated data
 ```{r}
 duplicated_data %>% 
-  filter(INIKA_OH_TZ_ID == 2374) %>% 
+  filter(INIKA_OH_TZ_ID == "2374") %>% 
   print(width = Inf)
 ```
 
-Here, we see we have a problem. The data is incompatible. 
+Here, we see we have a problem. The two raws of data are incompatible. 
 If we can find out what data is correct, then we need to rectify the data.
 This is done by script - so we know it has been done (changes in the raw data
 are not desirable). 
 
-Assuming that The record with the Female is correct we can remove the column with 
-The Male. 
+**Assuming that The record with the Female is correct we can remove the row with 
+the Male.** 
 
+- First I make sure I select the correct row 
 ```{r}
 # Selecting the column that we want to remove
 duplicated_data %>% 
-  filter(INIKA_OH_TZ_ID == 2374 & Gender == "Male") %>% 
+  filter(INIKA_OH_TZ_ID == "2374" & Gender == "Male") %>% 
   print(width = Inf)
-
-# Removing the column - we filter by the negation of the column we want to remove
-human_data_selection <- 
-  human_data_selection %>%
-  filter(!(INIKA_OH_TZ_ID == 2374 & Gender == "Male")) 
-  
 ```
 
-### Exercise (we do not do during the course)
+- Then I remove the row from the data by choosing the OPPOSITE
+```{r}
+# Removing the column - we filter by the negation of the column we want to remove
+human_data_selection_dedup <- 
+  human_data_selection_dedup %>%
+  filter(! (INIKA_OH_TZ_ID == "2374" & Gender == "Male")) 
+
+# Verification that the other data has been removed 
+human_data_selection_dedup %>%
+  filter(INIKA_OH_TZ_ID == "2374") 
+
+```
+
+> you can see that verifying your data with code, allows you to track what you have done.
+It allows you also to document your choices, of what this was removed, and if you did 
+a mistake you can fix it and rerun the code. The raw data is not distroyed, so you can
+rerun the code until you are satisfied you have found out all the data where quality 
+was not good.  
+
+#### Exercise (we do not do during the course)
+
 
 Then we need to continue the list of IDs where we detected data that was
-potentially incorrect
+potentially incorrect (here we still have one: ID 23143)
 
-21101, 21102, 21103, 21104, 21107, 23115, 23143
 ```{r}
 duplicated_data %>% 
-  filter(INIKA_OH_TZ_ID == 21101) %>% 
-  distinct() 
+  filter(INIKA_OH_TZ_ID == "23143") %>% 
   print(width = Inf)
-
 ```
+Remove the raw that is false (if you do not know, assume which one is false
+for the sake of the exercise)
 
-
- 
-Verification if we can see something indicating the correct registered data 
-
-<!-- 
+- select the raw with the wrong data
 ```{r}
-test <- 
-  human_data %>%
-  mutate_at(vars(INIKA_OH_TZ_ID), as.character) %>%
-  mutate_at(vars(INIKA_OH_TZ_ID), as.integer) %>%
-  # order 
-  arrange(INIKA_OH_TZ_ID) %>%
-  # This add 
-  group_by(INIKA_OH_TZ_ID) %>%
-  # This add a column of count 
-  mutate(count = n(), .after = "INIKA_OH_TZ_ID") %>%
-  # This filter out the rows that are not unique
-  filter(count > 1) 
-
-View(test)
-
-test %>%
-  filter(INIKA_OH_TZ_ID == 2374) %>%
-  t() %>%
-  as.data.frame() %>%
-  rownames_to_column() ->  
-  madelaine_check
-  
-View(madelaine_check)  
-
-write_csv(madelaine_check, here::here("results", "madelaine_check.csv"))
+duplicated_data %>% 
+  filter(INIKA_OH_TZ_ID == "23143" & Have_you_ever_heard_about_AMR == "No") %>% 
+  print(width = Inf)
 ```
-
---> 
-
-We can filter the data that has been registered several times identically 
-(eg. identical data sent several times to the data registering system)
+- Select the opposite to and remove the raw with the wrong data from the data set 
 
 ```{r}
-#distinct_duplicated <- 
-  duplicated_data %>% 
-  group_by(INIKA_OH_TZ_ID) %>%
-  distinct(.keep_all = TRUE) %>%
-  View()  
-  
-
-distinct_duplicated %>% View()
-
-nrow(distinct_duplicated)
+human_data_selection_dedup <- 
+  human_data_selection_dedup %>%
+  filter(! (INIKA_OH_TZ_ID == "23143" & Have_you_ever_heard_about_AMR == "No"))
 ```
 
-This is the data that is problematic and that needs to be verified manually.
-
-We select one of the ID as an example how we can correct the values. 
-(Look here I go back to the data I will want to correct to be sure I have all 
-the information)
+- Verification we still have the correct data 
 ```{r}
-human_data_selection %>%
-  filter(INIKA_OH_TZ_ID == 21104) %>%
-  print(n = Inf)
-  
-
+human_data_selection_dedup %>%
+  filter(INIKA_OH_TZ_ID == "23143")
 ```
 
-# #############################################################################
+----
 
-## Closer inspection of missing values - Finding out to with Identifier it corresponds.
+### A Closer inspection of missing values - Finding out to with Identifier it corresponds.
 
 
 ```{r}
-colnames(human_data_selection)
+colnames(human_data_selection_dedup)
 
 subset_NA <- 
-  human_data_selection %>%
+  human_data_selection_dedup %>%
   select(c(INIKA_OH_TZ_ID,Which_class_grade_are_you, Who_is_your_caretaker)) %>%
   filter(if_any(everything(), is.na)) 
 

@@ -91,7 +91,7 @@ Starting point -`learning_R` git repo has been cloned locally
         -   counts (col, row)
         -   factors and levels (summary table / tally)
 
--   Data frame manipulation with dplyr
+-   Data frame manipulation with dplyr (osv.)
 
     -   cleaning colum names ( values (eg. NA and spaces, special characters))
     -   selecting columns
@@ -102,22 +102,32 @@ Starting point -`learning_R` git repo has been cloned locally
     -   saving into a spreadsheet 
     -   summary (base::)
     -   checking if values are unique (ID)
-    
-    
     -   group_by
+    -   count and creation of simple contingency tables
+    -   filtering out rows with poor data quality (using filter on ID) 
 
 
       
-Exercises to go further (we do not need to do all). Solution are patterns the can reuse.   
+Exercises to go further (we do not need to do all). 
+Solutions are patterns they can reuse.   
     
-All in the spirit of inspecting if data if of proper quality and detecting 
-mistakes or inconsitencies . 
+All in the spirit of data inspecting to ensure proper quality: Which includes 
+detecting mistakes or inconsistencies. 
+Learning why its important not to modify the 
+raw data, doing so by code allows to detect errors and allows transparency
+of our choices. 
     
 
 ## Where
 
 ? - decimals ... warning ! not done -\> do that during transformation -
 ? where: joining data frames (ensure data quality, what do I have)
+
+
+- computer typos : must be typed exactly as is writen (maj and min incl.)
+
+some hidden character can messup your data - they are not hidden for the computer
+Tab aucocomplettion early 
 
 
 ## Data from a database (Whonet) and merging datasets. 
