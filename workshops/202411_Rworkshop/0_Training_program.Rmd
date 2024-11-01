@@ -90,6 +90,7 @@ Starting point -`learning_R` git repo has been cloned locally
     -   Getting a fast summary of the data contained in your dataframe
         -   counts (col, row)
         -   factors and levels (summary table / tally)
+        -   using pipes
 
 -   Data frame manipulation with dplyr (osv.)
 
@@ -105,9 +106,9 @@ Starting point -`learning_R` git repo has been cloned locally
     -   group_by
     -   count and creation of simple contingency tables
     -   filtering out rows with poor data quality (using filter on ID) 
+    -   exporting dataset to file (csv)
+    -   if_else and case_when to replace missing values 
 
-
-      
 Exercises to go further (we do not need to do all). 
 Solutions are patterns they can reuse.   
     

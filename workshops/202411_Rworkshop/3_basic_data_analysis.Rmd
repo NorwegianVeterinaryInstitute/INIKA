@@ -14,7 +14,7 @@ output:
       code_download: true
       toc_depth: 4
       df_print: paged
-      code_folding: hide
+      code_folding: show
       author: params$author
       highlight: espresso
       number_sections: true
@@ -26,7 +26,7 @@ editor_options:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, eval = FALSE)
 ```
 
 # A good organisation of your project for data analysis
@@ -110,7 +110,7 @@ document. (However, it works well to load them when they are needed)
 
 Unhide to see solution
 
-```{r libraries, include=FALSE}
+```{r libraries import}
 library(here)
 library(tidyverse)
 ```
@@ -397,7 +397,6 @@ human_data_selection <-
 # verification it has been removed
 colnames(human_data_selection)
 ```
-
 
 ### Changing the data types of some columns
 
@@ -1108,38 +1107,21 @@ human_data_selection_dedup %>%
 
 ### A Closer inspection of missing values - Finding out to with Identifier it corresponds.
 
-
+- here we only select eg. some columns that we know we can verify
 ```{r}
 colnames(human_data_selection_dedup)
 
 subset_NA <- 
   human_data_selection_dedup %>%
-  select(c(INIKA_OH_TZ_ID,Which_class_grade_are_you, Who_is_your_caretaker)) %>%
-  filter(if_any(everything(), is.na)) 
+  select(c(INIKA_OH_TZ_ID,Which_class_grade_are_you, Who_is_your_caretaker)) %>% # we made a subset of the dataframe 
+  filter(if_any(everything(), is.na))  # everything means all the columns in the data frame
 
 subset_NA
 ```
 
 We have created a subset of data where columns have missing values. 
 
-hum ... we want to have the identifiers ordered as numbers, ascending, because
-it will be easier to find back in my notes, at those numbers are sequetials.
-So I need to transform a bit the subset data frame 
-
-```{r}
-# we need the type to be integer to be able to sort as a number, not as a factor level as it is
-# then we sort the data frame by the identifier.
-subset_NA <- 
-  subset_NA %>%
-  mutate(INIKA_OH_TZ_ID = as.integer(INIKA_OH_TZ_ID)) %>%
-  arrange(INIKA_OH_TZ_ID)
-
-subset_NA %>% View()
-# You can also sort ascending or descending in the window on the view 
-```
-
-
-We can save this subset into a spreasheet so you can. eg. print this dataframe
+We can save this subset into a spreasheet so you can. eg. print this data frame
 if you need to go back to some notes (eg. lab notes on paper) to verify those 
 values. 
 
@@ -1150,28 +1132,277 @@ write_csv(subset_NA, here::here("results", "subset_NA.csv"))
 
 Should you replace few missing values, eg. if you had forgotten to register 
 and if it was on a paper note, you can do that by selecting the cell where the 
-value should be and then assiging it. 
+value should be and then assigning it. 
 
 In our example we use the subset_NA to show that, but if you had to change the
 values they should go into the human_data_selection, which is the cleaned data
 that will be used later on for analysis. 
 
-1. Finding the cell we want eg: ID 
+1. Finding the cell we want to change eg: ID 231  and the grade. 
+Here we do an example on the subset, we do not change the data. 
+
+We show you how it can be done IF you can recover the missing data from your notes. 
+
+- you can use mutate and if_else : condition, value condition true, value condition false
 ```{r}
+subset_NA %>% 
+  mutate(Which_class_grade_are_you = 
+           if_else(INIKA_OH_TZ_ID == "231", "Grade 10", Which_class_grade_are_you)) %>% 
+  print(width = Inf)
+```
+
+- A variant of if_else when you must replace several values
+
+```{r}
+subset_NA %>% 
+  mutate(Which_class_grade_are_you = 
+           case_when(
+             INIKA_OH_TZ_ID == "231" ~ "Grade 10",
+             INIKA_OH_TZ_ID == "233" ~ "Grade 10",
+             TRUE ~ Which_class_grade_are_you
+           )) %>% 
+  print(width = Inf)
+```
+
+- when true it does that for the line. 
+- the true at the end, is everything that was not true before. 
+
+Be careful if you use that, the order might matter if you use it in a 
+complicated way! 
+
+
+### Other summary statistics ...
+
+Example you want to know how many children of 
+different ages you have in your data set
+
+
+
+```{r}
+glimpse(human_data_selection_dedup)
+```
+
+Here is the fast to count how many children of different ages you have in your data set
+```{r}
+human_data_selection_dedup %>% 
+  group_by(Age__yrs) %>%
+  summarise(n = n())
+```
+
+This is the long way to do the same thing ... we had done like that before. 
+```{r}
+human_data_selection_dedup %>% 
+  group_by(Age__yrs) %>%
+  mutate(count = n()) %>%
+  select(Age := Age__yrs, count) %>% # := allows to change the name of the variable while using it (practical !) 
+  arrange(Age) %>%
+  distinct() 
 
 ```
 
 
+You can also optain summary statistics
+eg. the mean age of the children, the quantiles of the age distribution in the data,
+as well as the min and max. 
 
-## Basic plotting to check your data 
-
-
-
-```{=html}
-<!-- 
-<mark><b> </b></mark>
--->
+```{r}
+human_data_selection_dedup %>% 
+  summarise(mean_age = mean(Age__yrs, na.rm = TRUE),
+            median_age = median(Age__yrs, na.rm = TRUE),
+            quantile_25 = quantile(Age__yrs, probs = 0.25, na.rm = TRUE),
+            quantile_75 = quantile(Age__yrs, probs = 0.75, na.rm = TRUE),
+            min_age = min(Age__yrs, na.rm = TRUE),
+            max_age = max(Age__yrs, na.rm = TRUE))
 ```
+
+Remember in the beginning we used the summary function ? this can also be obtained like that.
+There are advantages and inconvenient in both methods. 
+With sum arise, I can define exactly what I want to see, and how it should be calculated. 
+Moreover this produce a data frame that I can export
+
+
+```{r}
+human_data_selection_dedup %>% 
+  select(Age__yrs) %>%
+  summary()
+```
+
+
+Summarize is very powerful to calculate simple contingency tables for groups. 
+```{r}
+human_data_selection_dedup %>% 
+  group_by(Gender) %>%
+  summarise(mean_age = mean(Age__yrs, na.rm = TRUE),
+            median_age = median(Age__yrs, na.rm = TRUE),
+            quantile_25 = quantile(Age__yrs, probs = 0.25, na.rm = TRUE),
+            quantile_75 = quantile(Age__yrs, probs = 0.75, na.rm = TRUE),
+            min_age = min(Age__yrs, na.rm = TRUE),
+            max_age = max(Age__yrs, na.rm = TRUE),
+            .by_group = TRUE)
+```
+
+Another example : 
+
+```{r}
+human_data_selection_dedup %>% 
+  group_by(Have_you_ever_heard_about_AMR, If_yes__how_did_you_get_this_information) %>%
+  summarise(n = n())
+
+```
+
+This is a way to control if the data is consistent. If people would have both
+answered that they have not heard about AMR but if they had given a precision on 
+where, then it might indicate error in data recording, or that people maybe did 
+not answer properly to the questionnaire. 
+
+Some questionnaires have redundant
+and control questions, only formulated in a different ways, to check for the
+consistency of the data. 
+
+Ensuring the data quality, means that you have to think of all the things
+that could have gone wrong, and to check for them. The more you know your data
+the easier it gets to think about what could have gone wrong. 
+
+
+# ! Madelaine check (to be sure its stil there)
+%### Exercice : I discovered more data to recheck 
+
+Hum, it seems to me that we might still have one line with many missing values in the dataset
+Find a way to select the line with a lot of NAs (you can do many steps, as long at you manage at the end)
+
+
+```{r eval=FALSE}
+human_data_selection_dedup %>%
+  filter(is.na(Gender) & is.na(Age__yrs))
+```
+
+
+### Basic plotting to check your data 
+
+We can also explore our data visuellement. 
+
+Some basic plots can be used eg. to check consistencies between answers, 
+or can serve as contingency tables 
+
+
+
+```{r}
+glimpse(human_data_selection_dedup)
+human_data_selection_dedup %>% 
+           ggplot(aes(x = Age__yrs, fill = Gender)) +
+           geom_bar(stat = "count", position = "stack") +
+           theme_minimal()  
+```
+
+
+In the plot above, we used factors. 
+Sometimes using factors can be tricky, if some statistics are done on the values.
+So be carefull. 
+
+I prefer to transform factors into characters, to avoid any confusion.
+```{r}
+df_plot2 <- 
+  human_data_selection_dedup %>% 
+  mutate_if(is.factor , as.character) %>%
+  filter(!is.na(Gender))
+```
+We can remove the NAs  for nwo
+
+- small differences of options can make your plot look totally differently
+
+```{r}
+ggplot(df_plot2,aes(x = Age__yrs, fill = Gender)) +
+           geom_bar(stat = "count", position = "stack") +
+           theme_minimal() 
+```
+See NAs are gone. 
+You need to think if they are worth adding or not. What do they mean in your data ? 
+
+Small changes can make your plot look very different.
+
+```{r}
+ggplot(df_plot2,aes(x = Age__yrs, fill = Gender)) +
+           geom_bar(stat = "count", position = "stack") +
+           theme_minimal() +
+  facet_wrap(~Gender) +
+  labs(title = "Number of interogated participant by age and Gender", 
+       x = "Age (years)",
+       y = "Number of participants") 
+```
+
+Here we show anotherway you can remove NAs in the factors
+
+```{r}
+other_nonNA <- 
+  human_data_selection_dedup %>% 
+  filter(!is.na(Gender)) %>%
+  mutate_if(is.factor, ~droplevels(.))
+
+plot1 <- ggplot(other_nonNA,
+       aes(x = Age__yrs, fill = Gender)) +
+  geom_boxplot(na.rm = TRUE) +
+  theme_minimal() +
+  facet_wrap(~Gender) +
+  labs(title = "Distribution of the age of participants by Gender", 
+       x = "Age (years)",
+       y = "Gender") 
+plot1
+```
+
+We see that we have few values that are outlines. Here, its probably due¨
+to the fact that most of the data was collected at schools. 
+
+We can check if this corresponds to our previous contingency table. 
+However the outliers make it difficult to see the mean and median values on the graph
+
+By removing the outliers in the display, it is easier to compare the central values of the distributioin,
+```{r}
+plot_notouliers <- 
+  ggplot(other_nonNA,
+       aes(x = Age__yrs, fill = Gender)) +
+  geom_boxplot(na.rm = TRUE, outliers = FALSE) +
+  theme_minimal() +
+  facet_wrap(~Gender) +
+  labs(title = "Distribution of the age of participants by Gender", 
+       x = "Age (years)",
+       y = "Gender") 
+
+plot_notouliers
+```
+Eg median age vale was : for females was 13 and 14 for males
+
+- You see that we changed the type of the plot by changing the geom
+- plots are done by adding different layers
+- as usual always have critical sense. 
+- you can store plots as objects and view them by recalling the object
+- storing plot as objects allows exploring their content (this allows you to see if the data was used correctly)
+
+Finding the data used in a plot
+```{r}
+glimpse(plot_notouliers)
+```
+
+Each layer in the plot (basically all the things you can modify) can be inspected
+using `$`. Plots are fast to make, because there are a lot of defaults that are implicit.
+It is then fast, but sometimes it makes it difficult to know if you made your plot correctly. 
+
+```{r}
+plot_notouliers$data
+
+colnames(plot_notouliers$data)
+```
+
+
+You can also compare plots or making com posit plots using the library aplot. 
+
+
+```{r}
+library(aplot)
+plot1 / plot_notouliers 
+```
+
+
+
 # Some usefull tricks and notes
 
 - `Escape` when you had done typing error and that the console starts with a + (to abort your typing)
@@ -1185,8 +1416,10 @@ that will be used later on for analysis.
 
 
 
-- Do not forget about the possibility to visualize the data frame in another window, so you can look at it and write code at the same time.
-
+- Do not forget about the possibility to visualize the data frame in another window,
+  so you can look at it and write code at the same time.
+- When experimenting with code: commenting assignment and commenting/un-commenting 
+  pipes one step at the time allow you to check that what you are doing is as it should and pipes ca
 
 ---
 
