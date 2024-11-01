@@ -16,7 +16,6 @@ output:
       code_folding: hide
       author: params$author
       highlight: espresso
-      number_sections: true
       
 
   
@@ -24,6 +23,12 @@ editor_options:
   markdown: 
     wrap: 72
 ---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval = TRUE, 
+                      message=FALSE, warning=FALSE,
+                      results = 'hide')
+```
 
 > Program to run by madelaine about training order and content Trying to
 > reduce the load - brain ...and have a way to come back for repeats day
@@ -34,7 +39,11 @@ editor_options:
 At arrival :
 
 -   [ ]  Control before starting the data course
--   [ ]  Rscript to run to install packages ? or Renv ? 
+-   [ ]  **Rscript to run to install packages ? or Renv ?** Need to do one and try - this could help - MUST be done at the end of course prep however to be sure we have all
+
+
+
+
 
 ## Introduction (to review - ca ok)
 
@@ -74,7 +83,7 @@ Starting point -`learning_R` git repo has been cloned locally
 -   [ ]   Exercise : Printing your code in a word document
 
 
-## chap 3. Basic R for data analysis (TO continue )
+## chap 3. Basic R for data analysis (to review - ca ok)
 
 > data from Human (Kobo toolbox)
 
@@ -107,7 +116,10 @@ Starting point -`learning_R` git repo has been cloned locally
     -   count and creation of simple contingency tables
     -   filtering out rows with poor data quality (using filter on ID) 
     -   exporting dataset to file (csv)
-    -   if_else and case_when to replace missing values 
+    -   if_else and case_when to replace missing values
+    -   count and summary functions (contingency tables) in dplyr
+    -   some basic plotting
+    -   exporting object to rds file
 
 Exercises to go further (we do not need to do all). 
 Solutions are patterns they can reuse.   
@@ -119,27 +131,18 @@ raw data, doing so by code allows to detect errors and allows transparency
 of our choices. 
     
 
-## Where
-
-? - decimals ... warning ! not done -\> do that during transformation -
-? where: joining data frames (ensure data quality, what do I have)
-
-
-- computer typos : must be typed exactly as is writen (maj and min incl.)
-
-some hidden character can messup your data - they are not hidden for the computer
-Tab aucocomplettion early 
-
-
-## Data from a database (Whonet) and merging datasets. 
+## chap 4. Data from a database (Whonet) and merging datasets. (todo)
 
 -   connecting to a sqlite database and getting the data contained in
     tables (for whonet)
--   data exploratioon and visualization
-    -   tables of levels factors for the different variables
-    -   reproducing whonet graphs
--   data wide and long format
+-   joining data frames
+-   visualization : reproducing whonet graphs
+
+-   data wide and long format ? (not sure we have the data for that)
     -   example: trick for making boxplots from long format
+
+
+<!-- I  think it will be actually more than enough material 
 
 ## Eventually
 
@@ -148,19 +151,5 @@ Tab aucocomplettion early
 -   github and Zenodo - can show them article
 -   writing functions using dplyr / tidyverse ... oops
 
-### Creating or recreating an environment
-
-We use [renv](https://rstudio.github.io/renv/articles/renv.html)
-
-R environment setup for a reproducible project
-
-```{r renv setup}
-library(renv)
-```
-
-## ToDos 
-
- - [ ]  as Håkon if more things need to be added.
- - [ ] run tutorial by madelaine 
-
-
+? - decimals ... warning ! not done -\> do that during transformation -
+--> 

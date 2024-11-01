@@ -1,0 +1,56 @@
+---
+title: "`r params$title`"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+author: Eve Zeyl Fiskebeck
+params:
+  title: "4. Data from a database (Whonet) and merging datasets." 
+  project_path: "`r here::here()`"
+output: 
+  
+  
+  rmdformats::readthedown:
+      
+      css: style.css
+      self_contained: true
+      code_download: true
+      toc_depth: 4
+      df_print: paged
+      code_folding: show
+      author: params$author
+      highlight: espresso
+      number_sections: true
+editor_options: 
+  markdown: 
+    wrap: 72
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval = TRUE, 
+                      message=FALSE, warning=FALSE,
+                      results = 'hide')
+```
+
+
+# Bonus: Creating or recreating an environment
+
+We used [renv](https://rstudio.github.io/renv/articles/renv.html)
+
+R environment setup for a reproducible project
+
+```{r renv setup}
+library(renv)
+```
+
+
+# Some usefull tricks and notes
+
+# When you are ready to go further:
+
+-   [Programming with Databases -
+    R](https://swcarpentry.github.io/sql-novice-survey/11-prog-R.html) 
+    this part is specific for R
+    
+    
+
+    

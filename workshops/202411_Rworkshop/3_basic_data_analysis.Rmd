@@ -12,7 +12,7 @@ output:
       css: style.css
       self_contained: true
       code_download: true
-      toc_depth: 4
+      toc_depth: 6
       df_print: paged
       code_folding: show
       author: params$author
@@ -26,12 +26,14 @@ editor_options:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, eval = FALSE)
+knitr::opts_chunk$set(echo = TRUE, eval = TRUE, 
+                      message=FALSE, warning=FALSE,
+                      results = 'hide')
 ```
 
 # A good organisation of your project for data analysis
 
-```{r}
+```{r , echo = FALSE, results = 'asis'}
 DiagrammeR::mermaid(
   "
   graph TB
@@ -110,7 +112,7 @@ document. (However, it works well to load them when they are needed)
 
 Unhide to see solution
 
-```{r libraries import}
+```{r libraries import, class.source = "fold-hide"}
 library(here)
 library(tidyverse)
 ```
@@ -126,15 +128,16 @@ Data frames (tabular format - similar to spreadsheets) - columns :
 variables (including identifiant) - raws : observations
 
 
-```{r  echo=TRUE, eval=TRUE, class.source = "fold-show"}
+```{r }
 human_data <- 
   readr::read_csv2(
-    here("data", "2024-09-25_INIKA_SAMPLING_ANALYSIS_HUMAN.csv")
+    here::here("data", "2024-09-25_INIKA_SAMPLING_ANALYSIS_HUMAN.csv")
     )
 
 ```
 
 We need to check: 
+
 1. If the data has been loaded correctly 
 2. If the types of the data in each columns as recognized correctly
 
@@ -142,7 +145,7 @@ We need to check:
 To look at the table graphically:
 
 -   [ ]   Environment pane \> (click) human_data (also can open in a new window)
--   [ ]   alternative with code
+-   [ ]   Alternative with code
 
 ```{r}
 View(human_data)
@@ -176,7 +179,7 @@ easier to work with.
 -   [ ]   We can look more in detail at the structure of the
     programmatically
 
-```{r}
+```{r , class.source = "fold-hide"}
 # we use tidyverse so better to stay in the same system
 glimpse(human_data)
 
@@ -220,9 +223,12 @@ to have been read correctly. We will make some checks to be sure.
 
 ### Renaming columns
 
-I see that there is some spaces. Column names with spaces are more difficult
-to work with (its not impossible, but its not practical). There are also 
-other special characters `? /` that will make work with those data difficult. 
+I see that there are some spaces in the column names. 
+Column names with spaces are more difficult
+to work with (its not impossible, but its not practical). 
+
+There are also 
+other special characters `? /` that will make work the work with the data difficult. 
 I will also remove those.
 
 I will change the column names to remove the spaces. 
@@ -230,7 +236,8 @@ I will do that step by step, which will allow us to verify what we are doing
 at each step. 
 
 1. I create an object that contains the column names in an object
-2. I create a new object with new column names (spaces replaced by `_`)
+2. I create a new object with new column names (spaces replaced by `_`), 
+    and then replacing the other special characters by `_ `
 3. I replace the column names in the table by the new column names. 
 
 At each step we will check what we have done.
@@ -277,6 +284,7 @@ we can replace the column names in the table.
 We can still readjust those ones later on if needed. 
 
 ```{r}
+# Step 3: Replacing the column names
 colnames(human_data) <- new_columns
 colnames(human_data)
 ```
@@ -296,7 +304,6 @@ glimpse(human_data)
 human_data %>% 
   select(INIKA_OH_TZ_ID, Age__yrs, Gender) %>%
   View(.)
-
 ```
 
 `NA` represents missing value (its kind of a neutral filling of the cell)
@@ -315,7 +322,7 @@ human_data %>%
 There are too many columns in the data, some with redundant data (eg.
 the different Gender columns, and many others). 
 
-Here For demonstration purposes, I select a subset of the columns 
+Here, For demonstration purposes, I select a subset of the columns 
 (this will be enough)
 
 Tricks: The tab is helpful to help you write the end of column names
@@ -602,7 +609,9 @@ nrow(human_data_selection)
 nrow(test)
 ```
 
+Inline_code: 
 We filtered out `r nrow(human_data_selection) - nrow(test)` rows.
+
 
 Oops ... We filtered one too much. We removed the row where the value was missing.
 The choice of removing this value definitively depends on the context. 
@@ -668,7 +677,7 @@ front of is.na command).
 Do not forget to do a test, and control that is does what you want. 
 
 
-```{r}
+```{r , class.source = "fold-hide"}
 # this should work  to only keep those with NA
 test <- 
   human_data_selection %>%
@@ -678,7 +687,7 @@ test
 ```
 
 
-```{r}
+```{r , class.source = "fold-hide"}
 # control  - I check if I find those with NA again 
 test %>%
   filter(is.na(Age__yrs)) %>%
@@ -691,7 +700,7 @@ sum(is.na(test$Age__yrs))
 ```
 
 
-```{r}
+```{r , class.source = "fold-hide"}
 # TRUE has a value of 1, FALSE has a value of 0
 # example 
 sum(c(TRUE, FALSE, TRUE))
@@ -822,7 +831,7 @@ However, we need to inspect closer the columns
 We can have a different approach to find which columns containing many NAs,
 eg by counting the number of NAs in each column. 
 
-```{r}
+```{r , class.source = "fold-hide"}
 # filter columns that contain more than 10 NAs
 temp <- human_data_selection %>%
   mutate(across(everything(), is.na)) %>% # this will transform the data frame to TRUE/FALSE (TRUE it its na)
@@ -923,7 +932,7 @@ duplicated_data  %>% View()
 #### Exercise: Understanding group_by
 
 We prepare the common part for the test. As done abouve, but before the group by.
-```{r}
+```{r , class.source = "fold-hide"}
 test <- 
   human_data_selection_dedup %>%
   mutate_at(vars(INIKA_OH_TZ_ID), as.character) %>%
@@ -931,7 +940,7 @@ test <-
 ```
 
 Group by gender 
-```{r}
+```{r , class.source = "fold-hide"}
 test %>%
   ungroup() %>%
   group_by(Gender) %>%
@@ -1075,7 +1084,7 @@ was not good.
 Then we need to continue the list of IDs where we detected data that was
 potentially incorrect (here we still have one: ID 23143)
 
-```{r}
+```{r , class.source = "fold-hide"}
 duplicated_data %>% 
   filter(INIKA_OH_TZ_ID == "23143") %>% 
   print(width = Inf)
@@ -1084,21 +1093,21 @@ Remove the raw that is false (if you do not know, assume which one is false
 for the sake of the exercise)
 
 - select the raw with the wrong data
-```{r}
+```{r , class.source = "fold-hide"}
 duplicated_data %>% 
   filter(INIKA_OH_TZ_ID == "23143" & Have_you_ever_heard_about_AMR == "No") %>% 
   print(width = Inf)
 ```
 - Select the opposite to and remove the raw with the wrong data from the data set 
 
-```{r}
+```{r , class.source = "fold-hide"}
 human_data_selection_dedup <- 
   human_data_selection_dedup %>%
   filter(! (INIKA_OH_TZ_ID == "23143" & Have_you_ever_heard_about_AMR == "No"))
 ```
 
 - Verification we still have the correct data 
-```{r}
+```{r , class.source = "fold-hide"}
 human_data_selection_dedup %>%
   filter(INIKA_OH_TZ_ID == "23143")
 ```
@@ -1297,7 +1306,7 @@ human_data_selection_dedup %>%
 
 In the plot above, we used factors. 
 Sometimes using factors can be tricky, if some statistics are done on the values.
-So be carefull. 
+So be careful. 
 
 I prefer to transform factors into characters, to avoid any confusion.
 ```{r}
@@ -1401,14 +1410,46 @@ library(aplot)
 plot1 / plot_notouliers 
 ```
 
+##  Exporting our data (R format)
+
+### Rds format 
+- We have seen previously that we can export a table to a csv file. 
+
+We can also export the content of a R Object to a file, this to be able to re-import it 
+later on and eg. continue working on that, without having the hassle of checking
+that all the data types are read as we want. 
+
+
+```{r}
+saveRDS(human_data_selection_dedup, 
+        here::here("results", "human_data_selection_dedup.rds"))
+```
+
+This is the command to allow to reimport the file later on to an object
+```{r}
+my_table <- readRDS(here::here("results", "human_data_selection_dedup.rds")) 
+tail(my_table) # shows the last rows of the table
+```
+
+### Exercice : Exporting and importing data to and from a csv file
+
+- you can try to find back how to read, export the same data to a csv file.
+
+- hint  : `?write.csv` and `?read.csv`
 
 
 # Some usefull tricks and notes
 
+A computer does not like typos. The commands have to be typed correctly. 
+Letter cases, spaces and symbols matter. Most errors of beginners are due to typos.
+It takes a certain time to be able to see them (weird but true). Some hidden characters
+(eg. end of lines, in windows car sometimes be problematic and cause errors)
+
+- `Tab` is your fried to avoid a lot of writing, it helps you auto-complete and go faster and without spelling errors 
 - `Escape` when you had done typing error and that the console starts with a + (to abort your typing)
 - `Ctrl + L` to clear the console
 - `Ctrl + Enter` to run the current line
-- `Tab` is your fried to avoid a lot of writing, it helps you auto-complete and go faster and without spelling errors 
+
 - `Ctrl + Alt + I ` to insert a new code chunk (might be different for you - write the shortcut here ! )
 - `F1` to get the help on a function, of `?function`.
 - `Arrows up and down` to recall or go down your history of commands in the console
@@ -1463,12 +1504,11 @@ another way) and go further in your learning
 -   [Programming with
     R](https://swcarpentry.github.io/r-novice-inflammation/)
 
--   [Programming with Databases -
-    R](https://swcarpentry.github.io/sql-novice-survey/11-prog-R.html)
-
 The [CRAN](https://cran.r-project.org/) website you can find the reference manuals
 for R programming language. If you really want to understand the basics of the language
 you need to start reading the "introduction to R" manual. 
+
+
 
 
 ## Other ressources that I either used or look at and found if could be useful for you one day ... 
