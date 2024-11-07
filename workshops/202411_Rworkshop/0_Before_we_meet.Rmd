@@ -99,14 +99,14 @@ can be helpful.
 We can eg. have a look during an online meeting.**
 
 
-# Why to do this ? reproducible science and Open data science
+# Why we need to do this ? It's about Rproducible science and Open data science
 This part will be discussed in the course. 
 
 The way we will work will help us to do reproducible research. It will 
-help you (and us) to organize the data analysis work and document what you 
+help you (and us) to organize the data analysis work, and document what you 
 have done, including the reasons behind your choices.
 
-Three month from now YOU might not remember the reasoning and all the 
+Three months from now YOU might not remember the reasoning and all the 
 steps you have done in your analyses. Documenting what you are doing at the 
 same time you are doing it, is a very good practice. 
 
@@ -117,7 +117,7 @@ for publication and manuscript revision.
 
 Moreover, working this way, will allow you to start setting up your analyses 
 BEFORE all the data are collected. You will be able to re-run all your code
-using updated data. This is helping you being proactive. 
+using updated data. This is helping you being pro-active. 
 
 What are the <u>requirements of reproducible research ?</u> 
 The following article mention  
@@ -136,10 +136,10 @@ The following article mention
 
 We will see that using R and Rstudio can help you to relatively easy follow all 
 steps but 4 and 10. The latest, which require using a version control system 
-like Git, and eventually associated online platform like github that allows 
-to store your code on the web. Github in turn can be then be used during the 
+like Git, and eventually an associated online platform like github that allows 
+to store your code on the web. Github in turn can be used during the 
 publication and can facilitate the creation of DOI via integration with Zenodo. 
-This then allows people to cite your data analysis work and code!. 
+This then allows people to cite your data analysis work and code!
 
 <mark><u>WARNING:</u>
 - NEVER PUT YOUR DATA ON GITHUB, only the code to process the data 
