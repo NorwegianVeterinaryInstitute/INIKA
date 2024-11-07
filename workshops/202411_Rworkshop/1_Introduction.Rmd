@@ -34,10 +34,11 @@ knitr::opts_chunk$set(echo = TRUE)
 # Goal 
 
 - 1. **Develop a mental model :  how to think about programming, data analysis and data management**
-so can become independent learners 
-- 2. Learn and understand the basics of data wrangling, exploration and visualization and analysis using R
-- 3. Learn good practices of data analyses, including how to use R for version control with git and github
-- 4. We hope that at the end of this course, you have learned enough to be able to use the additional resources and pointers provided in those document to learn further and independently about reproducible research and data analysis.    
+so you can become independent learners 
+- 2. Learn and understand the basics of data wrangling, exploration and visualization and analysis using R.
+- 3. Learn good practices of data analyses, including how to use R for version control with git and github.
+- 4. We hope that at the end of this course, you have learned enough to be able to use the additional resources and pointers provided in those documents to learn further, and independently about reproducible research and data analysis.  
+# The last part of the sentence is a bit odd, wonder if you mean: you have learned enough to be able to use the additional resources and pointers provided in those documents and links provided to gain more knowledge about reproducible research and data analysis and to be able to work independently. See if this is better? 
 
 
 # What to expect and the learning process  
