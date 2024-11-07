@@ -69,7 +69,7 @@ R project\` Directory & structure :
 -   Allows git / version control
 -   Easier to share - allows others to have the same organisation
 -   Reproducibility
-# change for test
+
 Example from the [Authoring scientific publications with R
 Markdown](https://ucsbcarpentry.github.io/R-markdown/02-intro/index.html):
 
