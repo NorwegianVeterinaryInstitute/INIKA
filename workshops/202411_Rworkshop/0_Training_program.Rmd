@@ -63,7 +63,7 @@ Starting point -`learning_R` git repo has been cloned locally
 -   [ ]   Git are used for backup notes and code versioning via Rstudio. Workflow
 -   [ ]   .gitignore file exercise (setup at the same time)
 -   [ ]   Using a notebook in Rstudio: anatomy, text, code and rendering
--   [ ]   Exercise Using a R markdown document & Fast overview of R programming language (introduction terms and running things in cells) ! THIS NEED TO BE EXPLAINED DURING THE COURSE 
+-   [ ]   Exercise Using a R markdown document & Fast overview of R programming language (introduction terms and running things in the cells) ! THIS NEED TO BE EXPLAINED DURING THE COURSE 
 
 > We have during the course here : 
 - installation packages and loading them
@@ -85,7 +85,7 @@ Starting point -`learning_R` git repo has been cloned locally
 
 ## chap 3. Basic R for data analysis (to review - ca ok)
 
-> data from Human (Kobo toolbox)
+> Data from Human sampling (Kobo toolbox)
 
 -   A good organisation of your project for data analysis
 
@@ -94,7 +94,7 @@ Starting point -`learning_R` git repo has been cloned locally
     -   Reading a data frame
     -   checking and setting correct data types
         -   data types (review, and add)
-    -   Obtaining a fast overview of the data contained in a dataframe
+    -   Obtaining a fast overview of the data contained in a dataframe ("I think we need to explain what is a dataframe)
     -   Object Visualization (code and Rstudio environment)
     -   Getting a fast summary of the data contained in your dataframe
         -   counts (col, row)
@@ -107,8 +107,8 @@ Starting point -`learning_R` git repo has been cloned locally
     -   selecting columns
     -   mutating
     -   filtering
-    -   Finding specific columns
-    -   arranging raws by values in a columns  
+    -   finding specific columns
+    -   arranging rows by values in the columns  
     -   saving into a spreadsheet 
     -   summary (base::)
     -   checking if values are unique (ID)
@@ -124,7 +124,7 @@ Starting point -`learning_R` git repo has been cloned locally
 Exercises to go further (we do not need to do all). 
 Solutions are patterns they can reuse.   
     
-All in the spirit of data inspecting to ensure proper quality: Which includes 
+All in the spirit of data inspection to ensure proper quality: Which includes 
 detecting mistakes or inconsistencies. 
 Learning why its important not to modify the 
 raw data, doing so by code allows to detect errors and allows transparency
@@ -136,7 +136,7 @@ of our choices.
 -   connecting to a sqlite database and getting the data contained in
     tables (for whonet)
 -   joining data frames
--   visualization : reproducing whonet graphs
+-   visualization : reproducing WHONET graphs
 
 -   data wide and long format ? (not sure we have the data for that)
     -   example: trick for making boxplots from long format
