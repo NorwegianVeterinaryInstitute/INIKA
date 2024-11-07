@@ -33,8 +33,8 @@ knitr::opts_chunk$set(echo = TRUE)
 Rstudio is an IDE (Integrated Development Environment) that makes it
 easier to write and execute R code.
 
-R is a programming language that is used a lot for data analysis and
-statistics. We will introduce you to its usage. Time is short, please :
+R is a programming language that is used for a lot for data analysis and
+statistics. We will introduce you to it's usage. Time is short, please :
 
 -   [ ]  Install R studio - Non commercial = Rstudio Desktop (free
     edition). Visit [posit
@@ -49,11 +49,11 @@ statistics. We will introduce you to its usage. Time is short, please :
 Note: Should you want to know more, the guided tour for
 [Rstudio](https://docs.posit.co/ide/user/) is available.
 
--   [ ]  Have a look at the following video: [Rmarkdown: what it is and
-    its potential
+-   [ ] i Have a look at the following video: [Rmarkdown: what it is and
+    'it's' potential
     usages](https://rmarkdown.rstudio.com/authoring_quick_tour.html) We
-    will use Rmarkdown to run code during the course, this will also
-    allow you to take notes at the same time
+    will use Rmarkdown to run code during the course. This will also
+    allow you to take notes at the same time.
     
 -   [ ]  Install the following packages/metapackage in R, by typing exactly the 
 command below in Rstudio **console** and then pressing `enter`. We will explain later
@@ -71,7 +71,7 @@ your data please read this tutorial, particularly the section of
 [spreadsheet best practices](https://ucdavisdatalab.github.io/workshop_keeping_data_tidy/#content).
 NB: Tools like KoboToolbox and WHONET are usually useful to help following those principles
 when registering data, but understanding more about the reasoning behind those requirements
-is best.  
+is important.  
 
 - [ ]  Please install [git](https://git-scm.com/downloads/win) version control 
 utility on your PC and read [this](https://swcarpentry.github.io/git-novice/01-basics.html) 
