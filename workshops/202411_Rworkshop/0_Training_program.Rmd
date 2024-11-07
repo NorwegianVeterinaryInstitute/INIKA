@@ -57,10 +57,10 @@ At arrival :
  
  > learning how to use a R markdown document and git backup, small intro to R programming language
 
-Starting point -`learning_R` git repo has been cloned locally
+Starting point: `learning_R` git repo has been cloned locally
 
 -   [ ]   Rstudio usage: creating / opening an Rproject
--   [ ]   Git are used for backup notes and code versioning via Rstudio. Workflow
+-   [ ]   Git software is used for backup of notes and code versioning via Rstudio. (Workflow)
 -   [ ]   .gitignore file exercise (setup at the same time)
 -   [ ]   Using a notebook in Rstudio: anatomy, text, code and rendering
 -   [ ]   Exercise Using a R markdown document & Fast overview of R programming language (introduction terms and running things in the cells) ! THIS NEED TO BE EXPLAINED DURING THE COURSE 
@@ -94,14 +94,14 @@ Starting point -`learning_R` git repo has been cloned locally
     -   Reading a data frame
     -   checking and setting correct data types
         -   data types (review, and add)
-    -   Obtaining a fast overview of the data contained in a dataframe ("I think we need to explain what is a dataframe)
+    -   Obtaining a fast overview of the data contained in a dataframe (Explain what is a dataframe)
     -   Object Visualization (code and Rstudio environment)
     -   Getting a fast summary of the data contained in your dataframe
         -   counts (col, row)
         -   factors and levels (summary table / tally)
         -   using pipes
 
--   Data frame manipulation with dplyr (osv.)
+-   Data frame manipulation with dplyr (etc...)
 
     -   cleaning colum names ( values (eg. NA and spaces, special characters))
     -   selecting columns
@@ -119,7 +119,7 @@ Starting point -`learning_R` git repo has been cloned locally
     -   if_else and case_when to replace missing values
     -   count and summary functions (contingency tables) in dplyr
     -   some basic plotting
-    -   exporting object to rds file
+    -   exporting/reading object to/from rds file
 
 Exercises to go further (we do not need to do all). 
 Solutions are patterns they can reuse.   
@@ -131,10 +131,10 @@ raw data, doing so by code allows to detect errors and allows transparency
 of our choices. 
     
 
-## chap 4. Data from a database (Whonet) and merging datasets. (todo)
+## chap 4. Data from a database (WHONET) and merging datasets. (todo)
 
 -   connecting to a sqlite database and getting the data contained in
-    tables (for whonet)
+    tables (for WHONET)
 -   joining data frames
 -   visualization : reproducing WHONET graphs
 

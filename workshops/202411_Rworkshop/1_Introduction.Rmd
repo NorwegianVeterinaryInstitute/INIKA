@@ -37,9 +37,8 @@ knitr::opts_chunk$set(echo = TRUE)
 so you can become independent learners 
 - 2. Learn and understand the basics of data wrangling, exploration and visualization and analysis using R.
 - 3. Learn good practices of data analyses, including how to use R for version control with git and github.
-- 4. We hope that at the end of this course, you have learned enough to be able to use the additional resources and pointers provided in those documents to learn further, and independently about reproducible research and data analysis.  
-# The last part of the sentence is a bit odd, wonder if you mean: you have learned enough to be able to use the additional resources and pointers provided in those documents and links provided to gain more knowledge about reproducible research and data analysis and to be able to work independently. See if this is better? 
-5. TRY AND ERROR! Don't be afraid of doing anything wrong when coding! The rawdata will not be messed up! THIS IS THE NICE THING ABOUT PROGRAMMING! YOU WILL ALWAYS BE ABLE TO GO BACK TO YOU ORIGINAL DATA!
+- 4. You should have learned enough to be able to use the additional resources and pointers provided in those documents to gain more knowledge about reproducible research and data analysis. You should now be able to work independently. 
+- 5. You should have learn that **coding is a TRIAL and ERROR process!**. Don't be afraid of doing anything wrong when coding! The rawdata will not be messed up! THIS IS THE NICE THING ABOUT PROGRAMMING! YOU WILL ALWAYS BE ABLE TO GO BACK TO YOU ORIGINAL DATA!
 
 
 # What to expect and the learning process  
@@ -48,12 +47,12 @@ In programming for data analysis, there are some basic concepts to learn but
 afterwards we usually manage by finding the information we need when we need it.
 We never know it all, but we get better and better at finding information. 
 
-![Humor and markdown way to insert images in markdown!](https://i.redd.it/ms8u3bl2kw351.jpg)
+![Humor and markdown way to insert images in markdown!](https://i.redd.it/ms8u3bl2kw351.jpg){width=50% height=50%}
 
 
 When you have a problem to solve, the solution is most certainly (99.999% of the 
 cases) already available on internet. You will need to search for the answer.
-The resources for learning are not lacking. It' might seem overwhelming.
+The resources for learning are not lacking. It might seem overwhelming.
 
 What is lacking, is the time to explore it all, and know what to search for. How how can you search for 
 something you do not know exists yet ? This is a continuous learning process and you will improve your skills a long the way.
@@ -70,9 +69,9 @@ so you in 3 months or any other person can understand what you were trying to do
 <!-- I am not writing good code, but it usually work for the
 scientific analysis I do. --> 
 
-![What to expect in code?](https://miro.medium.com/v2/resize:fit:1400/0*_lbfkH2RdWvQyLSQ.png)
+![What to expect in code?](https://miro.medium.com/v2/resize:fit:1400/0*_lbfkH2RdWvQyLSQ.png){width=80% height=80%}
 
-<u>What should you aim for (discussion)?</u>
+<u>What should you aim for?  (discussion) </u>
 
 
 ## What about using AI to help you code ?
@@ -106,7 +105,7 @@ Resources are available in different forms :
     cookbook](https://bookdown.org/yihui/rmarkdown-cookbook/) and [R bookdown](
     https://bookdown.org/yihui/bookdown/) and the book for the nice visualization
     plots [ggplot2](https://ggplot2-book.org/), and many others ... 
-    you 'can't' read them all!
+    you **can't** read them all!
 
 -   Statistical analysis books where R is used for the analyses: eg.
     [Modern Statistics for Modern
@@ -153,8 +152,7 @@ and for
 -   ...
 
 
-NB, you will find also some additional resources through the course.  
-
+You will find also some additional resources through the course.  
 
 
 Note that this course will be greatly inspired from two core software carpentry 
