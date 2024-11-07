@@ -49,8 +49,8 @@ statistics. We will introduce you to it's usage. Time is short, please :
 Note: Should you want to know more, the guided tour for
 [Rstudio](https://docs.posit.co/ide/user/) is available.
 
--   [ ] i Have a look at the following video: [Rmarkdown: what it is and
-    'it's' potential
+-   [ ]  Have a look at the following video: [Rmarkdown: what it is and
+    it's potential
     usages](https://rmarkdown.rstudio.com/authoring_quick_tour.html) We
     will use Rmarkdown to run code during the course. This will also
     allow you to take notes at the same time.
@@ -142,7 +142,7 @@ publication and can facilitate the creation of DOI via integration with Zenodo.
 This then allows people to cite your data analysis work and code!
 
 <mark><u>WARNING:</u>
-- NEVER PUT YOUR DATA ON GITHUB, only the code to process the data 
+NEVER PUT YOUR DATA ON GITHUB, only the code to process the data 
 </mark>
 
 
