@@ -59,8 +59,8 @@ At arrival :
 
 Starting point -`learning_R` git repo has been cloned locally
 
--   [ ]   Rstudio usage: creating / opening a Rproject
--   [ ]   Git used to backup notes and code via Rstudio. Workflow
+-   [ ]   Rstudio usage: creating / opening an Rproject
+-   [ ]   Git are used for backup notes and code versioning via Rstudio. Workflow
 -   [ ]   .gitignore file exercise (setup at the same time)
 -   [ ]   Using a notebook in Rstudio: anatomy, text, code and rendering
 -   [ ]   Exercise Using a R markdown document & Fast overview of R programming language (introduction terms and running things in cells) ! THIS NEED TO BE EXPLAINED DURING THE COURSE 
