@@ -30,7 +30,7 @@ knitr::opts_chunk$set(echo = TRUE, eval = TRUE,
                       results = 'hide')
 ```
 
-> Program to run by madelaine about training order and content Trying to
+> Program to run by Madelaine about training order and content Trying to
 > reduce the load - brain ...and have a way to come back for repeats day
 > after example whonet test data
 
@@ -39,7 +39,7 @@ knitr::opts_chunk$set(echo = TRUE, eval = TRUE,
 At arrival :
 
 -   [ ]  Control before starting the data course
--   [ ]  **Rscript to run to install packages ? or Renv ?** Need to do one and try - this could help - MUST be done at the end of course prep however to be sure we have all
+-   [ ]  **Rscript to run to install packages ? or Renv ?** Need to do one and try - this could help - This MUST be done at the end of the course preparation, however to be sure we have all ? ( We all have installed the needed packages and Programs?)
 
 
 
