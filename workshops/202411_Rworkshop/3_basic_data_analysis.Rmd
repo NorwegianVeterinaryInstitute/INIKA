@@ -1,0 +1,1526 @@
+---
+title: "`r params$title`"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+author: Eve Zeyl Fiskebeck and Madelaine Norström
+params:
+  title: "Chap 3. Basic R for data analysis" 
+  project_path: "`r here::here()`"
+output: 
+  
+  
+  rmdformats::readthedown:
+      
+      css: ../styles/style.css
+      self_contained: true
+      code_download: true
+      toc_depth: 6
+      df_print: paged
+      code_folding: show
+      author: params$author
+      highlight: espresso
+      number_sections: true
+editor_options: 
+  markdown: 
+    wrap: 72
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval = TRUE, 
+                      message=FALSE, warning=FALSE,
+                      results = 'hide')
+```
+
+# A good organisation of your project for data analysis
+
+```{r , echo = FALSE, results = 'asis'}
+DiagrammeR::mermaid(
+  "
+  graph TB
+  subgraph  
+    A[Preparing your work]
+    A --> C[Directory structure]
+    C --> D[Project Setup]
+    D --> D1[data]
+    D --> D2[results]
+    D --> D3[src OR code]
+    D --> D4[bin]
+    D --> D5[doc]
+    D --> D6[ ... ]
+  end
+  subgraph  
+    B[Work : one or several analyses] --> E[eg. Analysis one]
+    E --> F[Code]
+    F --> H[Session Setup]
+    F --> I[Analysis]
+    F --> K[Prettyfying]
+    H --> G[Results : output]
+    I --> G
+    K --> G
+  end
+  ")
+```
+
+<u>Fig: Workflow and directory preparation for each project</u>
+
+R project\` Directory & structure :
+
+-   Favors good organisation
+-   Allows git / version control
+-   Easier to share - allows others to have the same organisation
+-   Reproducibility
+
+Example from the [Authoring scientific publications with R
+Markdown](https://ucsbcarpentry.github.io/R-markdown/02-intro/index.html):
+
+-   [ ]   `data` : **for the raw data and associated metadata (can be
+    linked) ! Not under version control**
+-   [ ]   `results` : processed data and results of analyses - under
+    version control
+-   [ ]   `src`OR `code`: for the code you write - under version control
+
+Please make those directories if they do not exist yet, in your project
+
+Optional :
+
+-   `bin` : for external code or binaries (eg. a compiled program) -
+    (likely not under version control)
+-   `doc` : text documents associated to the project
+
+## Exercise: Getting organized to prepare data analysis
+
+-   [ ]  create the data and results directories in your project
+    directory
+-   [ ]  copy the data from the **Human project (KoboToolbox)** into the
+    data directory
+
+# First steps: preparing our data before data analysis
+
+-   We will use the [tidyverse](https://www.tidyverse.org/) metaverse
+    (set of package what work well together) to manipulate data.
+
+-   We will also try to show you the relation between baseR and dplyr (a
+    package for data manipulation in tidyverse) to explain some basic
+    programming concepts.
+
+## Loading required packages
+
+By **convention** they are loaded at the beginning of a script or
+document. (However, it works well to load them when they are needed)
+
+-   [ ]  load here and tidyverse packages
+
+Unhide to see solution
+
+```{r libraries import, class.source = "fold-hide"}
+library(here)
+library(tidyverse)
+```
+
+-   [ ]  what does meen the green ticks and red crosses ?
+-   [ ]  which tidyverse packages are loaded ?
+-   [ ]  can you see which version was used for each package ?
+
+## Reading our data (our data is contained in a dataframe)
+
+
+Data frames (tabular format - similar to spreadsheets) - columns :
+variables (including identifiant) - raws : observations
+
+
+```{r }
+human_data <- 
+  readr::read_csv2(
+    here::here("data", "2024-09-25_INIKA_SAMPLING_ANALYSIS_HUMAN.csv")
+    )
+
+```
+
+We need to check: 
+
+1. If the data has been loaded correctly 
+2. If the types of the data in each columns as recognized correctly
+
+
+To look at the table graphically:
+
+-   [ ]   Environment pane \> (click) human_data (also can open in a new window)
+-   [ ]   Alternative with code
+
+```{r}
+View(human_data)
+```
+
+You are unlucky - you have to learn analyzing a huge table. This is not
+easiest to start with. Lets proceed step by step. In the following
+sections, we will transform the raw data to a dataset so it becomes be
+easier to work with.
+
+> Note: I am writting the course at the same time as I discover the
+> data. Somethings might be done in different order, but I want you to
+> see how I process the data, and that well, even if I am more
+> experienced than you, I do not know all. So I struggle and find
+> information to I can learn and go forwards.
+
+### Exercise
+
+-   [ ]  use the help to look at the other options to read the table. I
+    used default functions for simplicity. What are those ?
+-   [ ]  why did I use csv2 instead of csv? the extension of my file was
+    csv right! Did I do a mistake?
+
+------------------------------------------------------------------------
+
+## Exploring the structure of the data
+
+-   [ ]   what is the structure of the data ? (the data is in an object,
+    so we look at the structure of the object) How many rows
+    (observations) and columns (variables) ?
+-   [ ]   We can look more in detail at the structure of the
+    programmatically
+
+```{r , class.source = "fold-hide"}
+# we use tidyverse so better to stay in the same system
+glimpse(human_data)
+
+# but we could have used
+# str(human_data) 
+```
+
+### Types of data in the columns
+
+-   [ ]   We have different types: We have double (real) date,
+    character, logical. Oops I had never seen `dttm` type before.
+
+> It seems to be something for dates, but I will use google to find out
+what it is exacly: `what is dttm R type`. I see [R for data science
+page](https://r4ds.had.co.nz/dates-and-times.html) - it seems to be a
+reliable source of information. I open the webpage then I search
+`ddtm` in this web page and I see that it is a date-time type used by
+tibbles. I know tibles are a name used to call a special type of
+dataframes (tibble package in tidyverse). We do not need to bother
+with further information for now.
+
+-   [ ]   what is the type and class of human_data object? 
+
+```{r}
+typeof(human_data)
+class(human_data)
+```
+
+<!-- A data frame is a special type of list. 
+List with the same number of element. 
+In a column, the types of each element are identical
+--> 
+
+Types of the data in columns and types of objects are different things. 
+
+I do not change the types that need to be changed, right now. This
+will be easier to do later on. The important thing is that the data appears
+to have been read correctly. We will make some checks to be sure.
+
+## Data wrangling and tyding 
+
+### Renaming columns
+
+I see that there are some spaces in the column names. 
+Column names with spaces are more difficult
+to work with (its not impossible, but its not practical). 
+
+There are also 
+other special characters `? /` that will make work the work with the data difficult. 
+I will also remove those.
+
+I will change the column names to remove the spaces. 
+I will do that step by step, which will allow us to verify what we are doing 
+at each step. 
+
+1. I create an object that contains the column names in an object
+2. I create a new object with new column names (spaces replaced by `_`), 
+    and then replacing the other special characters by `_ `
+3. I replace the column names in the table by the new column names. 
+
+At each step we will check what we have done.
+
+```{r}
+# step 1
+original_columns <- colnames(human_data)
+original_columns
+
+# step 2
+# replacing spaces 
+new_columns <- str_replace_all(original_columns, " ", "_")
+new_columns
+
+# replacing special characters 
+new_columns <- str_replace_all(new_columns, "[?/,;.*()-]", "_")
+new_columns
+
+
+# removing _ at the beginning and end of column names (should not start with _)
+new_columns <- str_remove_all(new_columns, "(^_*)|(_*$)")
+new_columns
+
+# this can also be done, still step by step using pipe ... like that
+# space is replaced by _
+# a series of , or ; or . or * or ( or )
+
+new_columns <- 
+  colnames(human_data) %>%
+  str_replace_all(" ", "_") %>%
+  str_replace_all( "[?/,;.*()-]", "_") %>%
+  str_remove_all("(^_*)|(_*$)")
+
+new_columns
+```
+
+There is detailed information [here](https://stringr.tidyverse.org/articles/regular-expressions.html)
+on how to use regular expression with 
+`stringr` package functions 
+
+
+Now that we are sure the new column names will be easier to use, 
+we can replace the column names in the table. 
+We can still readjust those ones later on if needed. 
+
+```{r}
+# Step 3: Replacing the column names
+colnames(human_data) <- new_columns
+colnames(human_data)
+```
+
+
+
+### Selecting columns to reduce the size of the table we will work with 
+
+Now we need to find columns with redundant information
+that we will not need for the analysis. This will make the data frame easier
+to work with.
+
+we can do that by column names:
+```{r}
+glimpse(human_data)
+
+human_data %>% 
+  select(INIKA_OH_TZ_ID, Age__yrs, Gender) %>%
+  View(.)
+```
+
+`NA` represents missing value (its kind of a neutral filling of the cell)
+
+or by column numbers (starting from 1), it can be easier than to type
+```{r}
+colnames(human_data)
+
+human_data %>% 
+  select(3,4,5) %>%
+  head(.)
+
+```
+
+
+There are too many columns in the data, some with redundant data (eg.
+the different Gender columns, and many others). 
+
+Here, For demonstration purposes, I select a subset of the columns 
+(this will be enough)
+
+Tricks: The tab is helpful to help you write the end of column names
+(basically the questions that are detailed as 0 or 1 where there is text column
+do not need to be taken in.)
+```{r}
+human_data_selection <- 
+  human_data %>%
+  select(INIKA_OH_TZ_ID, Age__yrs, Gender, Enter_a_date, Region, District, 
+         Specify_if_other_district, Sample, Season, Origin_of_sample, 
+         Which_class_grade_are_you, 
+         Who_is_your_caretaker, 
+         If_others__mention, 
+         What_is_your_occupation_and_or_of_your_caretaker, 
+         Have_you_ever_heard_about_AMR, If_yes__how_did_you_get_this_information, 
+         Have_you_or_your_children_used_any_antibiotics_at_any_time, 
+         If_yes__where_did_you_get_these_drugs_from,
+         If_it_was_drug_sellers_or_pharmacy__did_you_have_a_prescription_from_the_doctor_prescriber,
+         GPS_coordinates_latitude, GPS_coordinates_longitude) 
+
+human_data_selection %>% View()
+```
+
+
+
+### Some data verification and removing one emtpy column
+
+
+```{r}
+glimpse(human_data_selection)
+```
+
+I see that `Specify_if_other_district` is of type logical (TRUE or FALSE) `lgl`
+this is unexpected, as if something had been registered in here, there should be 
+text (character type)
+
+I suspect that nothing has been registered. I will check that. 
+
+- This is a way to look at the content of the column only
+
+```{r}
+human_data_selection$Specify_if_other_district
+```
+
+- I can see if there is something that is not NA by making a specific subset 
+of the column, and then counting the number of elements in that subset
+
+```{r}
+# create a logical vector : if is NOT NA wil register TRUE, otherwise if NA will put FALSE
+# A logical vector allows to select values that are TRUE
+# Example 
+
+learn_test <- c(NA, "not empty", " ")
+!is.na(learn_test)
+test <- learn_test[!is.na(learn_test)]
+test
+length(test)
+```
+
+We do the same for the column of our dataset. 
+```{r}
+!is.na(human_data_selection$Specify_if_other_district)
+
+test <- 
+  human_data_selection$Specify_if_other_district[!is.na(human_data_selection$Specify_if_other_district)]
+
+length(test)
+```
+
+Ok, this column is totally empty, we can remove it from the data set. 
+A negative selection allows to remove columns.
+We need to replace the data frame with the new one (reassignment)
+
+```{r}
+human_data_selection <- 
+  human_data_selection %>%
+  select(-Specify_if_other_district)
+
+# verification it has been removed
+colnames(human_data_selection)
+```
+
+### Changing the data types of some columns
+
+```{r}
+glimpse(human_data_selection)
+```
+
+INIKA identifier needs to be read as character (we do not want to treat it as 
+a number but as a text)
+
+The age (in years) could be an integer (whole number) instead of a double.
+We will change that 
+
+Yes/No answers can be treated as either logical (TRUE/FALSE) or as factors
+We can look at the different levels (the different values, here answers, taken
+by a variable)
+
+`NA` (missing values are NOT transformed into a level by default, by default
+they are excluded). Type F1 for help. 
+
+> Here we will treat them as a level of a factor, just you show you that you need
+to have critical sense, otherwise you might not detect mistakes. 
+We will show you how to correct this mistakes. 
+
+**Normally we do not use the exclude option, but I want to show you how it affects the rest. We will fix that later**
+ 
+
+```{r}
+# this is a way 
+human_data_selection$Have_you_ever_heard_about_AMR
+
+levels(factor(human_data_selection$Have_you_ever_heard_about_AMR, 
+                  exclude = NULL))
+```
+
+Another way is to look at the distinct values of the column
+```{r}
+# or this is another way using tidyverse
+human_data_selection %>%
+  select(Have_you_ever_heard_about_AMR) %>%
+  distinct()
+```
+
+I want to treat those as factor. I will have to create a transformation
+of the tables types that account for NA values. I want to know how many 
+and where data are missing. 
+
+First I will show you how you can change types, and check the result at the same time.
+After we put everything together and do it in one go, and modify the table.
+
+mutate: transform the data (it can be types, or some calculation...)
+
+```{r}
+# A way to do this
+human_data_selection %>%
+  mutate(INIKA_OH_TZ_ID = as.character(INIKA_OH_TZ_ID)) %>%
+  glimpse()
+
+# another way to do that
+human_data_selection %>%
+  mutate_at(vars(INIKA_OH_TZ_ID), as.character) %>%
+  glimpse()
+```
+
+When there is only one column, its possible to write the name of the column like
+that and it will work. 
+```{r}
+human_data_selection %>%
+  mutate_at("INIKA_OH_TZ_ID", as.character)  %>%
+  glimpse()
+```
+
+As you can see, there are several solutions, pick one that you understand
+
+> You can also see that because I did not reassign the changes, then I can 
+test the way to do things without modifying my data. 
+When I am sure that what I do is correct, then I can reassign the changes to the
+original object.
+
+> If I do a mistake, well, this is still not a catastrophe, I rerun the whole
+code until were I made the mistake, and can correct this mistake.
+
+---
+
+Now I want to transform many columns to factor. Because I want to create a 
+summary of the table, which will be easy to look at and count the number of
+observations in each category. 
+
+I can select also by column number, this allows to select slices of columns
+
+```{r}
+colnames(human_data_selection)
+
+human_data_selection %>%
+  mutate_at(vars(3, 5:18), factor,  exclude = NULL)  %>%
+  glimpse()
+  
+```
+
+
+---
+
+And I want to transform the age to integer (that will be useful for display
+in categories)
+
+```{r}
+human_data_selection %>%
+  mutate("Age__yrs" = as.integer(Age__yrs)) %>%
+  glimpse()
+```
+
+---
+
+Now we put together all the steps and modify the table. 
+```{r}
+human_data_selection <- 
+  human_data_selection %>%
+  mutate_at(vars(INIKA_OH_TZ_ID), as.character) %>%
+  mutate("Age__yrs" = as.integer(Age__yrs)) %>%
+  mutate_at(vars(3, 5:18), factor,  exclude = NULL) 
+
+glimpse(human_data_selection)
+```
+
+### Summary of the data : a fast overview of the data contained in the dataset
+
+Now we can have an overview of the data content.
+We will count the number of values taken by factor and have some summary statistics
+for the numerical values. 
+
+```{r}
+summary(human_data_selection)
+```
+
+Its useful but not very nice. It can be done with dplyr ... but is not as complete.
+I had written a function that we can use to have a formatted summary. 
+We can use external function by sourcing the file.
+
+#### Bonus - formatting the summary table and export in a file (we do not do during the course)
+
+This is a little quirk to make the results more readable to make it visible, 
+were we transform the summary into a fake table (emtpy lines are added)
+
+Try to load those packages, if it does not work, you need to install them, because
+the function relies on those packages
+
+```{r}
+# this is the path of the file 
+here::here("src", "format_summary_statistics_fun.R")
+# this allows to load the function contained into the file in the memory
+source(here::here("src", "format_summary_statistics_fun.R"))
+```
+
+We see in the environment panel that the `format_summary_statistics` function is now available.
+
+We can look at the code of the function like that
+```{r}
+format_summary_statistics_fun
+```
+
+You can also open the file, to look at it. This is a bit to advanced for now. 
+There is some explanation included in the file on how to use it. 
+
+```{r}
+format_summary_statistics_fun(human_data_selection) %>% View()
+```
+
+It is a bit more readable, if you had a `results` directory then it should be
+saved there as a tsv (tabulation separated values) file.
+
+### Filtering out unwanted values. 
+
+Oops, we see that we have registered rows that should not be there. 
+We will filter out those data from the data set. 
+
+Another way to confirm is to look at the range of values
+```{r}
+human_data_selection %>%
+  select(Age__yrs) %>%
+  range(na.rm = TRUE)
+```
+
+how many of those data we need to remove ? 
+- by transforming the data type to factor, I can have a contingency table of the 
+different values of the variable (here - age). 
+```{r}
+factor((human_data_selection$Age__yrs), exclude = NULL) %>%
+  table()
+```
+
+We see that `r 15 + 72` rows should be removed from the data set. 
+<!-- inline computation can be used, when you rerun the data, this will be 
+automatically updated in your text --> 
+
+We remove the data that we do not want by applying a filter, to only select
+rows from which values in a certain column contains values we want. 
+```{r}
+test <- 
+  human_data_selection %>%
+  filter(Age__yrs >= 12) 
+  
+nrow(human_data_selection)
+nrow(test)
+```
+
+Inline_code: 
+We filtered out `r nrow(human_data_selection) - nrow(test)` rows.
+
+
+Oops ... We filtered one too much. We removed the row where the value was missing.
+The choice of removing this value definitively depends on the context. 
+Can the value be recovered from (eg. field notes ?) and then corrected HERE !. 
+Will it influence our analyses or not ? 
+Can it be estimated from other values ?
+
+<!-- Madelaine needs to comment --> 
+
+For now we will keep the NA value ( we are learning)
+```{r}
+test <- 
+  human_data_selection %>%
+  filter(Age__yrs >= 12 | is.na(Age__yrs)) 
+
+nrow(human_data_selection) - nrow(test)  
+
+table(factor((test$Age__yrs), exclude = NULL))
+```
+
+This now correct. We can apply this filter to the data frame. 
+
+```{r}
+human_data_selection <- 
+  human_data_selection %>%
+  filter(Age__yrs >= 12 | is.na(Age__yrs)) 
+```
+
+We can look again at the data content: 
+
+```{r}
+summary(human_data_selection)
+```
+
+
+> Note : you always need to check that you are doing the right thing.
+You can also write small dataset tests to be sure that you do the correct thing.
+When you have written code, it easy to rerun it when we have found our mistakes 
+and corrected them. It is not possible to detect mistakes and correct them when
+we correct values on a spreadsheet directly. This is why the raw data should NOT
+be modified directly. 
+
+
+### Selecting rows with missing data to see if we can recover them from field notes
+
+```{r}
+human_data_selection %>%
+  filter(is.na(Age__yrs)) %>%
+  # this allows to ensure that we see all the columns in the console 
+  print(width=Inf)
+```
+
+hum, all the data of this ID appears to be missing.
+We can remove this raw from the data set 
+
+#### Exercise : remove the row from the dataset 
+
+Remove the row containing missing value in Age from the data set.
+
+Hint: this means that you need to keep everything that is Not missing (put ! in 
+front of is.na command).
+
+Do not forget to do a test, and control that is does what you want. 
+
+
+```{r , class.source = "fold-hide"}
+# this should work  to only keep those with NA
+test <- 
+  human_data_selection %>%
+  filter(!is.na(Age__yrs))
+
+test
+```
+
+
+```{r , class.source = "fold-hide"}
+# control  - I check if I find those with NA again 
+test %>%
+  filter(is.na(Age__yrs)) %>%
+  # this allows to ensure that we see all the columns in the console 
+  print(width=Inf)
+
+# OR a trick 
+is.na(test$Age__yrs)
+sum(is.na(test$Age__yrs))
+```
+
+
+```{r , class.source = "fold-hide"}
+# TRUE has a value of 1, FALSE has a value of 0
+# example 
+sum(c(TRUE, FALSE, TRUE))
+```
+
+NB:  `c()` function is a way to write vectors (one dimensional arrays). 
+
+### Selecting rows that contains missing data in any column
+
+If we have few missing data, we can go faster in our check by selecting rows
+that contains missing data in any column. 
+
+
+```{r}
+View(human_data_selection) 
+# I see some other columns with NA (show how to do) - eg who is your caretaker
+
+
+human_data_selection %>%
+  filter(if_any(everything(), is.na))
+
+```
+
+Euhh ... this does not work as intended ... why ? 
+
+This is because I have transformed the data type of the columns to factor, 
+and NA values are considered as a level. 
+
+When we look at factors, we see characters labels. Actually factors are encoded
+in R as integers. Lets try to understand this. 
+
+> Here is a little test to understand how factor works.
+
+```{r eval=FALSE}
+# I create a vector character with some values
+test_vector <- c("1", "3", "C", NA)
+test_factor <- factor(test_vector, exclude = NULL)
+
+test_factor
+as.integer(test_factor) # its a factor - it can be coerced to a number
+attributes(test_factor)
+
+as.integer(test_vector) # its character - "C" letter cannot be coerced ("1" can be)
+attributes(test_vector)
+
+# another example 
+test <- factor(2:4)
+test
+
+as.integer(test) # the levels starts at 1 ... the levels are filed in order they are populated
+
+# test 
+which(levels(test_factor) == "C")
+which(levels(test_factor) == NA) # this is not the correct way to test, NA is particular
+
+is.na(levels(test_factor))
+which(is.na(levels(test_factor)))
+```
+
+Ok, so we need to change the data type of the columns again, to be able to 
+see which factors contains NA. 
+
+> Note: You see why its important to have critical sense. A single error at a
+line can induce error to your dataset. Therefore you need to check that 
+the code you write does what you want.
+
+To change the data types of factors, we need to revert first to characters, then
+we can re-change to factor and this time NA will not be included in the levels. 
+
+```{r}
+# changing the data types (a reminder)
+# mutate if does a test - if the test is True then the type change is applied
+test <- 
+  human_data_selection %>%
+  mutate_if(is.factor, as.character) %>%
+  mutate_if(is.character, as.factor) 
+
+glimpse(test)
+
+levels(test$Who_is_your_caretaker)  # NA are not in levels 
+unique(test$Who_is_your_caretaker)  # but the are listed in unique as missing values
+
+# good this worked - so we can make the changes to the data frame
+human_data_selection <- test
+```
+
+Now we can test again if we have missing values in any column. 
+
+```{r}
+human_data_selection %>%
+  filter(if_any(everything(), is.na)) 
+```
+
+```{r}
+human_data_selection %>%
+  filter(if_any(everything(), is.na)) %>%
+  dim()
+```
+
+We have missing many values in the data set, in 402 rows over 20 columns.
+Lets have another look at the summary, is this distributed over all columns
+or are there some columns where its expected to have many NAs ? 
+```{r}
+summary(human_data_selection %>% select(-INIKA_OH_TZ_ID))
+```
+
+<!-- 
+[1] "Which_class_grade_are_you"                                                                  "Who_is_your_caretaker"                                                                     
+[3] "If_others__mention"                                                                         "If_yes__how_did_you_get_this_information"                                                  
+[5] "If_yes__where_did_you_get_these_drugs_from"                                                 "If_it_was_drug_sellers_or_pharmacy__did_you_have_a_prescription_from_the_doctor_prescriber"
+--> 
+
+
+"If_others__mention", "If_yes__how_did_you_get_this_information", 
+"If_yes__where_did_you_get_these_drugs_from",  
+"If_it_was_drug_sellers_or_pharmacy__did_you_have_a_prescription_from_the_doctor_prescriber"
+
+Are columns we can expect many NAs due to the question was asked, 
+because it was a continuation of a particular case. 
+
+However, we need to inspect closer the columns
+"Which_class_grade_are_you", and "Who_is_your_caretaker"  
+
+
+#### Exercise : Counting the number of NAs in each column  (we do not do)
+... and using it to find column with many NAs
+
+We can have a different approach to find which columns containing many NAs,
+eg by counting the number of NAs in each column. 
+
+```{r , class.source = "fold-hide"}
+# filter columns that contain more than 10 NAs
+temp <- human_data_selection %>%
+  mutate(across(everything(), is.na)) %>% # this will transform the data frame to TRUE/FALSE (TRUE it its na)
+  summarise_all(sum) # because TRUE is 1, FALSE is 0, we can sum to count the number of NAs
+
+temp # where we see howm many Nas we have
+
+human_data_selection %>%
+  mutate(across(everything(), is.na)) %>%
+  summarise_all(sum) %>%
+  select(where(~sum(.) > 10)) %>% # now we select the columns where the sum is above 10
+  colnames() # and we get the column names where there are mores than 10 NAs
+
+# trick comment %>% and execute before to see what it does
+```
+
+now we have obtained the list of columns with NA that I had put in the comments
+(hidden in html) above. 
+
+### Checking that IDs are unique - Distinct values usage
+
+We need to ensure that IDs are unique. If not, there is probably 
+a problem with the data. The data might have been registered incompletely or 
+several times. We need also to check that if we have duplicated IDs that
+the information, if incompletely registered is not incompatible. This can allow
+to identify errors in data registration. 
+
+> NB: Such errors are not uncommon
+
+We need first to remove eventual duplicated rows, where the ID and all values in 
+all columns are identical. 
+If some columns are empty, this means there can 
+have been some problems during the registering of the data (eg. sent several
+times and accepted by the database).
+
+- Distinct allows to filter out rows that are totally identical (it means identical 
+in all columns)
+```{r}
+dim(human_data_selection)
+
+human_data_selection_dedup <- 
+  human_data_selection %>%
+  distinct() 
+
+dim(human_data_selection_dedup)
+```
+
+`r dim(human_data_selection)[1] - dim(human_data_selection_dedup)[1]` **rows of totally identical rows were removed**
+
+Now we need to consider rows where the ID is duplicated, but the rest of 
+the data is not identical. 
+Again this can be an error in data having being first partially registred, followed
+by a better registering, or human error (eg. using the same ID)
+
+
+```{r}
+glimpse(human_data_selection_dedup)
+```
+
+Here there is something I did not recheck. 
+I will need to use the ID to filter rows that are problematic and inspect them further.
+But It is not practical doing that when the IDs are of type factor (this complicate making
+the correspondence between actual ID and factor value). So I prefer to re-convert 
+the ID to character. 
+
+> Note: I should have thought better when I originally converted the types. 
+The best way to do things fastg, is not always evident at first. This is normal.
+
+We will obtain duplicated rows that are not totally identical. 
+Grouping by the ID, we can count the number of rows per ID. 
+
+<u>NOTE IMPORTANT</u>
+> ! FOR NOW ON - human_data_selection_dedup  will be the version of the data we
+will be working on (this allows us not to have to run everything again if we make a
+mistake. Then we can only run again since the creation of human_data_selection_dedup)
+
+```{r}
+# changing the type of the ID to character
+human_data_selection_dedup <- 
+  human_data_selection_dedup %>%
+  mutate_at(vars(INIKA_OH_TZ_ID), as.character) %>%
+  # order - trick to use the ID as a number
+  arrange(as.integer(INIKA_OH_TZ_ID))
+
+# removing eventual duplicated rows 
+duplicated_data <- 
+  human_data_selection_dedup %>%
+  # grouping data that have same ids 
+  group_by(INIKA_OH_TZ_ID) %>%
+  # This add a column of count  - the count counts BY GROUP
+  mutate(count = n(), .after = "INIKA_OH_TZ_ID") %>%
+  # This filter out the rows that are not unique
+  filter(count > 1) 
+  
+duplicated_data  %>% View()
+```
+
+#### Exercise: Understanding group_by
+
+We prepare the common part for the test. As done abouve, but before the group by.
+```{r , class.source = "fold-hide"}
+test <- 
+  human_data_selection_dedup %>%
+  mutate_at(vars(INIKA_OH_TZ_ID), as.character) %>%
+  arrange(as.integer(INIKA_OH_TZ_ID)) 
+```
+
+Group by gender 
+```{r , class.source = "fold-hide"}
+test %>%
+  ungroup() %>%
+  group_by(Gender) %>%
+  # This add a column of count 
+  mutate(count = n(), .after = "INIKA_OH_TZ_ID") 
+```
+
+The count is now actually identical to the number of males and females. 
+Because we added the column count as we did, this count appears in each column.
+
+One way (functional but not the best) to create a contingency table : 
+
+```{r}
+test %>%
+  ungroup() %>%
+  group_by(Gender) %>%
+  # This add a column of count 
+  mutate(count = n(), .after = "INIKA_OH_TZ_ID") %>%
+  select(Gender, count) %>% 
+  distinct()
+```
+
+This gives use the number of females and males. 
+
+
+This technique of grouping can become powerful, when you want to create contingency
+tables where you count interactions between groups.
+
+```{r}
+human_data_selection_dedup %>% 
+  select(Sample, Season, District) %>%
+  arrange(Sample, Season, District) %>%
+  group_by(Sample, Season, District) %>%
+  mutate(count = n()) %>%
+  distinct()
+```
+
+> Here is normal that we have one with NA NA NA, because we did not finish the data cleaning.
+
+
+#### Finding which unique ID are duplicated 
+
+... and which some rows are different beween duplicates 
+
+we can get a list of unique identifier in those that are duplicated, then we can check one my one
+
+```{r}
+unique(duplicated_data$INIKA_OH_TZ_ID)
+```
+
+<!--
+211  2374 23143
+-->
+
+we filter out the incomplete data - to do this, we need to identify which column
+a way to identify it (example ID and what is missing in the most incomplete and not on the other)
+```{r}
+duplicated_data %>% 
+  filter(INIKA_OH_TZ_ID == "211") %>% 
+print(width = Inf)
+```
+
+> Note here I use "211" because ID is a type character. If it was a number I would have used 211 without the quotes. Errors can happen if you use a number instead of character or vice/versa.
+
+Who_is_your_caretaker is NA in the row we want to suppress (less complete). 
+There is no incompatibility between rows for this sample ID. 
+
+We first check that our code is working on the duplicated_data 
+then when we are sure its ok, we can do that on the human_data_selection_dedup
+
+- We select the row that is not complete
+
+```{r}
+duplicated_data %>% 
+  filter(INIKA_OH_TZ_ID == "211" & is.na(Who_is_your_caretaker)) %>% 
+  print(width = Inf) # you can change for view if its more convenient
+```
+
+- To filter out, we need to use the OPPOSITE of the condition we used to select the row.
+This is where we use `!` in front of the WHOLE condition of selection; the position 
+of brackets are important. 
+
+```{r}
+human_data_selection_dedup <- 
+  human_data_selection_dedup %>%
+  filter(! (INIKA_OH_TZ_ID == "211" & is.na(Who_is_your_caretaker)) )
+
+# Control that its the correct value is there and that there are no duplicates
+human_data_selection_dedup %>% filter(INIKA_OH_TZ_ID == 211)
+```
+
+> Note : if you do errors, you will have to rerun everything up to this
+point ! 
+
+
+Now we can repeat those steps for the other duplicated data
+```{r}
+duplicated_data %>% 
+  filter(INIKA_OH_TZ_ID == "2374") %>% 
+  print(width = Inf)
+```
+
+Here, we see we have a problem. The two raws of data are incompatible. 
+If we can find out what data is correct, then we need to rectify the data.
+This is done by script - so we know it has been done (changes in the raw data
+are not desirable). 
+
+**Assuming that The record with the Female is correct we can remove the row with 
+the Male.** 
+
+- First I make sure I select the correct row 
+```{r}
+# Selecting the column that we want to remove
+duplicated_data %>% 
+  filter(INIKA_OH_TZ_ID == "2374" & Gender == "Male") %>% 
+  print(width = Inf)
+```
+
+- Then I remove the row from the data by choosing the OPPOSITE
+```{r}
+# Removing the column - we filter by the negation of the column we want to remove
+human_data_selection_dedup <- 
+  human_data_selection_dedup %>%
+  filter(! (INIKA_OH_TZ_ID == "2374" & Gender == "Male")) 
+
+# Verification that the other data has been removed 
+human_data_selection_dedup %>%
+  filter(INIKA_OH_TZ_ID == "2374") 
+
+```
+
+> you can see that verifying your data with code, allows you to track what you have done.
+It allows you also to document your choices, of what this was removed, and if you did 
+a mistake you can fix it and rerun the code. The raw data is not distroyed, so you can
+rerun the code until you are satisfied you have found out all the data where quality 
+was not good.  
+
+#### Exercise (we do not do during the course)
+
+
+Then we need to continue the list of IDs where we detected data that was
+potentially incorrect (here we still have one: ID 23143)
+
+```{r , class.source = "fold-hide"}
+duplicated_data %>% 
+  filter(INIKA_OH_TZ_ID == "23143") %>% 
+  print(width = Inf)
+```
+Remove the raw that is false (if you do not know, assume which one is false
+for the sake of the exercise)
+
+- select the raw with the wrong data
+```{r , class.source = "fold-hide"}
+duplicated_data %>% 
+  filter(INIKA_OH_TZ_ID == "23143" & Have_you_ever_heard_about_AMR == "No") %>% 
+  print(width = Inf)
+```
+- Select the opposite to and remove the raw with the wrong data from the data set 
+
+```{r , class.source = "fold-hide"}
+human_data_selection_dedup <- 
+  human_data_selection_dedup %>%
+  filter(! (INIKA_OH_TZ_ID == "23143" & Have_you_ever_heard_about_AMR == "No"))
+```
+
+- Verification we still have the correct data 
+```{r , class.source = "fold-hide"}
+human_data_selection_dedup %>%
+  filter(INIKA_OH_TZ_ID == "23143")
+```
+
+----
+
+### A Closer inspection of missing values - Finding out to with Identifier it corresponds.
+
+- here we only select eg. some columns that we know we can verify
+```{r}
+colnames(human_data_selection_dedup)
+
+subset_NA <- 
+  human_data_selection_dedup %>%
+  select(c(INIKA_OH_TZ_ID,Which_class_grade_are_you, Who_is_your_caretaker)) %>% # we made a subset of the dataframe 
+  filter(if_any(everything(), is.na))  # everything means all the columns in the data frame
+
+subset_NA
+```
+
+We have created a subset of data where columns have missing values. 
+
+We can save this subset into a spreasheet so you can. eg. print this data frame
+if you need to go back to some notes (eg. lab notes on paper) to verify those 
+values. 
+
+```{r}
+write_csv(subset_NA, here::here("results", "subset_NA.csv"))
+```
+
+
+Should you replace few missing values, eg. if you had forgotten to register 
+and if it was on a paper note, you can do that by selecting the cell where the 
+value should be and then assigning it. 
+
+In our example we use the subset_NA to show that, but if you had to change the
+values they should go into the human_data_selection, which is the cleaned data
+that will be used later on for analysis. 
+
+1. Finding the cell we want to change eg: ID 231  and the grade. 
+Here we do an example on the subset, we do not change the data. 
+
+We show you how it can be done IF you can recover the missing data from your notes. 
+
+- you can use mutate and if_else : condition, value condition true, value condition false
+```{r}
+subset_NA %>% 
+  mutate(Which_class_grade_are_you = 
+           if_else(INIKA_OH_TZ_ID == "231", "Grade 10", Which_class_grade_are_you)) %>% 
+  print(width = Inf)
+```
+
+- A variant of if_else when you must replace several values
+
+```{r}
+subset_NA %>% 
+  mutate(Which_class_grade_are_you = 
+           case_when(
+             INIKA_OH_TZ_ID == "231" ~ "Grade 10",
+             INIKA_OH_TZ_ID == "233" ~ "Grade 10",
+             TRUE ~ Which_class_grade_are_you
+           )) %>% 
+  print(width = Inf)
+```
+
+- when true it does that for the line. 
+- the true at the end, is everything that was not true before. 
+
+Be careful if you use that, the order might matter if you use it in a 
+complicated way! 
+
+
+### Other summary statistics ...
+
+Example you want to know how many children of 
+different ages you have in your data set
+
+
+
+```{r}
+glimpse(human_data_selection_dedup)
+```
+
+Here is the fast to count how many children of different ages you have in your data set
+```{r}
+human_data_selection_dedup %>% 
+  group_by(Age__yrs) %>%
+  summarise(n = n())
+```
+
+This is the long way to do the same thing ... we had done like that before. 
+```{r}
+human_data_selection_dedup %>% 
+  group_by(Age__yrs) %>%
+  mutate(count = n()) %>%
+  select(Age := Age__yrs, count) %>% # := allows to change the name of the variable while using it (practical !) 
+  arrange(Age) %>%
+  distinct() 
+
+```
+
+
+You can also optain summary statistics
+eg. the mean age of the children, the quantiles of the age distribution in the data,
+as well as the min and max. 
+
+```{r}
+human_data_selection_dedup %>% 
+  summarise(mean_age = mean(Age__yrs, na.rm = TRUE),
+            median_age = median(Age__yrs, na.rm = TRUE),
+            quantile_25 = quantile(Age__yrs, probs = 0.25, na.rm = TRUE),
+            quantile_75 = quantile(Age__yrs, probs = 0.75, na.rm = TRUE),
+            min_age = min(Age__yrs, na.rm = TRUE),
+            max_age = max(Age__yrs, na.rm = TRUE))
+```
+
+Remember in the beginning we used the summary function ? this can also be obtained like that.
+There are advantages and inconvenient in both methods. 
+With sum arise, I can define exactly what I want to see, and how it should be calculated. 
+Moreover this produce a data frame that I can export
+
+
+```{r}
+human_data_selection_dedup %>% 
+  select(Age__yrs) %>%
+  summary()
+```
+
+
+Summarize is very powerful to calculate simple contingency tables for groups. 
+```{r}
+human_data_selection_dedup %>% 
+  group_by(Gender) %>%
+  summarise(mean_age = mean(Age__yrs, na.rm = TRUE),
+            median_age = median(Age__yrs, na.rm = TRUE),
+            quantile_25 = quantile(Age__yrs, probs = 0.25, na.rm = TRUE),
+            quantile_75 = quantile(Age__yrs, probs = 0.75, na.rm = TRUE),
+            min_age = min(Age__yrs, na.rm = TRUE),
+            max_age = max(Age__yrs, na.rm = TRUE),
+            .by_group = TRUE)
+```
+
+Another example : 
+
+```{r}
+human_data_selection_dedup %>% 
+  group_by(Have_you_ever_heard_about_AMR, If_yes__how_did_you_get_this_information) %>%
+  summarise(n = n())
+
+```
+
+This is a way to control if the data is consistent. If people would have both
+answered that they have not heard about AMR but if they had given a precision on 
+where, then it might indicate error in data recording, or that people maybe did 
+not answer properly to the questionnaire. 
+
+Some questionnaires have redundant
+and control questions, only formulated in a different ways, to check for the
+consistency of the data. 
+
+Ensuring the data quality, means that you have to think of all the things
+that could have gone wrong, and to check for them. The more you know your data
+the easier it gets to think about what could have gone wrong. 
+
+
+# ! Madelaine check (to be sure its stil there)
+%### Exercice : I discovered more data to recheck 
+
+Hum, it seems to me that we might still have one line with many missing values in the dataset
+Find a way to select the line with a lot of NAs (you can do many steps, as long at you manage at the end)
+
+
+```{r eval=FALSE}
+human_data_selection_dedup %>%
+  filter(is.na(Gender) & is.na(Age__yrs))
+```
+
+
+### Basic plotting to check your data 
+
+We can also explore our data visuellement. 
+
+Some basic plots can be used eg. to check consistencies between answers, 
+or can serve as contingency tables 
+
+
+
+```{r}
+glimpse(human_data_selection_dedup)
+human_data_selection_dedup %>% 
+           ggplot(aes(x = Age__yrs, fill = Gender)) +
+           geom_bar(stat = "count", position = "stack") +
+           theme_minimal()  
+```
+
+
+In the plot above, we used factors. 
+Sometimes using factors can be tricky, if some statistics are done on the values.
+So be careful. 
+
+I prefer to transform factors into characters, to avoid any confusion.
+```{r}
+df_plot2 <- 
+  human_data_selection_dedup %>% 
+  mutate_if(is.factor , as.character) %>%
+  filter(!is.na(Gender))
+```
+We can remove the NAs  for nwo
+
+- small differences of options can make your plot look totally differently
+
+```{r}
+ggplot(df_plot2,aes(x = Age__yrs, fill = Gender)) +
+           geom_bar(stat = "count", position = "stack") +
+           theme_minimal() 
+```
+See NAs are gone. 
+You need to think if they are worth adding or not. What do they mean in your data ? 
+
+Small changes can make your plot look very different.
+
+```{r}
+ggplot(df_plot2,aes(x = Age__yrs, fill = Gender)) +
+           geom_bar(stat = "count", position = "stack") +
+           theme_minimal() +
+  facet_wrap(~Gender) +
+  labs(title = "Number of interogated participant by age and Gender", 
+       x = "Age (years)",
+       y = "Number of participants") 
+```
+
+Here we show anotherway you can remove NAs in the factors
+
+```{r}
+other_nonNA <- 
+  human_data_selection_dedup %>% 
+  filter(!is.na(Gender)) %>%
+  mutate_if(is.factor, ~droplevels(.))
+
+plot1 <- ggplot(other_nonNA,
+       aes(x = Age__yrs, fill = Gender)) +
+  geom_boxplot(na.rm = TRUE) +
+  theme_minimal() +
+  facet_wrap(~Gender) +
+  labs(title = "Distribution of the age of participants by Gender", 
+       x = "Age (years)",
+       y = "Gender") 
+plot1
+```
+
+We see that we have few values that are outlines. Here, its probably due¨
+to the fact that most of the data was collected at schools. 
+
+We can check if this corresponds to our previous contingency table. 
+However the outliers make it difficult to see the mean and median values on the graph
+
+By removing the outliers in the display, it is easier to compare the central values of the distributioin,
+```{r}
+plot_notouliers <- 
+  ggplot(other_nonNA,
+       aes(x = Age__yrs, fill = Gender)) +
+  geom_boxplot(na.rm = TRUE, outliers = FALSE) +
+  theme_minimal() +
+  facet_wrap(~Gender) +
+  labs(title = "Distribution of the age of participants by Gender", 
+       x = "Age (years)",
+       y = "Gender") 
+
+plot_notouliers
+```
+Eg median age vale was : for females was 13 and 14 for males
+
+- You see that we changed the type of the plot by changing the geom
+- plots are done by adding different layers
+- as usual always have critical sense. 
+- you can store plots as objects and view them by recalling the object
+- storing plot as objects allows exploring their content (this allows you to see if the data was used correctly)
+
+Finding the data used in a plot
+```{r}
+glimpse(plot_notouliers)
+```
+
+Each layer in the plot (basically all the things you can modify) can be inspected
+using `$`. Plots are fast to make, because there are a lot of defaults that are implicit.
+It is then fast, but sometimes it makes it difficult to know if you made your plot correctly. 
+
+```{r}
+plot_notouliers$data
+
+colnames(plot_notouliers$data)
+```
+
+
+You can also compare plots or making com posit plots using the library aplot. 
+
+
+```{r}
+library(aplot)
+plot1 / plot_notouliers 
+```
+
+##  Exporting our data (R format)
+
+### Rds format 
+- We have seen previously that we can export a table to a csv file. 
+
+We can also export the content of a R Object to a file, this to be able to re-import it 
+later on and eg. continue working on that, without having the hassle of checking
+that all the data types are read as we want. 
+
+
+```{r}
+saveRDS(human_data_selection_dedup, 
+        here::here("results", "human_data_selection_dedup.rds"))
+```
+
+This is the command to allow to re-import the file later on to an object
+```{r}
+my_table <- readRDS(here::here("results", "human_data_selection_dedup.rds")) 
+tail(my_table) # shows the last rows of the table
+```
+
+### Exercice : Exporting and importing data to and from a csv file
+
+- you can try to find back how to read, export the same data to a csv file.
+
+- hint  : `?write.csv` and `?read.csv`
+
+
+# Some usefull tricks and notes
+
+A computer does not like typos. The commands have to be typed correctly. 
+Letter cases, spaces and symbols matter. Most errors of beginners are due to typos.
+It takes a certain time to be able to see them (weird but true). Some hidden characters
+(eg. end of lines, in windows car sometimes be problematic and cause errors)
+
+- `Tab` is your fried to avoid a lot of writing, it helps you auto-complete and go faster and without spelling errors 
+- `Escape` when you had done typing error and that the console starts with a + (to abort your typing)
+- `Ctrl + L` to clear the console
+- `Ctrl + Enter` to run the current line
+
+- `Ctrl + Alt + I ` to insert a new code chunk (might be different for you - write the shortcut here ! )
+- `F1` to get the help on a function, of `?function`.
+- `Arrows up and down` to recall or go down your history of commands in the console
+- `Ctrl + S` to save the file containing your code (! differ to git hub "commit as save your version" )
+
+
+
+- Do not forget about the possibility to visualize the data frame in another window,
+  so you can look at it and write code at the same time.
+- When experimenting with code: commenting assignment and commenting/un-commenting 
+  pipes one step at the time allow you to check that what you are doing is as it should and pipes ca
+
+---
+
+A package that I find practical to use (but you can also search on
+the internet instead) when I do not know what functions a package
+contains is the package pacman. It allows you to look at which functions
+are contained in a package.
+
+```{r}
+library(pacman)
+p_functions(dplyr)
+```
+
+You can also use the embedded help function in Rstudio for that:
+
+```text
+?dplyr # gives you info on where to find info
+dplyr:: # and use the arrows to explore the different functions contained in the package
+```
+
+---
+
+There are several exercises you can do here on your own. 
+Try to understand what it does and use the help. 
+I let those exercises because you should be able to modify them to use with other variables
+which can help you start (and avoid searching a lot on the internet). 
+
+> I had actually to google to find out how to do things. And even if I have some experience
+with using R, I still control that the code is doing what it is supposed to do. Error
+is human ! 
+
+
+# When you are ready to go further:
+
+You can use those lessons to repeat what you have learned (but in
+another way) and go further in your learning
+
+-   [R for Reproducible Scientific
+    Analysis](https://swcarpentry.github.io/r-novice-gapminder/)
+
+-   [Programming with
+    R](https://swcarpentry.github.io/r-novice-inflammation/)
+
+The [CRAN](https://cran.r-project.org/) website you can find the reference manuals
+for R programming language. If you really want to understand the basics of the language
+you need to start reading the "introduction to R" manual. 
+
+
+
+
+## Other ressources that I either used or look at and found if could be useful for you one day ... 
+...  and for me to remind where I found this information
+
+- [Rblogger examples](https://www.r-bloggers.com/2022/09/r-markdown-lesser-known-tips-tricks-4-looks-better-works-better/)
+- [Folds in Rmarkdown](https://bookdown.org/yihui/rmarkdown-cookbook/fold-show.html)
+- [Styling](https://rpubs.com/cohensh/833550)
+- [Whitespaces html &ensp;](https://stackoverflow.com/questions/44810511/how-to-add-empty-spaces-into-md-markdown-readme-on-github)
+- [alternative html tables: pandr](https://cran.r-project.org/web/packages/pander/vignettes/knitr.html)
+- [executable environments](https://mybinder.org/)
+- [reproducible research](intro https://datacarpentry.org/rr-intro/aio.html)
+- [Humor code content](https://miro.medium.com/v2/resize:fit:1400/0*_lbfkH2RdWvQyLSQ.png)
+
+Back to [Index](../index.html)

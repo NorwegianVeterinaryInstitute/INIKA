@@ -1,0 +1,173 @@
+---
+title: "`r params$title`"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+author: Eve Zeyl Fiskebeck and Madelaine Norström
+params:
+  title: "Before we meet: Installation & readings" 
+  project_path: "`r here::here()`"
+output: 
+  
+  rmdformats::readthedown:
+      css: ../styles/style.css
+      self_contained: true
+      code_download: true
+      toc_depth: 4
+      df_print: paged
+      code_folding: hide
+      author: params$author
+      highlight: espresso
+      
+
+  
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Installation & readings
+
+Rstudio is an IDE (Integrated Development Environment) that makes it
+easier to write and execute R code.
+
+R is a programming language that is used for a lot for data analysis and
+statistics. We will introduce you to it's usage. Time is short, please :
+
+-   [ ]  Install R studio - Non commercial = Rstudio Desktop (free
+    edition). Visit [posit
+    webpage](https://posit.co/download/rstudio-desktop/) for
+    installation.
+
+-   [ ]  Get familiar with some basic vocabulary : Rstudio interface
+    (below). Names of the windows are in red.
+
+<img src="https://docs.posit.co/ide/user/ide/guide/ui/images/rstudio-panes-labeled.jpeg" alt="panes" class=".img1"/>
+
+Note: Should you want to know more, the guided tour for
+[Rstudio](https://docs.posit.co/ide/user/) is available.
+
+-   [ ]  Have a look at the following video: [Rmarkdown: what it is and
+    it's potential
+    usages](https://rmarkdown.rstudio.com/authoring_quick_tour.html) We
+    will use Rmarkdown to run code during the course. This will also
+    allow you to take notes at the same time.
+    
+-   [ ]  Install the following packages/metapackage in R, by typing exactly the 
+command below in Rstudio **console** and then pressing `enter`. We will explain later
+during the course (we will install other packages). This will require some time.
+
+
+```{r show code - do not run, echo=TRUE,  eval = FALSE, class.source = "fold-show"}
+install.packages("tidyverse", dependencies = TRUE)
+```
+
+
+    
+- [ ]   If you are uncertain of what are the best practices for registering and organizing 
+your data please read this tutorial, particularly the section of 
+[spreadsheet best practices](https://ucdavisdatalab.github.io/workshop_keeping_data_tidy/#content).
+NB: Tools like KoboToolbox and WHONET are usually useful to help following those principles
+when registering data, but understanding more about the reasoning behind those requirements
+is important.  
+
+- [ ]  Please install [git](https://git-scm.com/downloads/win) version control 
+utility on your PC and read [this](https://swcarpentry.github.io/git-novice/01-basics.html) 
+to understand why version control is a fantastic tool.
+
+- [ ]  Please create a [github account](https://github.com/) if you do not have 
+one. You can eg. follow 
+[this tutorial](https://swcarpentry.github.io/git-novice/#creating-a-github-account)
+
+
+_This can be more challenging, if you have enough time to try:_ 
+
+You will need to create a ssh key (The starts is the most difficult! last step, 
+but it is worth it !)
+
+- [ ]   Please try to create a ssh-key, following
+[this tutorial](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account)
+
+
+- [ ]   Please try to connect your github account to your Rstudio, 
+you can have a look to [this tutorial](https://happygitwithr.com/rstudio-git-github) 
+can be helpful.
+
+**<mark><b>PLEASE LET ME KNOW IF YOU DID NOT MANAGE THIS BEFORE WE MEET.</b></mark>
+We can eg. have a look during an online meeting.**
+
+
+# Why we need to do this ? It's about Rproducible science and Open data science
+This part will be discussed in the course. 
+
+The way we will work will help us to do reproducible research. It will 
+help you (and us) to organize the data analysis work, and document what you 
+have done, including the reasons behind your choices.
+
+Three months from now YOU might not remember the reasoning and all the 
+steps you have done in your analyses. Documenting what you are doing at the 
+same time you are doing it, is a very good practice. 
+
+This will save you time and struggles. What you have done will be essential information
+for publication and manuscript revision. 
+
+<!-- lab journal to data journal-->
+
+Moreover, working this way, will allow you to start setting up your analyses 
+BEFORE all the data are collected. You will be able to re-run all your code
+using updated data. This is helping you being pro-active. 
+
+What are the <u>requirements of reproducible research ?</u> 
+The following article mention  
+[10 Rules of reproducible research](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1003285)
+
+> 1. For Every Result, Keep Track of How It Was Produced
+> 2. Avoid Manual Data Manipulation Steps
+> 3. Archive the Exact Versions of All External Programs Used
+> 4. Version Control: Use it for all Customized Scripts
+> 5. Record All Intermediate Results, When Possible in Standardized Formats
+> 6. For Analyses That Include Randomness, Note Underlying Random Seeds
+> 7. Always Store Raw Data behind Plots
+> 8. Generate Hierarchical Analysis Output, Allowing Layers of Increasing Detail to Be Inspected
+> 9. Connect Textual Statements to Underlying Results
+> 10. Provide Public Access to Scripts, Runs, and Results
+
+We will see that using R and Rstudio can help you to relatively easy follow all 
+steps but 4 and 10. The latest, which require using a version control system 
+like Git, and eventually an associated online platform like github that allows 
+to store your code on the web. Github in turn can be used during the 
+publication and can facilitate the creation of DOI via integration with Zenodo. 
+This then allows people to cite your data analysis work and code!
+
+<mark><u>WARNING:</u>
+NEVER PUT YOUR DATA ON GITHUB, only the code to process the data 
+</mark>
+
+
+# Additional ressources you can eventually read
+
+
+- [Tutorial: Open Data Science with R](https://carpentries-incubator.github.io/open-science-with-r/)
+- [Article: 10 Rules of reproducible research](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1003285)
+- [Tutorial: Introduction to Rmarkdown and reproducible research](https://m-clark.github.io/Introduction-to-Rmarkdown/)
+
+
+We might not have time to go into details with git and github, but we will try to
+
+
+But if you feel like it, you can learn Git for version control (it can be used with 
+the command line - aka `Terminal` panel that is available in Rstudio):  
+- [Git-Novice](https://swcarpentry.github.io/git-novice/) is a good lesson to start with.
+
+
+# Preliminary training program 
+
+- github and R - get started with a project (understand the basic principles)
+- data wrangling
+- data exploration and visualization (ensure data quality, what do I have)
+- eventually ... going further
+
+
+Back to [Index](../index.html)
