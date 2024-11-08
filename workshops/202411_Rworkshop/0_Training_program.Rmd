@@ -1,9 +1,9 @@
 ---
 title: "`r params$title`"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
-author: Eve Zeyl Fiskebeck
+author: Eve Zeyl Fiskebeck and Madelaine Norström
 params:
-  title: "Training program" 
+  title: "Training program: What you will be learning" 
   project_path: "`r here::here()`"
 output: 
   
