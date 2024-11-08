@@ -3,9 +3,8 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**
 
-- [INIKA](#inika)
-  - [Available ressources](#available-ressources)
-  - [Code](#code)
+- [Available ressources](#available-ressources)
+- [Code](#code)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
