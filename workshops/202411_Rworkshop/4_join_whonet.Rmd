@@ -515,14 +515,29 @@ my_innerjoin %>%
 # Plotting data 
 > import data from Janice and look at the plots 
 
+
+## Making categories for plotting
+
+## Long format for fast plots
+
 ## Matching WHONET plots 
 
-## Other plots ?
-- [ ] Madelaine 
 
-## Some stats ? 
-- [ ] Madelaine 
-I doubt that we will go that far ... but they can use that on their own ...
+# Make sure you understood correctly 
+
+- factors 
+- data types
+- how to create categories (if_else and case_when are usefull for that)
+
+
+Look in [R for data science book](https://r4ds.hadley.nz/). 
+This will help you go further. 
+
+Other specific resources can be: 
+
+- [ ] Factors :  [look at this lesson](https://swcarpentry.github.io/r-novice-inflammation/12-supp-factors.html)
+- [ ] data types - [Look at this lesson](https://swcarpentry.github.io/r-novice-inflammation/13-supp-data-structures.html) 
+
 
 
 # Tricks
@@ -537,12 +552,12 @@ and adapt the course material to your need.
 
 # When you are ready to go further:
 
+- [ggplot2 book](https://ggplot2-book.org/) all about doing graphs 
 
 - Working with SQLite database without and with R: [Databases and SQL course](https://swcarpentry.github.io/sql-novice-survey/index.html)
 - [dbplyr vignette](https://dbplyr.tidyverse.org/articles/dbplyr.html)
 - [programming in the tidyverse](https://krlmlr.github.io/tidyprog/index.html)
   particularly the chapter about tidy evaluation should be usefull
-
 
 
 ## Other ressources that I either used or look at and found if could be useful for you one day
