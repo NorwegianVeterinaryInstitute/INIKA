@@ -3,8 +3,11 @@
 **/data
 **.Rprofile
 **.Rhistory
-
-
+**/results
+**/*.rds
+**/*.pdf
+*.code-workspace
+**.Rproj
 
 #### 
 # History files
