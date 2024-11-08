@@ -5,12 +5,16 @@ author: Eve Zeyl Fiskebeck and Madelaine Norström
 params:
   title: "Chap 4. Data from a WHONET database and merging datasets." 
   project_path: "`r here::here()`"
-output: 
   
+
+knit: (function(inputFile, encoding) {
+  rmarkdown::render(inputFile, encoding = encoding, output_dir = "../../docs") })  
+  
+output: 
   
   rmdformats::readthedown:
       
-      css: ../styles/style.css
+      css: ../style.css
       self_contained: true
       code_download: true
       toc_depth: 4
@@ -551,6 +555,7 @@ and adapt the course material to your need.
   - injection 
 
 - [Advanced R](https://adv-r.hadley.nz/index.html)
+- [bookdown](https://pkgs.rstudio.com/bookdown/) - You can easily make a book And a webiste as done in many books (easier than different Rmd files, start from R template as done for this course)
 <!-- 
 
 - injection  ? vs lazy evaluation ?  
@@ -564,4 +569,4 @@ rlang : [qq_show](https://rlang.r-lib.org/reference/qq_show.html)
 [and](https://krlmlr.github.io/tidyprog/tidy-evaluation.html)
 --> 
 
-Back to [Index](../index.html) 
+Back to [Index](index.html) 

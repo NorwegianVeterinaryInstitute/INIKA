@@ -5,8 +5,11 @@ author: Eve Zeyl Fiskebeck
 params:
   title: "Git, Github, SSH and setup R-github" 
   project_path: "`r here::here()`"
-output: 
   
+knit: (function(inputFile, encoding) {
+  rmarkdown::render(inputFile, encoding = encoding, output_dir = "../../docs") })
+  
+output: 
   rmdformats::readthedown:
       css: ../styles/style.css
       self_contained: true
@@ -310,3 +313,5 @@ If you managed to reach this stage, well, you already have done the most
 difficult and most boring part alone.  
 If not, do not worry, please tell me where you stopped so we can have a look 
 during the meeting online.
+
+Back to [Index](index.html)

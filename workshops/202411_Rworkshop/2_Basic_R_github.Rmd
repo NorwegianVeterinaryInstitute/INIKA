@@ -5,9 +5,13 @@ author: Eve Zeyl Fiskebeck and Madelaine Norström
 params:
   title: "Chap 2. Basic R and github with Rstudio" 
   project_path: "`r here::here()`"
+  
+knit: (function(inputFile, encoding) {
+  rmarkdown::render(inputFile, encoding = encoding, output_dir = "../../docs") })
+    
 output: 
   rmdformats::readthedown:
-      css: ../styles/style.css
+      css: ../style.css
       self_contained: true
       code_download: true
       toc_depth: 4
@@ -578,4 +582,4 @@ Using notebooks:
     Rstudio](https://ucsbcarpentry.github.io/Reproducible-Publications-with-RStudio-Quarto/)
     
     
-Back to [Index](../index.html)
+Back to [Index](index.html)
