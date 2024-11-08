@@ -1,3 +1,7 @@
+<!-- 
+https://norwegianveterinaryinstitute.github.io/INIKA/ 
+-->
+
 # Setup
 
 [Git setup](./detail_git_setup/detailed_git_setup.html)
