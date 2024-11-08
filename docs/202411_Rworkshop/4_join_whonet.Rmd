@@ -563,3 +563,5 @@ rlang : [qq_show](https://rlang.r-lib.org/reference/qq_show.html)
 [tidy evaluation](https://brad-cannell.github.io/r_notes/tidy-evaluation.html)
 [and](https://krlmlr.github.io/tidyprog/tidy-evaluation.html)
 --> 
+
+Back to [Index](../index.html) 
