@@ -5,6 +5,10 @@ author: Eve Zeyl Fiskebeck and Madelaine Norström
 params:
   title: "Before we meet: Installation & readings" 
   project_path: "`r here::here()`"
+  
+knit: (function(inputFile, encoding) {
+  rmarkdown::render(inputFile, encoding = encoding, output_dir = "../../docs") })
+  
 output: 
   
   rmdformats::readthedown:
@@ -170,4 +174,4 @@ the command line - aka `Terminal` panel that is available in Rstudio):
 - eventually ... going further
 
 
-Back to [Index](../index.html)
+Back to [Index](index.html)

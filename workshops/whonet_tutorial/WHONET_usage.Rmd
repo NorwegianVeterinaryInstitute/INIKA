@@ -5,6 +5,10 @@ author: Jannice Schau Slettemeås and Eve Zeyl Fiskebeck
 params:
   title: "WHONET software: installation and initial configuration (example)" 
   project_path: "`r here::here()`"
+  
+knit: (function(inputFile, encoding) {
+  rmarkdown::render(inputFile, encoding = encoding, output_dir = "../../docs") })
+  
 output: 
   
   rmdformats::readthedown:
@@ -153,3 +157,5 @@ in `C:/WHONET/Data` and the original WHONET file is called `TZA-INIKA_TZ-2024.sq
 - rename the file according to the naming rules described above, it should according to my example be `2024-11-07_TZA-INIKA_TZ-20242.sqlite`
 
 **Then you will need to upload this file on INIKA Google drive to your backup area.**
+
+Back to [Index](index.html)

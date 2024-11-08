@@ -1,0 +1,51 @@
+---
+title: "`r params$title`"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+author: NVI INIKA team 
+params:
+  title: "INIKA website Content" 
+knit: (function(inputFile, encoding) {
+  rmarkdown::render(inputFile, encoding = encoding, output_dir = "../docs") })
+output: 
+  rmdformats::readthedown:
+      
+      css: style.css
+      self_contained: true
+      toc_depth: 4
+      df_print: paged
+      author: params$author
+      highlight: espresso
+editor_options: 
+  markdown: 
+    wrap: 72
+  chunk_output_type: console
+---
+
+<!--
+Github pages site : https://norwegianveterinaryinstitute.github.io/INIKA/
+-->
+
+Please click on the links to find go to the content.
+
+
+# Software setup
+
+[Git setup](detailed_git_setup.html)
+
+[WHONET setup](WHONET_usage.html)
+
+Some setup also in: [Preliminary preparation](0_Before_we_meet.html)
+
+# Workshop November 2024 
+
+[Preliminary preparation](0_Before_we_meet.html)
+
+[What you will learn](0_Training_program.html)
+
+[Chap 1. Introduction](1_Introduction.html)
+
+[Chap 2. Basic R and github with Rstudio](2_Basic_R_github.html)
+
+[Chap 3. Basic R for data analysis](3_basic_data_analysis.html)
+
+[Chap 4. Using data directly from a database (WHONET) and joining datasets](4_join_whonet.html)

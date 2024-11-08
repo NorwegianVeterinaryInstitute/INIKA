@@ -6,6 +6,11 @@ params:
   title: "Chap 1 - Introduction: State of mind and Ressources" 
   script_name: "01 - Introduction and Basic R Setup"  
   project_path: "`r here::here()`"
+  
+  
+knit: (function(inputFile, encoding) {
+  rmarkdown::render(inputFile, encoding = encoding, output_dir = "../../docs") })
+    
 output: 
   
   rmdformats::readthedown:
@@ -160,4 +165,4 @@ lessons:
 - [Programming with R](https://swcarpentry.github.io/r-novice-inflammation/)
 - [R for Reproducible Scientific Analysis](https://swcarpentry.github.io/r-novice-gapminder/)
 
-Back to [Index](../index.html)
+Back to [Index](index.html)

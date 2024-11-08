@@ -5,12 +5,16 @@ author: Eve Zeyl Fiskebeck and Madelaine Norström
 params:
   title: "Chap 3. Basic R for data analysis" 
   project_path: "`r here::here()`"
+
+knit: (function(inputFile, encoding) {
+  rmarkdown::render(inputFile, encoding = encoding, output_dir = "../../docs") })  
+  
 output: 
   
   
   rmdformats::readthedown:
       
-      css: ../styles/style.css
+      css: ../style.css
       self_contained: true
       code_download: true
       toc_depth: 6
@@ -1523,4 +1527,4 @@ you need to start reading the "introduction to R" manual.
 - [reproducible research](intro https://datacarpentry.org/rr-intro/aio.html)
 - [Humor code content](https://miro.medium.com/v2/resize:fit:1400/0*_lbfkH2RdWvQyLSQ.png)
 
-Back to [Index](../index.html)
+Back to [Index](index.html)
