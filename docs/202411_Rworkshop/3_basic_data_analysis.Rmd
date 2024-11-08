@@ -1523,3 +1523,4 @@ you need to start reading the "introduction to R" manual.
 - [reproducible research](intro https://datacarpentry.org/rr-intro/aio.html)
 - [Humor code content](https://miro.medium.com/v2/resize:fit:1400/0*_lbfkH2RdWvQyLSQ.png)
 
+Back to [Index](../index.html)
