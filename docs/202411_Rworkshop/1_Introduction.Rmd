@@ -160,4 +160,4 @@ lessons:
 - [Programming with R](https://swcarpentry.github.io/r-novice-inflammation/)
 - [R for Reproducible Scientific Analysis](https://swcarpentry.github.io/r-novice-gapminder/)
 
-
+Back to [Index](../index.html)

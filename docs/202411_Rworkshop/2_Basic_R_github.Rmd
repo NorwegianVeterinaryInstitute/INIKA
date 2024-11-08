@@ -576,3 +576,6 @@ Using notebooks:
 
 -   [Introduction to reproducible publications with
     Rstudio](https://ucsbcarpentry.github.io/Reproducible-Publications-with-RStudio-Quarto/)
+    
+    
+Back to [Index](../index.html)
