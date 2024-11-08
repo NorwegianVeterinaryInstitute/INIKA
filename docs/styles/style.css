@@ -1,0 +1,27 @@
+
+/* Whole document: */
+body{
+  font-family: Helvetica;
+  font-size: 16pt;
+}
+/* Headers */
+h1,h2,h3,h4,h5,h6{
+  font-size: 24pt;
+}
+
+/* Images format */
+.img1 {
+  max-width: 50%;
+  height: auto;
+}
+
+/* Highlighting */
+mark {
+  background-color: yellow;
+  color: black;
+}
+/* Folding 
+pre.foldable {
+  background-color: lightgreen;
+}
+*/ 

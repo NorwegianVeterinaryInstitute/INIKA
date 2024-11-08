@@ -1,0 +1,578 @@
+---
+title: "`r params$title`"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+author: Eve Zeyl Fiskebeck and Madelaine Norström
+params:
+  title: "Chap 2. Basic R and github with Rstudio" 
+  project_path: "`r here::here()`"
+output: 
+  rmdformats::readthedown:
+      css: ../styles/style.css
+      self_contained: true
+      code_download: true
+      toc_depth: 4
+      df_print: paged
+      code_folding: hide
+      author: params$author
+      highlight: espresso
+      number_sections: true
+  
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r libraries, include=FALSE}
+library(here)
+library(DiagrammeR)
+```
+
+# Basic start up
+
+## Starting point
+
+The detailed git setup instructions must have been followed.
+
+-   a github repository `learning_R` has been made in your account
+-   the github repository has been cloned locally on your PC
+
+Now we will learn how to use **git in Rstudio to backup your code to the
+cloud server: github**. Git version control system can be used for much
+more. But learning how to backup your data on the cloud is enough for a
+starter.
+
+## Create/Open a project in Rstudio
+
+External resource: see also [Project Management with
+RStudio](https://swcarpentry.github.io/r-novice-gapminder/02-project-intro.html)
+
+1.  Open Rstudio
+2.  Browse to the directory where you cloned the `learning_R`git
+    repository:
+
+-   [ ]   create : `File -> New Project -> Existing Directory`
+
+Note: after to re-open the project you will need to do:
+
+-   [ ]   open :
+    `File -> Open Project -> chose the file with extension .Rproj`
+
+## Git used to backup notes and code via Rstudio
+
+```{r}
+DiagrammeR::mermaid(
+  "graph TB
+      A[R project directory] --git add--> B[Staging area: preparation]
+      B --git commit --> C[Local Repository : version control locally on PC] 
+      C --push --> D[copy code to remote Repository : github]
+      D --pull --> A
+  ")
+```
+
+<u>Fig. A simple workflow to backup your code and notes to github cloud
+server</u>
+
+<!-- make files ? or change order -->
+
+In the git tab in one of the Rstudio panel:
+
+The status (`git status`) allows you to check if files have been
+modified, if they are under-version control (tracked) or not.
+
+-   yellow `?` the file is not tracked = not currently version
+    controlled and not ignored
+-   red `D` deleted, the file has been deleted (or renamed outside of
+    git)
+-   rosa `R`renamed, the file has been renamed
+-   blue `M` the file has been modified
+
+Staging the files means preparing the files for saving them in the
+version in the version control system
+
+-   You can stage one or several files.
+
+\- It is usually best to only stage several files when there is a
+logical block of work that has been done.
+
+\- you select (checked box) the file(s) to stage and then you can
+commit.
+
+You need to write a commit message that explains what you have done
+since your previous commit.
+
+> Example: "Summary statistics for AMR detection in E.coli added."
+
+This create a "saving" point in your version control system,
+
+-   Then you need to push: this sends the changes to the remote
+    repository (github / cloud)
+
+It is important to do this process often, because you create saving
+points, where you can go back, should you for some reason loose your
+code on your PC. Each time you commit, the commit message and the status
+of your files are registered in the version control system. A log in git
+system (you can look at it on github) can help you find back the files
+at the saving point you want.
+
+If you work on different computer, or with different people, you might
+need to pull changes. Pull takes the changes from the cloud repository
+(github) and put them in the local repository. Note that we likely wont
+have time to do this during this course, but it is good to know that its
+possible to do so if needed.
+<!-- we wont explain this specifically for now -->
+
+> You can learn how to do that using the [git for novice
+> lesson](https://swcarpentry.github.io/git-novice/)
+
+## Exercise to learn how to use git in R studio: modify `.gitignore` and push the changes to github
+
+> Note:
+>
+> -   we wont version control raw and intermediary data, because we do
+>     not want them to finish in the public directory (among other
+>     things).
+> -   Raw data need to be backed-up on their own.
+> -   The raw data should NEVER be modified manually.
+> -   It should be possible to recover the processed data (eg. outlier
+>     removed, quality ensured) using code for pre-processing the raw
+>     data. Therefore processed data should be recoverable by solely
+>     re-running the pre-processing code.
+> -   Both the pre-processing code and the code that is further used for
+>     your analyses should be version controlled.
+
+**Modify or create `.gitignore` file in your project directory.**
+
+A `.gitignore` file is a file that tells git what files the version
+control system should ignore (eg. any files that contains raw data).
+
+-   [ ]  Verify that those lines are present in the \`.gitignore file,
+    if not, add them
+
+``` text
+**/.*xlsx
+**/.*csv
+data/
+results/
+**.Rprofile
+**.Rhistory
+**.Rproj
+**.sqlite
+```
+
+-   [ ]  add .gitignore to the staging area
+-   [ ]  commit the changes with a commit message
+-   [ ]  push the changes to github
+-   [ ]  verify in your github account that the changes are have been
+    recorded
+
+You will now be able to version control your code code and notes. If you
+do not want a file to be tracked, you need to add its path (relative to
+the path in the git repository) to the `.gitigore` file.
+
+You can look at [the ignoring things
+lesson](https://swcarpentry.github.io/git-novice/06-ignore.html) to go
+further on how to ignore files.
+
+# Using a notebook in Rstudio: anatomy, text, code and rendering
+
+A Notebook (here Rmarkdown) is a way to write code and text (notes,
+publications, reports) in the same document.
+
+The text can be easily formatted using the "Markdown syntax". See Those
+lesson to learn about [Markdown
+syntax](https://ucsbcarpentry.github.io/R-markdown/03-headings-lists/index.html).
+For now, it will be sufficient to use this
+[cheatcheat](https://www.markdownguide.org/cheat-sheet/), have it open
+in a web-browser and use it !
+
+A rendering (knit button) of the document allows to create different
+types of documents (html, pdf, word, slides).
+
+<!-- This is what we have done to create this course. -->
+
+Create a Rmarkdown document :
+
+-   [ ]  Open a new Rmarkdown document: `File -> New File -> Rmarkdown`
+
+-   [ ]  fill tile information, keep as html (`output: word_document`
+    can be used as alternative to create word documents).
+
+-   [ ]  save this file (or your project) your current R project
+
+    directory, in a sub-directory called notes (as you will use it to
+    take notes during this course) choose eg, `date_learningR.Rmd` as
+    file name. ISO date is eg. 2024-10-09. **! Do not use spaces in the
+    file name, use underscore `_` instead.**
+
+-   [ ]  Read what the text that appears in the document.
+
+> NB: code directory can be done at saving time, using right click on
+> the mouse then new directory and write: notes
+
+<!-- explain the text -->
+
+![Fig: Anatomy of a R markdown
+document](https://nkaza.github.io/intro2Rbook/images/rm_components.png)
+</br>
+
+## Exercise Using a R markdown document
+
+¨ Here is what we will now do:
+
+-   [ ]   Take notes in your document of what the different parts of a
+    Rmarkdown file are doing (ask us to repeat as many times as
+    necessary and help if you do not know where to start with)
+-   [ ]  Experience with Source vs Visual mode on top of your markdown
+    document
+-   [ ]  Experience with some markdown formatting
+-   [ ]  write the code bellow in a code chunk (cell) and and run it
+    (green arrow) <!-- Explain code -->
+-   [ ]  Knit the document to see how it can create a document from your
+    notes
+
+PS: - Note the importance of formatting in YALM header - We wrote the
+tutorial for the course using Markdown - you can download the Rmd
+document (top right of the html file under code), and look at the code
+of this file in Rstudio to see how it was done.
+
+We will do a series of small exercises to get you familiar with Rstudio
+and how code is written in R. **It is important than you stop us if you
+do not understand what the code is doing**
+<!-- Explain all the steps of the code -->
+
+```{r first object, echo=TRUE, eval=FALSE, class.source = "fold-show"}
+my_message <- "Hello World"
+print(my_message)
+```
+
+<!-- Some other way with code -->
+
+```{r  echo=TRUE, eval=FALSE, class.source = "fold-show"}
+my_message
+typeof(my_message)
+str(my_message)
+```
+
+-   [ ]  Run one line of code at in a cell (`ctrl+Enter` cursor at the
+    end of the line, look at the results in Rstudio console)
+-   [ ]  Check what does my_message object contains
+-   [ ]  Check the type of my_message what is its abbreviation ?
+-   [ ]  Check the structure of my_message object\
+-   [ ]  Access the help (cursor + F1 on the function) : read in the
+    help tab (find the correct panel) window
+-   [ ]  run the whole cell. What is the difference of running line by
+    line than running the whole cell ?
+
+See also [Help in R
+studio](https://swcarpentry.github.io/r-novice-gapminder/03-seeking-help.html)
+
+```{r  echo=TRUE, eval=FALSE,  class.source = "fold-show"}
+length(my_message)
+nchar(my_message)
+
+nb_char <- nchar(my_message)
+nb_char
+nb_char + 10
+nb_char * nchar(my_message)
+```
+
+-   [ ]  we can reuse objects from cell to cell in the same notebook
+-   [ ]  vector of length one VS number of characters of a string ....
+    (be sure to always check if your results make sense according to
+    what you expect !)
+
+Bellow we show you a small introduction to: - **assignment** of
+**objects** in R - **types** of **objects** in R - **character**
+**vectors** - **lists** and **sub-setting** of list using **indexes** -
+R numbering stats at 1.
+
+```{r echo=TRUE, eval=FALSE, class.source = "fold-show"}
+strsplit(my_message, split = "")
+
+split_test <- strsplit(my_message, split = "") 
+split_test
+typeof(split_test)
+
+split_test[1]
+split_test[[1]]
+split_test[[1]][1]
+split_test[[1]][1:3]
+```
+
+-   transforming a string into a list of characters (**types
+    conversion**)
+-   **reassignment** of objects: replacement in memory
+
+```{r echo=TRUE, eval=FALSE,  class.source = "fold-show"}
+unlist(split_test)
+split_test <-unlist(split_test)
+split_test
+
+split_test[1]
+typeof(split_test)
+length(split_test)
+```
+
+-   manipulations with **functions** that allows to transform objects
+-   several **operations** are possible one after another
+
+```{r echo=TRUE, eval=FALSE,  class.source = "fold-show"}
+3*3+1
+(3*3)+1
+
+(3*(3+1))
+```
+
+-   brackets priority in maths is respected (mathematics).
+
+> Important to note the difference between a list and a vector.
+
+## Tricks
+
+Some tricks to make your life easier. 
+
+- [ ]  using arrow(s) to recall the last result(s) in console 
+- [ ]   using tab to auto complete
+the name of the object 
+- [ ]   `ctrl+L` (or the broom) to clear the
+console
+
+> Do not worry, if this goes fast. We will come back to that during the
+> course. During the course you will have to pay attention to the
+> key-words in bold, and figure out what they mean. Those words are
+> usefull when you need to find on the web how you should do things
+> further.
+
+<mark><b>What you have to retain from here is that you need to have
+critical sense and check your results, to be sure the code is doing what
+we want it to do</b></mark>
+
+## Do not forget
+
+-   [ ]  please check that you saved your notes and do all the required
+    steps to push those on github.
+
+# Installing packages
+
+Packages are a way to extend the functionality of R.
+
+```{r install packages, echo=TRUE, eval=FALSE, class.source = "fold-show"}
+# A comment
+# Another way to get help on a function
+?install.packages
+help("install.packages")
+# F1 on : install.packages()
+```
+
+-   we can install here. It is a simple package that will allow
+    reference to files in the project by their path in an easy way. It
+    allow is great to have compatibility between linux and windows based
+    systems.
+
+```{r install here, echo=TRUE, eval=FALSE, class.source = "fold-show"}
+# installing here package
+install.packages("here", dependencies = TRUE)
+```
+
+Library is a function that allows you to load (into memory), and make
+the functions contained a package available to you, in the current R
+session. <!-- Explain Rsession -->
+
+<u>The function here() gives the path of the project</u>
+
+```{r load here, echo=TRUE, eval=FALSE, class.source = "fold-show"}
+# loading the package
+library(here)
+here()
+```
+
+NB: You can also install packages using Rstudio (BUT its better to keep
+a trace of what you have installed), so please do that using code.
+
+You can call functions from packages that are not loaded to memory if
+they are installed on your system. This can be convenient if you only
+want to use one function, this avoids cluttering the memory of your
+computer.
+
+Calling functions while specifying the package can be useful also, if
+you have loaded some packages that have functions with the same name. It
+is generally a good practice to do so (but takes time to do so .... )
+<!-- recommends to do so when we are happy of what our code does  -->
+
+```{r echo=TRUE, eval=FALSE, class.source = "fold-show"}
+here::here()
+```
+
+## Packages and different ways to do the same thing
+
+There are many packages in R, and there are usually many ways to do the
+same thing, some functions share also some similarities
+
+```{r echo=TRUE, eval=FALSE, class.source = "fold-show"}
+library(dplyr)
+
+# both functions allow to have a look at the structure of your data
+glimpse(my_message) 
+dplyr::glimpse(my_message) 
+
+str(my_message)
+```
+
+```{r echo=TRUE, eval=FALSE, class.source = "fold-show"}
+library(stringr)
+
+# both functions allow to split a string
+str_split_1(my_message, pattern = "")
+#stringr::str_split(my_message, pattern = "")
+
+unlist(strsplit(my_message, split = ""))
+#base::unlist(base::strsplit(my_message, split = ""))
+```
+
+-   [ ]  can you find which package glimpse, unlist, str functions are
+    from ?
+-   [ ]  how can you find this information ?
+-   [ ]  reading the help
+-   [ ]  imports (glimpse vs pkg::glimpse)
+
+## Functions are objects
+
+In packages, functions functions that do complex things, are often build
+using several simpler functions.
+
+Here we show that there are several ways to obtain the same results.
+
+```{r echo=TRUE, eval=FALSE, class.source = "fold-show"}
+my_strsplit1 <- function(char_var){
+  temp <- strsplit(char_var, split = "")
+  return(unlist(temp))
+}
+
+my_strsplit1(my_message)
+```
+
+Different way to write : (explain)
+
+```{r echo=TRUE, eval=FALSE, class.source = "fold-show"}
+# return is factlatif if an oject is returned at creation
+my_strsplit2 <- function(char_var){
+  unlist(
+    strsplit(char_var, split = "")
+    )
+}
+my_strsplit2(my_message)
+
+```
+
+Using Pipes ...
+
+```{r echo=TRUE, eval=FALSE, class.source = "fold-show"}
+my_strsplit3 <- function(char_var){
+  # R pipe  
+  strsplit(char_var, split = "") |>
+    unlist()
+  # importance ()
+}
+
+my_strsplit3(my_message)
+```
+
+[magrittr](https://magrittr.tidyverse.org/) which is part of the
+tidyverse multiverse (a collection of packages that work well together)
+offers another type of pipe, which is the one that you will see most
+commonly used.
+
+```{r echo=TRUE, eval=FALSE, class.source = "fold-show"}
+my_strsplit4 <- function(char_var){
+  # R pipe  
+  strsplit(char_var, split = "") %>%
+    unlist
+  # with %>% () can be omitted (though not advised)
+}
+
+my_strsplit4(my_message)
+```
+
+<u>What you need to retain from here is:</u>
+
+-   there are different ways to do the same tings. R syntax is flexible
+    and not always homogeneous. Do not learn a syntax
+
+-   understand a syntax, check in the help when in doubt
+
+-   there are several ways to obtain the result you want. While some are
+    prettier or more efficient from other, the most important is that it
+    does what you want it to do.
+    
+## Do not forget
+
+-   [ ]  save, push your notes on github, and close your notes and
+    project.
+
+-   [ ]  Ask questions if you do not know what to answer to questions
+    Rstudio might ask
+
+
+## Exercise: Printing your code in a word document
+
+-   [ ]   Install `webshot2` package
+-   [ ]   write the code to load the `webshot2` package into R memory
+-   [ ]   change the output format of the Rmarkdown document you are
+    using and which contains your notes? (in the YAML header) to
+    `word_document` and press `Knit` button. Was a word document
+    produced ? (note that indentations have meaning)
+
+unhide by clicking on the `Code` button for hints:
+
+```{r solution exercise: Printing your code in a word document , eval=FALSE, echo=TRUE}
+# Installing the package
+install.packages("webshot2", dependencies = TRUE)
+
+# Modifying the YALM header
+output: 
+  word_document
+
+# Load the library at the beginning of your script, in a cell
+library(webshot2)
+```
+
+# Summary
+
+-   This was a lot for today. You got a first overview of what can be
+    done and why it can be worth to use this system, ultimately, this
+    will help you being more efficient and do reproducible research.
+
+-   Now we will actually use some of those things and repeat them a lot
+    to do data analysis,.
+
+# When you are ready to go further
+
+With Git (lessons) :
+
+-   [Git novice lesson](https://swcarpentry.github.io/git-novice/),
+    learn you how to use the command line in a terminal with git, how to
+    use version control to recover lost data or recover for changes that
+    made your code not working, and introduces you on how to use of the
+    github remote repository using the graphical interface.
+-   [Introduction to Open Data Science with
+    R](https://carpentries-incubator.github.io/open-science-with-r/)
+    particularly the lesson 8
+    <https://carpentries-incubator.github.io/open-science-with-r/08-git/index.html>
+-   [Git and Rstudio
+    (short)](https://datacarpentry.org/rr-version-control/03-git-in-rstudio/index.html)
+
+Using notebooks:
+
+-   [Authoring scientific publications with R
+    Markdown](https://ucsbcarpentry.github.io/R-markdown/)
+
+> Quarto a new and very similar system to Rmarkdown (its a good
+> alternative to use it), however, it might still be a bit young and
+> sometimes workaround are necessary
+
+-   [Introduction to reproducible publications with
+    Rstudio](https://ucsbcarpentry.github.io/Reproducible-Publications-with-RStudio-Quarto/)
