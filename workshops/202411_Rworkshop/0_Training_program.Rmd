@@ -16,6 +16,7 @@ output:
       code_folding: hide
       author: params$author
       highlight: espresso
+      number_sections: true
       
 
   
@@ -34,7 +35,7 @@ knitr::opts_chunk$set(echo = TRUE, eval = TRUE,
 > reduce the load - brain ...and have a way to come back for repeats day
 > after example whonet test data
 
-## Before we come: Setup
+# Before we come: Setup (chap 0)
 
 At arrival :
 
@@ -42,10 +43,7 @@ At arrival :
 -   [ ]  **Rscript to run to install packages ? or Renv ?** Need to do one and try - this could help - This MUST be done at the end of the course preparation, however to be sure we have all ? ( We all have installed the needed packages and Programs?)
 
 
-
-
-
-## Introduction (to review - ca ok)
+# Introduction (chap 1)
 
 -   [ ]  Goal of the course
 -   [ ]  what to expect and state of mind
@@ -53,7 +51,7 @@ At arrival :
 -   [ ]  additional resources you can use to learn more, here and
     through the course
 
-## Basic R and github with Rstudio (to review - ca ok)
+# Basic R and github with Rstudio (chap 2)
  
  > learning how to use a R markdown document and git backup, small intro to R programming language
 
@@ -83,9 +81,9 @@ Starting point: `learning_R` git repo has been cloned locally
 -   [ ]   Exercise : Printing your code in a word document
 
 
-## chap 3. Basic R for data analysis (to review - ca ok)
+# Basic R for data analysis (chap 3)
 
-> Data from Human sampling (Kobo toolbox)
+> Data from Human sampling (KoboToolbox)
 
 -   A good organisation of your project for data analysis
 
@@ -131,11 +129,23 @@ raw data, doing so by code allows to detect errors and allows transparency
 of our choices. 
     
 
-## chap 4. Data from a database (WHONET) and merging datasets. (todo)
+# Using data directly from a database (WHONET) and joining datasets. (chap 4)
 
--   connecting to a sqlite database and getting the data contained in
-    tables (for WHONET)
--   joining data frames
+
+> WHONET fake data for learning + data from Human sampling (KoboToolbox)
+
+- creating a connection to a SQLite database
+  - why to use a database
+  - lazy evaluation (notion)
+  - querying a table in a database using dbplyr
+  - evaluating the query (collect) 
+-   joining data frames (WHONET to human data questionnaires)
+- removing objects from memory (If time permits, dput trick)
+  - notion of identity in objects and memory pointers 
+  
+-   merging data frames using dplyr (inner, left, right, full)
+
+
 -   visualization : reproducing WHONET graphs
 
 -   data wide and long format ? (not sure we have the data for that)

@@ -1,15 +1,15 @@
 ---
 title: "`r params$title`"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
-author: Eve Zeyl Fiskebeck
+author: Eve Zeyl Fiskebeck and Madelaine Norström
 params:
-  title: "01 - Introduction: State of mind and Ressources" 
+  title: "Chap 1 - Introduction: State of mind and Ressources" 
   script_name: "01 - Introduction and Basic R Setup"  
   project_path: "`r here::here()`"
 output: 
   
   rmdformats::readthedown:
-      css: style.css
+      css: ../styles/style.css
       self_contained: true
       code_download: true
       toc_depth: 4

@@ -1,14 +1,14 @@
 ---
 title: "`r params$title`"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
-author: Eve Zeyl Fiskebeck
+author: Eve Zeyl Fiskebeck and Madelaine Norström
 params:
   title: "Before we meet: Installation & readings" 
   project_path: "`r here::here()`"
 output: 
   
   rmdformats::readthedown:
-      css: style.css
+      css: ../styles/style.css
       self_contained: true
       code_download: true
       toc_depth: 4

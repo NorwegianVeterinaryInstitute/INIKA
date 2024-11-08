@@ -1,16 +1,16 @@
 ---
 title: "`r params$title`"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
-author: Eve Zeyl Fiskebeck
+author: Eve Zeyl Fiskebeck and Madelaine Norström
 params:
-  title: "3. Basic R for data analysis" 
+  title: "Chap 3. Basic R for data analysis" 
   project_path: "`r here::here()`"
 output: 
   
   
   rmdformats::readthedown:
       
-      css: style.css
+      css: ../styles/style.css
       self_contained: true
       code_download: true
       toc_depth: 6
@@ -1425,7 +1425,7 @@ saveRDS(human_data_selection_dedup,
         here::here("results", "human_data_selection_dedup.rds"))
 ```
 
-This is the command to allow to reimport the file later on to an object
+This is the command to allow to re-import the file later on to an object
 ```{r}
 my_table <- readRDS(here::here("results", "human_data_selection_dedup.rds")) 
 tail(my_table) # shows the last rows of the table

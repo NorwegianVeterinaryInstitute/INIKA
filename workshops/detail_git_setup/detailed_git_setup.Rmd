@@ -8,7 +8,7 @@ params:
 output: 
   
   rmdformats::readthedown:
-      css: style.css
+      css: ../styles/style.css
       self_contained: true
       code_download: true
       toc_depth: 4
@@ -16,7 +16,7 @@ output:
       code_folding: show
       author: params$author
       highlight: espresso
-      
+      number_sections: true
 
   
 editor_options: 
@@ -24,14 +24,14 @@ editor_options:
     wrap: 72
 ---
 
-# 1. Download and install git-bash
+# Download and install git-bash
 
 At [https://git-scm.com/](https://git-scm.com/) and 
 follow the instructions for installation 
 
 ---
 
-# 2. Create a free account in github
+# Create a free account in github
 
 Go to [https://github.com/](https://github.com/) and sign up  
 
@@ -42,7 +42,7 @@ will allow you to keep access to your account should you leave the university)
 
 ---
 
-# 3. Create a ssh key on your computer
+# Create a ssh key on your computer
 
 - this is done using git bash
     - launch git bash (from the windows menu)
@@ -109,7 +109,7 @@ not want that)
 
 ---
 
-# 4.  Add the SSH public key to your github account
+# Add the SSH public key to your github account
 
 You will put the information from the public key in the github account you just 
 created 
@@ -204,7 +204,7 @@ NB:
 
 ---
 
-# 5. Create a repository on github
+# Create a repository on github
 
 - got back to your main github page
 
@@ -219,7 +219,7 @@ name) and otherwise use the same options I did use
 
 ---
 
-# 6. Configure R to use your SSH key and github
+# Configure R to use your SSH key and github
 
 - after having installed R and Rstudio (if you did not yet, do so) and the 
 previous actions above
