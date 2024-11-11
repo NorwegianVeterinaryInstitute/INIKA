@@ -1,22 +1,21 @@
 ---
 title: "`r params$title`"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
-author: NVI INIKA team 
+author: NVI INIKA team
 params:
-  title: "INIKA website Content" 
+  title: "INIKA website Content"
 knit: (function(inputFile, encoding) {
   rmarkdown::render(inputFile, encoding = encoding, output_dir = "../docs") })
-output: 
+output:
   rmdformats::readthedown:
-      
-      css: style.css
-      self_contained: true
-      toc_depth: 4
-      df_print: paged
-      author: params$author
-      highlight: espresso
-editor_options: 
-  markdown: 
+    css: style.css
+    self_contained: true
+    toc_depth: 4
+    df_print: paged
+    author: params$author
+    highlight: espresso
+editor_options:
+  markdown:
     wrap: 72
   chunk_output_type: console
 ---
@@ -27,7 +26,6 @@ Github pages site : https://norwegianveterinaryinstitute.github.io/INIKA/
 
 Please click on the links to find go to the content.
 
-
 # Software setup
 
 [Git setup](detailed_git_setup.html)
@@ -36,7 +34,7 @@ Please click on the links to find go to the content.
 
 Some setup also in: [Preliminary preparation](0_Before_we_meet.html)
 
-# Workshop November 2024 
+# Workshop November 2024
 
 [Preliminary preparation](0_Before_we_meet.html)
 
@@ -49,3 +47,9 @@ Some setup also in: [Preliminary preparation](0_Before_we_meet.html)
 [Chap 3. Basic R for data analysis](3_basic_data_analysis.html)
 
 [Chap 4. Using data directly from a database (WHONET) and joining datasets](4_join_whonet.html)
+
+# Additional information
+
+Do you want to use this material ? Please check out the [license](https://github.com/NorwegianVeterinaryInstitute/INIKA/blob/main/LICENSE.md)
+
+Do you want to contribute to the repository used to make this website ? Please check out the repository: [NorwegianVeterinaryInstitute/INIKA](https://github.com/NorwegianVeterinaryInstitute/INIKA)
