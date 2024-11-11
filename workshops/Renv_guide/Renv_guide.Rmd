@@ -1,0 +1,41 @@
+---
+title: "`r params$title`"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+author: Eve Zeyl Fiskebeck and Madelaine Norström
+params:
+  title: "Renv : reproducing an environment automatically - guide" 
+  project_path: "`r here::here()`"
+  
+
+knit: (function(inputFile, encoding) {
+  rmarkdown::render(inputFile, encoding = encoding, output_dir = "../../docs") })  
+  
+output: 
+  
+  rmdformats::readthedown:
+      
+      css: ../style.css
+      self_contained: true
+      code_download: true
+      toc_depth: 4
+      df_print: paged
+      code_folding: show
+      author: params$author
+      highlight: espresso
+      number_sections: true
+      
+editor_options: 
+  markdown: 
+    wrap: 72
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval = TRUE, 
+                      message=FALSE, warning=FALSE,
+                      results = 'hide')
+```
+
+Environment is a package that allows you to reproduce an environment automatically. This guide will show you how to use the package. 
+
+[Renv Vignette](https://rstudio.github.io/renv/articles/renv.html)

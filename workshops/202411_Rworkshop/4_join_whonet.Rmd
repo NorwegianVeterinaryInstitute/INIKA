@@ -57,26 +57,23 @@ laboratory you are working with.
 
 If you installed WHONET program using the default settings, you should will find 
 the test database in the following path: `C:/WHONET/Data`. Please check that
-you find the test database where you registred the data. 
-If you registred the database in another directory, please note the path 
+you find the test database that was used for the registering exercise. 
+If you saved the database in another directory, please note the path 
 (eg. use the file explorer program to find the file, and copy the path as text)
 
 
 The path I copied is `C:\WHONET` and the my test database is called `WHO-TST-2020-OneHealth.sqlite` (the extension is explicit here).
 
-I first need to check if I manage to read the directory that contains the 
-database in R and find the database file. 
+I first need to check if I manage to explore the directory that should contain
+the database and list the files that are contained in this directory using R.
+(This serves as test for accessing paths and files in windows system).
 
 
-- listing files in a directory (testing path of directory, and if I can see the
-database file)
+### Listing files in a directory
 
-> Note: I using variable name that are explicit and descriptive of the content. 
-This helps making the code more readeable. I am not afrraid of using long names, 
+Note: I using variable name that are explicit and descriptive of the content. 
+This helps making the code more readable. I am not afraid of using long names, 
 as I can use tab completion in RStudio to avoid typing long names. 
-
-> Note: the path in a linux system can be written a bit differently. 
-
 
 ```{r}
 whonet_data_path <- "C:/WHONET/Data"
@@ -84,26 +81,22 @@ list.files(whonet_data_path)
 ```
 
 
-## Working with a SQLite database in R
+## Using data directly from a SQLite database
 
 We will use the packages `RSQLite` and `dbplyr` (a part of the tidyverse) to work with
 SQLite databases. `RSQLite` is a package that allows R to connect to SQLite databases
 and `dbplyr` is a package that allows to send instructions (queries) to the 
 SQLite database using dplyr language that you learned during last lesson. 
-In other words, dbplyr translates the query you write in R using dbplyr 
-language into a SQL query language. 
+In other words, `dbplyr` translates the query you write into a SQL query language. 
 
 
-To be able to read the data that are collected in the database, we need to create
-a connection to the database. You can see this as a bridge between the database
+To be able to read the data stored in the SQL database, we need to create
+a connection to the SQL database. You can see this as a bridge between the database
 and R memory, allowing information to circulate from (and to) the database to R.
 
 > Note: We won't show you how to write back data in the SQLite database. 
 We do not want that because we do not want you to modify the raw data. But it is
-totally possible to create another database or another table to contain the 
-cleaned data. Moreover, these are more delicate operations can lead to data loss
-if errors are done. So we do not advice you to ever try, unless you work on a backup
-of your data. 
+totally possible. It is also possible to create another database or another table to contain the cleaned data. 
 
 
 ### Creating a connection to the sqlite database
@@ -114,19 +107,18 @@ dbconn <- dbConnect(RSQLite::SQLite(),
                     here::here(whonet_data_path, "TZA-INIKA_TZ-2024.sqlite"))
 
 str(dbconn)
-
 print(dbconn)
 ```
-> dbconn is not the data contained in the database, but a way to access the 
-information contained in the database file.
+> dbconn is not the data contained in the database, but a connection, 
+that will allow to retrive the information contained in the database file.
 
 Note: look how the path of the file is represented here. If you one day get 
 problem with reading files in R from windows, this is how you have to treat the
-paths, using `\\` instead of `/`.
+paths, using `\\` instead of `/`. Its eg. because windows and linux have slightly
+different ways to encode paths. 
 
 
 ### Obtaining the list of tables (dataframes) contained in the database
-
 
 ```{r}
 dbListTables(dbconn)
@@ -325,19 +317,59 @@ and useful to know to allow get better results for our searches
 
 
 ```{r}
-isolates_tbl %>% collect() %>% View()
-colnames(isolates_tbl)
+isolates_tbl %>% 
+  collect() %>%
+  View()
+# str()
 ```
 
+#### Reminder : cleaning and checking the data 
+  
 ```{r}
 buidling_query <- 
   isolates_tbl %>% 
-  # This allow to remove columns from the data
-  select(-ROW_IDX, -LAST_NAME, -FIRST_NAME) 
+  # This allow to remove columns from the data that are not informative
+  select(-ROW_IDX, -COUNTRY_A, -LABORATORY, -SPEC_TYPE, -SPEC_CODE, -ISOL_NUM,
+         -ORG_TYPE, -COMMENT) %>%
+  # Allows to rename colums by removing the prefix "X_"
+  rename_with(~str_remove(., "X_")) %>%
+  # I want to move the ID in the begining of the table 
+  select(PATIENT_ID, INIKA_ID, SPEC_NUM, everything())
+
 
 show_query(buidling_query)
 ```
 This is still a query building 
+
+#### Reminder : controlling data quality 
+We can make a little control of the data as we have I
+```{r}
+# ALL ids are identical 
+buidling_query %>% 
+  filter(PATIENT_ID != INIKA_ID) 
+
+# a way to separate columns
+buidling_query %>% 
+  select(INIKA_ID, SPEC_NUM) %>%
+  collect() %>%
+  separate(SPEC_NUM, into = c("ID", "SPEC_NUM"), sep = "-") %>%
+  # Then we can again create a verification that the IDs are identical 
+  filter(INIKA_ID != ID) 
+```
+
+**Here you can see there was probably an error of recording, the data need to be corrected
+or removed, depending on the case.** (see previous session). 
+
+
+#### Filtering data prior to joining tables
+
+Is it necessary ? Well the answer is it depends.
+
+> It is actually not necessary to filter the human data prior to join WHONET data to
+KoboToolbox human data, **as long as the INIKA_ID are unique and correct**, 
+the join will be correct. 
+Having filtered the data prior to joining can be useful as it can make it easier
+to see if what we are doing is correct and/or to detect mistakes. 
 
 
 ```{r}
@@ -348,7 +380,7 @@ buidling_query <-
 show_query(buidling_query)
 ```
 
-Great - now I have filtered the data I wanted, the human data 
+Great - now I have filtered the data we wanted, the human data 
 ```{r}
 human_lab_data <- 
   buidling_query %>%
@@ -357,7 +389,19 @@ human_lab_data <-
 View(human_lab_data)
 ```
 
-Now I can get the portion of the data I am interested to work with into memory 
+We have reduced the size of the data set, and it should be small enough to hold into 
+the memory 
+
+## Closing a connection
+
+When you are finished working with the connection to the SQLite database, 
+you should close it.
+
+```{r}
+DBI::dbDisconnect(dbconn)
+dbconn # status is disconnected
+```
+
 
 # Joining tables - the different kind of joints. 
 
@@ -511,23 +555,259 @@ my_innerjoin %>%
 
 
 
+# Reporting: tables and plotting data 
 
-# Plotting data 
-> import data from Janice and look at the plots 
+We have to few WHONET example data from human. 
+We use the whole WHONET test data. The principle for doing plots remains the 
+same. We will use the isolate table 
+
+## Preparation of the data (reminder)
+```{r}
+glimpse(isolates_tbl)
+```
+
+- we see that all the data from WHONET is of type character, except for the 
+row index (ROW_IDX) column. We will have to transform those columns into appropriate
+types (as done in previous lesson) and remove the columns we will not use
+to facilitate our work
+
+NB: The easiest is to do step by step using pipes and controling that
+I removed all the columns I did not need.  
+
+```{r}
+isolates_tbl %>%
+  select(-ROW_IDX, - ends_with("_NAME"), -SEX, -DATE_BIRTH,- PAT_TYPE,
+         -DEPARTMENT, -SEROTYPE, -MRSA, -INDUC_CLI, -ORG_TYPE, - DATE_DATA, 
+         -CITY, -COUNTY, -STATE, -FOOD, -BRAND, -DATE_ADMIS, -MARKET_CAT,
+         -COUNTRY_A, -LABORATORY, -ISOL_NUM, -COMMENT) %>%
+  glimpse()
+```
+
+when this is ok, we can assign this to a table
+```{r}
+my_isolates_tbl <- 
+  isolates_tbl %>%
+  select(-ROW_IDX, - ends_with("_NAME"), -SEX, -DATE_BIRTH,- PAT_TYPE,
+         -DEPARTMENT, -SEROTYPE, -MRSA, -INDUC_CLI, -ORG_TYPE, - DATE_DATA, 
+         -CITY, -COUNTY, -STATE, -FOOD, -BRAND, -DATE_ADMIS, -MARKET_CAT,
+          -COUNTRY_A, -LABORATORY, -ISOL_NUM, -COMMENT) 
+
+# Note its still a query ! 
+show_query(my_isolates_tbl) 
+```
+Note: I should do data quality check also (here its a test data - so I will skip it, 
+BUT please do as shown in previous lesson)
+
+```{r}
+my_isolates_tbl %>%
+  glimpse()
+```
+Now I need to transform the table to the correct types 
 
 
-## Making categories for plotting
+```{r}
+# transforms empty strings (character) and "NA" to NA values 
+my_isolates_tbl <- 
+  my_isolates_tbl %>%
 
-## Long format for fast plots
+  mutate(across(everything(), 
+                ~if_else(. %in% c("", "NA"), NA, .))) 
 
-## Matching WHONET plots 
+# some functions in dplyr are not implemented as sql query - I need
 
+# to collect data to be able to continue 
+my_isolates_tbl  <- 
+  my_isolates_tbl %>%
+  collect() 
+
+my_isolates_tbl <- 
+  my_isolates_tbl %>%
+  # DATE specimen using Tanzanian time zone
+  mutate(SPEC_DATE = lubridate::ymd_hms(SPEC_DATE, tz = "Africa/Addis_Ababa")) %>%
+  # Need to think about transformations you want to have
+  # transforms AGE in months to AGE in years 
+  mutate(AGE_YEARS = as.integer(stringr::str_remove_all(AGE, "m"))/12) %>%
+  select(-AGE) %>%
+  # transformation of data to factor - eg. a way to select columns 
+  mutate(across(matches(
+    c("BETA_LACT", "ESBL", "CARBAPENEM")),
+    as.factor)) %>%
+  # Transforming measuring values to reals 
+  mutate(across(matches(
+    c("AMX_ED10", "AZM_ED15", "CRO_ED30", "CIP_ED5", "DOX_ED30", "FLR_ED30", 
+      "GEN_ED10", "MEM_ED10", "OXY_ED30", "POL_ED300", "SXT_ED1_2","TYL_ED30")),
+    as.numeric)) 
+  
+
+str(my_isolates_tbl) # str allows to see the levels of factors
+```
+
+<!-- A note 
+PS: Getting the vector of timezone 
+```{r}
+OlsonNames()
+# Tanzania should be this one
+"Africa/Addis_Ababa"
+```
+
+--> 
+
+Transforming character to factors depends on what you want to do. 
+Factors are categorical variables. 
+
+## grouping (reminder)
+
+I for example want to see how many different isolates were analyzed per patient.
+
+```{r}
+my_isolates_tbl %>%
+  select(PATIENT_ID, SPEC_NUM) %>%
+  distinct() %>%
+  group_by(PATIENT_ID) %>%
+  summarize(N = n()) 
+```
+
+Making a check 
+
+```{r}
+my_isolates_tbl %>%
+  select(PATIENT_ID, SPEC_NUM) %>%
+  filter(PATIENT_ID == "18910")
+```
+
+
+## Understanding the data  (reminder )
+
+- [ ] what is the unique way to identify each isolate ? which columns must be used ?
+
+```{r}
+test_selection <- 
+  my_isolates_tbl %>%
+  select(PATIENT_ID, SPEC_NUM,  
+         AMX_ED10,  AZM_ED15,  CIP_ED5)
+
+test_selection
+```
+
+I need to think how i want to split my data (I am not used to 
+analyze those data, so I need to thinkg about it and plot it)
+```{r}
+summary(test_selection %>% select (-PATIENT_ID, -SPEC_NUM))
+```
+
+
+## Long format for fast plots (new)
+
+Transforming data to long format is a nice way to rapidly make eg. boxplot
+for many variables at once. 
+
+
+```{r}
+test_selection %>%
+  # security to be sure there is no grouping
+  # all isolates (no groups)
+  ungroup() %>% 
+  pivot_longer(cols = -c(PATIENT_ID, SPEC_NUM), 
+               names_to = "Antibiotic", 
+               values_to = "diameter value") %>%
+  # Here is the trick to use variables with spaces in ggplot - useful at final plotting
+  ggplot(aes(x = Antibiotic, y = `diameter value`)) +
+  geom_boxplot() +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+
+## Making categories for plotting 
+
+Example making categories of values for plotting measured values of resistances 
+
+! Categories of resistance are artificial (eg. I assumed that there was a break 
+point and that it was the same for all all antibiotics)
+
+Note: here we transform to ordered factor, because the order is important for plotting
+and has qualitative meaning. 
+
+```{r}
+test_selection2 <-  
+  my_isolates_tbl %>%
+  mutate(across(matches(
+    c("AMX_ED10", "AZM_ED15", "CRO_ED30", "CIP_ED5", "DOX_ED30", "FLR_ED30", 
+      "GEN_ED10", "MEM_ED10", "OXY_ED30", "POL_ED300", "SXT_ED1_2","TYL_ED30")),
+    ~case_when(
+      . < 10 ~ "Sensitive",
+      . >= 10 & . < 20 ~ "Intermediate",
+      . >= 20 ~ "Resistant",
+      TRUE ~ "NA"
+    ))) %>%
+  mutate(across(matches(
+    c("AMX_ED10", "AZM_ED15", "CRO_ED30", "CIP_ED5", "DOX_ED30", "FLR_ED30", 
+      "GEN_ED10", "MEM_ED10", "OXY_ED30", "POL_ED300", "SXT_ED1_2","TYL_ED30")),
+    factor, ordered = TRUE, levels = c("Sensitive", "Intermediate", "Resistant"))
+    ) %>%
+  group_by(PATIENT_ID) 
+  
+str(test_selection2)
+str(my_isolates_tbl)
+```
+
+
+We can use the data in different ways.
+
+I want to see eg. if the data is consistent for the same patient, visually.
+
+```{r}
+test_selection2 %>%
+  select(PATIENT_ID, matches(
+    c("AMX_ED10", "AZM_ED15", "CRO_ED30", "CIP_ED5", "DOX_ED30", "FLR_ED30", 
+      "GEN_ED10", "MEM_ED10", "OXY_ED30", "POL_ED300", "SXT_ED1_2","TYL_ED30"))) %>%
+  distinct() %>%
+  #glimpse()
+  pivot_longer(cols = -PATIENT_ID, 
+               names_to = "Antibiotic", 
+               values_to = "Resistance") %>%
+  ggplot(aes(x = Antibiotic, y = Resistance, color = Resistance)) +
+  # I want the geom_col because I want to see the values and nopt the count
+  #geom_col(stat = "identity", position = position_dodge(width = 0.5)) +
+  geom_point(size = 3) +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  facet_wrap(~PATIENT_ID)
+```
+
+This is a way to look at your data (not the best graph though) - but it allows to
+see if one ID has several values of resistance. if there are several points for 
+the same antibiotic. 
+
+It also shows your plots do not need to be perfect if its only to understand the data.
+
+
+Example of heatmap
+
+```{r}
+test_selection2 %>%
+  ungroup() %>%
+  select(PATIENT_ID, SPEC_NUM,  matches(
+    c("AMX_ED10", "AZM_ED15", "CRO_ED30", "CIP_ED5", "DOX_ED30", "FLR_ED30", 
+      "GEN_ED10", "MEM_ED10", "OXY_ED30", "POL_ED300", "SXT_ED1_2","TYL_ED30"))) %>%
+  distinct() %>%
+  pivot_longer(cols = -c(PATIENT_ID, SPEC_NUM),
+               names_to = "Antibiotic", 
+               values_to = "Resistance") %>%
+  arrange(PATIENT_ID) %>%
+  ggplot(aes(x = Antibiotic, y =  SPEC_NUM, fill = Resistance)) +
+  geom_tile()  +
+  theme_bw() +
+  # inverse coordinates 
+  coord_flip()
+```
+ 
 
 # Make sure you understood correctly 
 
 - factors 
 - data types
-- how to create categories (if_else and case_when are usefull for that)
+- how to create categories (if_else and case_when are useful for that)
 
 
 Look in [R for data science book](https://r4ds.hadley.nz/). 
@@ -545,9 +825,10 @@ Other specific resources can be:
 - `?tidyselect::select_helpers` to see the ways to select columns more efficiently
 using helpers like `starts_with`, `ends_with`, `contains`, `matches`, `one_of`, `num_range`
 
-- Use the course material in `Rmarkdown`, you can copy the examples of formating
+- Use the course material in `Rmarkdown`, you can copy the examples of formatting
 and adapt the course material to your need. 
 
+- "pie chart" visualization is controversial in data science (its difficult to evaluate the difference between parts), however there are seen in a lot of places. Eg look [here](https://evolytics.com/blog/8-dont-use-pie-charts/#:~:text=The%20pie%20chart's%20primary%20limitation,pie%2C%20tend%20to%20become%20unreadable.) to know more !
 
 
 # When you are ready to go further:
@@ -561,6 +842,8 @@ and adapt the course material to your need.
 
 
 ## Other ressources that I either used or look at and found if could be useful for you one day
+> some are questions we asked oursevles why making this course !
+
 - [SQL query order of execution](https://www.sisense.com/blog/sql-query-order-of-operations/)
 - [Lazy evaluation and lazy queries](https://smithjd.github.io/sql-pet/chapter-lazy-evaluation-queries.html)
 
@@ -571,6 +854,9 @@ and adapt the course material to your need.
 
 - [Advanced R](https://adv-r.hadley.nz/index.html)
 - [bookdown](https://pkgs.rstudio.com/bookdown/) - You can easily make a book And a webiste as done in many books (easier than different Rmd files, start from R template as done for this course)
+
+- [Tibble vs dataframe](https://posit.co/blog/tibble-1-0-0/) - "lazzy evaluation"
+- [exact equality vs ==](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/identical)
 <!-- 
 
 - injection  ? vs lazy evaluation ?  

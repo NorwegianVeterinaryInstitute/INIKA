@@ -68,64 +68,63 @@ Starting point: `learning_R` git repo has been cloned locally
 -   [ ]   Using a notebook in Rstudio: anatomy, text, code and rendering
 -   [ ]   Exercise Using a R markdown document & Fast overview of R programming language (introduction terms and running things in the cells) ! THIS NEED TO BE EXPLAINED DURING THE COURSE 
 
-> We have during the course here : 
-- installation packages and loading them
-- taking notes in Rmarkdown and runnign cells
-- R notions ...about R objects (not in depth)
-  -   some common data types
-  -   introduction to use help
-  -   small intro functions
-  -   sub-setting / indexes
-  -   a bit of view of objects
-  -   notions in R - different ways to do things
-  -   pipes 
-  -   some tricks 
-  -   Saving your code and notes to git and push to github.
-- Using git in R to backup your code in github (add - commit - push)
+We have during the course here : 
+
+-   [ ]  installation packages and loading them
+-   [ ]  taking notes in Rmarkdown and runnign cells
+-   [ ]  R notions ...about R objects (not in depth)
+    -   [ ]  some common data types
+    -   [ ]  introduction to use help
+    -   [ ]  small intro to functions
+    -   [ ]  sub-setting / indexes
+    -   [ ]  a bit of view of objects
+    -   [ ]  notions in R - different ways to do things (no perfect code!)
+    -   [ ]  pipes 
+    -   [ ]  some tricks 
+-   [ ]  Saving your code and notes to git and push to github.
+    -   [ ]  Using git in R to backup your code in github (add - commit - push)
   
 -   [ ]   Exercise : Printing your code in a word document
 
 
 # Basic R for data analysis (chap 3)
 
-> Data from Human sampling (KoboToolbox)
+NB: Data from Human sampling (KoboToolbox)
 
--   A good organisation of your project for data analysis
+-   [ ]  A good organisation of your project for data analysis
 
--   First steps in data analysis
+-   [ ]  First steps in data analysis
+    -   [ ]  Reading a data frame
+    -   [ ]  checking and setting correct data types
+    -   [ ]  data types (review, and add)
+    -   [ ]  Obtaining a fast overview of the data contained in a data frame (Explain what is a data frame)
+    -   [ ]  Object Visualization (code and Rstudio environment)
+    -   [ ]  Getting a fast summary of the data contained in your data frame
+        -   [ ]  counts (col, row)
+        -   [ ]  factors and levels (summary table / tally)
+        -   [ ]  using pipes
 
-    -   Reading a data frame
-    -   checking and setting correct data types
-        -   data types (review, and add)
-    -   Obtaining a fast overview of the data contained in a dataframe (Explain what is a dataframe)
-    -   Object Visualization (code and Rstudio environment)
-    -   Getting a fast summary of the data contained in your dataframe
-        -   counts (col, row)
-        -   factors and levels (summary table / tally)
-        -   using pipes
-
--   Data frame manipulation with dplyr (etc...)
-
-    -   cleaning colum names ( values (eg. NA and spaces, special characters))
-    -   selecting columns
-    -   mutating
-    -   filtering
-    -   finding specific columns
-    -   arranging rows by values in the columns  
-    -   saving into a spreadsheet 
-    -   summary (base::)
-    -   checking if values are unique (ID)
-    -   group_by
-    -   count and creation of simple contingency tables
-    -   filtering out rows with poor data quality (using filter on ID) 
-    -   exporting dataset to file (csv)
-    -   if_else and case_when to replace missing values
-    -   count and summary functions (contingency tables) in dplyr
-    -   some basic plotting
-    -   exporting/reading object to/from rds file
+-   [ ]   Data frame manipulation with dplyr (etc...)
+    -   [ ]  cleaning column names ( values - eg. NA and spaces, special characters)
+    -   [ ]  selecting columns
+    -   [ ]  mutating
+    -   [ ]  filtering
+    -   [ ]  finding specific columns
+    -   [ ]  arranging rows by values in the columns  
+    -   [ ]  saving into a spreadsheet 
+    -   [ ]  summary (base::)
+    -   [ ]  checking if values are unique (ID)
+    -   [ ]  group_by
+    -   [ ]  count and creation of simple contingency tables
+    -   [ ]  filtering out rows with poor data quality (using filter on ID) 
+    -   [ ]  exporting dataset to file (csv)
+    -   [ ]  if_else and case_when to replace missing values
+    -   [ ]  count and summary functions (contingency tables) in dplyr
+    -   [ ]  some basic plotting
+    -   [ ]  exporting/reading object to/from rds file
 
 Exercises to go further (we do not need to do all). 
-Solutions are patterns they can reuse.   
+Solutions are patterns the students can reuse when working with their own data.   
     
 All in the spirit of data inspection to ensure proper quality: Which includes 
 detecting mistakes or inconsistencies. 
@@ -137,24 +136,32 @@ of our choices.
 # Using data directly from a database (WHONET) and joining datasets. (chap 4)
 
 
-> WHONET fake data for learning + data from Human sampling (KoboToolbox)
+NB: WHONET "fake" data for learning + data from Human sampling (KoboToolbox)
 
-- creating a connection to a SQLite database
-  - why to use a database
-  - lazy evaluation (notion)
-  - querying a table in a database using dbplyr
-  - evaluating the query (collect) 
--   joining data frames (WHONET to human data questionnaires)
-- removing objects from memory (If time permits, dput trick)
-  - notion of identity in objects and memory pointers 
+-   [ ]  creating a connection to a SQLite database
+    -   [ ]  why to use a database
+    -   [ ]  lazy evaluation (notion)
+    
+-   [ ]  querying a table in a database using dbplyr
+    -   [ ]  evaluating the query (collect) 
+
+-   [ ]  Reminder - reading from rds file    
+-   [ ]  joining data frames (WHONET to human data questionnaires)
+
+<u>Only if time permits:</u>
+
+-   [ ]  removing objects from memory (dput trick)
+-   [ ]  notion of identity in objects and memory pointers - awareness identical and == 
   
--   merging data frames using dplyr (inner, left, right, full)
+Needs to be done:
 
+-   [ ]  merging data frames using dplyr (inner, left, right, full)
+-   [ ]  visualization : reproducing WHONET graphs
 
--   visualization : reproducing WHONET graphs
+<u>Only if time permits:</u>
 
--   data wide and long format ? (not sure we have the data for that)
-    -   example: trick for making boxplots from long format
+ -   [ ]  data wide and long format ? (not sure we have the data for that)
+ -   [ ]  example: trick for making boxplots from long format
 
 
 <!-- I  think it will be actually more than enough material 
