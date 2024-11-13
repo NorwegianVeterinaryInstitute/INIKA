@@ -8,6 +8,8 @@
 **/*.pdf
 *.code-workspace
 **.Rproj
+**/renv/*
+**/*.docx
 
 #### 
 # History files

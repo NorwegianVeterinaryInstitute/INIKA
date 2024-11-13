@@ -3,16 +3,16 @@ title: "`r params$title`"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 author: Eve Zeyl Fiskebeck and Madelaine Norström
 params:
+  
   title: "Renv : reproducing an environment automatically - guide" 
   project_path: "`r here::here()`"
-  
-
 knit: (function(inputFile, encoding) {
-  rmarkdown::render(inputFile, encoding = encoding, output_dir = "../../docs") })  
   
+  rmarkdown::render(inputFile, encoding = encoding, output_dir = "../../docs") })  
 output: 
   
   rmdformats::readthedown:
+      
       
       css: ../style.css
       self_contained: true
@@ -23,7 +23,6 @@ output:
       author: params$author
       highlight: espresso
       number_sections: true
-      
 editor_options: 
   markdown: 
     wrap: 72
@@ -31,7 +30,7 @@ editor_options:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, eval = TRUE, 
+knitr::opts_chunk$set(echo = TRUE, eval = FALSE, 
                       message=FALSE, warning=FALSE,
                       results = 'hide')
 ```
@@ -39,3 +38,24 @@ knitr::opts_chunk$set(echo = TRUE, eval = TRUE,
 Environment is a package that allows you to reproduce an environment automatically. This guide will show you how to use the package. 
 
 [Renv Vignette](https://rstudio.github.io/renv/articles/renv.html)
+
+# How I did setup that 
+```{r, setup for me, eval=FALSE}
+install.packages("renv")
+renv::init()
+renv::snapshot()
+```
+
+# How you need to set it up
+
+```{r, setup for you, eval=FALSE}
+install.packages("renv")
+renv::init()
+```
+
+- Then you need to copy the `renv.lock` file and use it to replace the one that was created in project directory. Then do: 
+
+
+```{r, restore env }
+renv::restore()
+```

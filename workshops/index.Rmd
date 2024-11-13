@@ -32,6 +32,8 @@ Please click on the links to find go to the content.
 
 [WHONET setup](WHONET_usage.html)
 
+[Restoring an R environment](Renv_guide.html)
+
 Some setup also in: [Preliminary preparation](0_Before_we_meet.html)
 
 # Workshop November 2024

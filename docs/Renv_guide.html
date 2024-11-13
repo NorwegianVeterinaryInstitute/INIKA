@@ -5,10 +5,10 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="generator" content="pandoc" />
 
-        <meta name="author" content="NVI INIKA team" />
+        <meta name="author" content="Eve Zeyl Fiskebeck and Madelaine Norström" />
     
     
-    <title>INIKA website Content</title>
+    <title>Renv : reproducing an environment automatically - guide</title>
 
         <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -177,6 +177,94 @@ window.buildTabsets = function(tocID) {
   });
 };
 
+</script>
+        <script>
+window.initializeCodeFolding = function(show) {
+
+  // handlers for show-all and hide all
+  $("#rmd-show-all-code").click(function() {
+    $('div.r-code-collapse').each(function() {
+      $(this).collapse('show');
+    });
+  });
+  $("#rmd-hide-all-code").click(function() {
+    $('div.r-code-collapse').each(function() {
+      $(this).collapse('hide');
+    });
+  });
+
+  // index for unique code element ids
+  var currentIndex = 1;
+
+  // select all R code blocks
+  var rCodeBlocks = $('pre.r, pre.python, pre.bash, pre.sql, pre.cpp, pre.stan, pre.julia, pre.foldable');
+  rCodeBlocks.each(function() {
+
+    // create a collapsable div to wrap the code in
+    var div = $('<div class="collapse r-code-collapse"></div>');
+    var showThis = (show || $(this).hasClass('fold-show')) && !$(this).hasClass('fold-hide');
+    var id = 'rcode-643E0F36' + currentIndex++;
+    div.attr('id', id);
+    $(this).before(div);
+    $(this).detach().appendTo(div);
+
+    // add a show code button right above
+    var showCodeText = $('<span>' + (showThis ? 'Hide' : 'Code') + '</span>');
+    var showCodeButton = $('<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm code-folding-btn pull-right float-right"></button>');
+    showCodeButton.append(showCodeText);
+    showCodeButton
+        .attr('data-toggle', 'collapse')
+        .attr('data-target', '#' + id)
+        .attr('aria-expanded', showThis)
+        .attr('aria-controls', id);
+
+    var buttonRow = $('<div class="row"></div>');
+    var buttonCol = $('<div class="col-md-12"></div>');
+
+    buttonCol.append(showCodeButton);
+    buttonRow.append(buttonCol);
+
+    div.before(buttonRow);
+
+    // show the div if necessary
+    if (showThis) div.collapse('show');
+
+    // update state of button on show/hide
+    //   * Change text
+    //   * add a class for intermediate states styling
+    div.on('hide.bs.collapse', function () {
+      showCodeText.text('Code');
+      showCodeButton.addClass('btn-collapsing');
+    });
+    div.on('hidden.bs.collapse', function () {
+      showCodeButton.removeClass('btn-collapsing');
+    });
+    div.on('show.bs.collapse', function () {
+      showCodeText.text('Hide');
+      showCodeButton.addClass('btn-expanding');
+    });
+    div.on('shown.bs.collapse', function () {
+      showCodeButton.removeClass('btn-expanding');
+    });
+
+  });
+
+}
+</script>
+        <script>/*! @source http://purl.eligrey.com/github/FileSaver.js/blob/master/FileSaver.js */
+var saveAs=saveAs||function(e){"use strict";if("undefined"==typeof navigator||!/MSIE [1-9]\./.test(navigator.userAgent)){var t=e.document,n=function(){return e.URL||e.webkitURL||e},o=t.createElementNS("http://www.w3.org/1999/xhtml","a"),r="download"in o,i=function(e){var t=new MouseEvent("click");e.dispatchEvent(t)},a=/Version\/[\d\.]+.*Safari/.test(navigator.userAgent),c=e.webkitRequestFileSystem,f=e.requestFileSystem||c||e.mozRequestFileSystem,u=function(t){(e.setImmediate||e.setTimeout)(function(){throw t},0)},d="application/octet-stream",s=0,l=4e4,v=function(e){var t=function(){"string"==typeof e?n().revokeObjectURL(e):e.remove()};setTimeout(t,l)},p=function(e,t,n){t=[].concat(t);for(var o=t.length;o--;){var r=e["on"+t[o]];if("function"==typeof r)try{r.call(e,n||e)}catch(i){u(i)}}},w=function(e){return/^\s*(?:text\/\S*|application\/xml|\S*\/\S*\+xml)\s*;.*charset\s*=\s*utf-8/i.test(e.type)?new Blob(["\ufeff",e],{type:e.type}):e},y=function(t,u,l){l||(t=w(t));var y,m,S,h=this,R=t.type,O=!1,g=function(){p(h,"writestart progress write writeend".split(" "))},b=function(){if(m&&a&&"undefined"!=typeof FileReader){var o=new FileReader;return o.onloadend=function(){var e=o.result;m.location.href="data:attachment/file"+e.slice(e.search(/[,;]/)),h.readyState=h.DONE,g()},o.readAsDataURL(t),void(h.readyState=h.INIT)}if((O||!y)&&(y=n().createObjectURL(t)),m)m.location.href=y;else{var r=e.open(y,"_blank");void 0===r&&a&&(e.location.href=y)}h.readyState=h.DONE,g(),v(y)},E=function(e){return function(){return h.readyState!==h.DONE?e.apply(this,arguments):void 0}},N={create:!0,exclusive:!1};return h.readyState=h.INIT,u||(u="download"),r?(y=n().createObjectURL(t),void setTimeout(function(){o.href=y,o.download=u,i(o),g(),v(y),h.readyState=h.DONE})):(e.chrome&&R&&R!==d&&(S=t.slice||t.webkitSlice,t=S.call(t,0,t.size,d),O=!0),c&&"download"!==u&&(u+=".download"),(R===d||c)&&(m=e),f?(s+=t.size,void f(e.TEMPORARY,s,E(function(e){e.root.getDirectory("saved",N,E(function(e){var n=function(){e.getFile(u,N,E(function(e){e.createWriter(E(function(n){n.onwriteend=function(t){m.location.href=e.toURL(),h.readyState=h.DONE,p(h,"writeend",t),v(e)},n.onerror=function(){var e=n.error;e.code!==e.ABORT_ERR&&b()},"writestart progress write abort".split(" ").forEach(function(e){n["on"+e]=h["on"+e]}),n.write(t),h.abort=function(){n.abort(),h.readyState=h.DONE},h.readyState=h.WRITING}),b)}),b)};e.getFile(u,{create:!1},E(function(e){e.remove(),n()}),E(function(e){e.code===e.NOT_FOUND_ERR?n():b()}))}),b)}),b)):void b())},m=y.prototype,S=function(e,t,n){return new y(e,t,n)};return"undefined"!=typeof navigator&&navigator.msSaveOrOpenBlob?function(e,t,n){return n||(e=w(e)),navigator.msSaveOrOpenBlob(e,t||"download")}:(m.abort=function(){var e=this;e.readyState=e.DONE,p(e,"abort")},m.readyState=m.INIT=0,m.WRITING=1,m.DONE=2,m.error=m.onwritestart=m.onprogress=m.onwrite=m.onabort=m.onerror=m.onwriteend=null,S)}}("undefined"!=typeof self&&self||"undefined"!=typeof window&&window||this.content);"undefined"!=typeof module&&module.exports?module.exports.saveAs=saveAs:"undefined"!=typeof define&&null!==define&&null!==define.amd&&define([],function(){return saveAs});</script>
+        <script>
+window.initializeSourceEmbed = function(filename) {
+  $("#rmd-download-source").click(function() {
+    var src = $("#rmd-source-code").html();
+    var a = document.createElement('a');
+    a.href = "data:text/x-r-markdown;base64," + src;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  });
+};
 </script>
         <style type="text/css">
 
@@ -2381,6 +2469,71 @@ window.onload = function() {
 </script>
     
     
+        <style type="text/css">code{white-space: pre;}</style>
+    <style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+background-color: #2a211c;
+color: #bdae9d;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #bdae9d; padding-left: 4px; }
+div.sourceCode
+{ color: #bdae9d; background-color: #2a211c; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ffff00; } 
+code span.an { color: #0066ff; font-weight: bold; font-style: italic; } 
+code span.at { } 
+code span.bn { color: #44aa43; } 
+code span.bu { } 
+code span.cf { color: #43a8ed; font-weight: bold; } 
+code span.ch { color: #049b0a; } 
+code span.cn { } 
+code span.co { color: #0066ff; font-weight: bold; font-style: italic; } 
+code span.do { color: #0066ff; font-style: italic; } 
+code span.dt { text-decoration: underline; } 
+code span.dv { color: #44aa43; } 
+code span.er { color: #ffff00; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #44aa43; } 
+code span.fu { color: #ff9358; font-weight: bold; } 
+code span.im { } 
+code span.in { color: #0066ff; font-weight: bold; font-style: italic; } 
+code span.kw { color: #43a8ed; font-weight: bold; } 
+code span.op { } 
+code span.pp { font-weight: bold; } 
+code span.sc { color: #049b0a; } 
+code span.ss { color: #049b0a; } 
+code span.st { color: #049b0a; } 
+code span.va { } 
+code span.vs { color: #049b0a; } 
+code span.wa { color: #ffff00; font-weight: bold; } 
+</style>
     
         <style type="text/css">body{font-family: Helvetica;font-size: 16pt;}h1,h2,h3,h4,h5,h6{font-size: 24pt;}.img1 {max-width: 50%;height: auto;}mark {background-color: yellow;color: black;} </style>
     
@@ -2397,8 +2550,19 @@ window.onload = function() {
     </script>
 
     <!-- code folding -->
+        <script>
+      $(document).ready(function () {
+	  	  window.initializeSourceEmbed("Renv_guide.Rmd");
+	  	  	  window.initializeCodeFolding("show" === "show");
+	        });
+    </script>
     
     <!-- code download -->
+        <style>
+#rmd-source-code {
+display: none;
+}
+</style>
     
     <!-- tabsets dropdown -->
 
@@ -2465,24 +2629,34 @@ margin-left: 0 !important;
        <a role="button" href="#" data-toggle="wy-nav-top"><span class="glyphicon glyphicon-menu-hamburger"></span></a>
      </nav>
          
+      <div class="btn-group pull-right">
+     <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+     <ul class="dropdown-menu" style="min-width: 50px;">
+	    	    <li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+	    <li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+	    	    <li role="separator" class="divider"></li>
+	    	    	    	    <li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+	         </ul>
+   </div>
    
         
-      <h1 class="title">INIKA website Content</h1>
+      <h1 class="title">Renv : reproducing an environment automatically
+- guide</h1>
       
          <!-- readthedown authors -->
    <div id="sidebar">
-    <h2><a href="#content">INIKA website Content</a></h2>
+    <h2><a href="#content">Renv : reproducing an environment
+automatically - guide</a></h2>
     <div id="toc">
       <ul>
-      <li><a href="#software-setup" id="toc-software-setup">Software
-      setup</a></li>
-      <li><a href="#workshop-november-2024" id="toc-workshop-november-2024">Workshop November 2024</a></li>
-      <li><a href="#additional-information" id="toc-additional-information">Additional information</a></li>
+      <li><a href="#how-i-did-setup-that" id="toc-how-i-did-setup-that"><span class="toc-section-number">1</span> How I did setup that</a></li>
+      <li><a href="#how-you-need-to-set-it-up" id="toc-how-you-need-to-set-it-up"><span class="toc-section-number">2</span> How you need to set it
+      up</a></li>
       </ul>
     </div>
     <div id="postamble" data-toggle="wy-nav-shift" class="status">
-                  <p class="author"><span class="glyphicon glyphicon-user"></span> NVI
-INIKA team</p>
+                  <p class="author"><span class="glyphicon glyphicon-user"></span> Eve
+Zeyl Fiskebeck and Madelaine Norström</p>
                         <p class="date"><span class="glyphicon glyphicon-calendar"></span> 13
 november, 2024</p>
           </div>
@@ -2494,39 +2668,32 @@ november, 2024</p>
    
 <!-- Don't indent these lines or it will mess pre blocks indentation --> 
 <div id="main">
-<!--
-Github pages site : https://norwegianveterinaryinstitute.github.io/INIKA/
--->
-<p>Please click on the links to find go to the content.</p>
-<div id="software-setup" class="section level1">
-<h1>Software setup</h1>
-<p><a href="detailed_git_setup.html">Git setup</a></p>
-<p><a href="WHONET_usage.html">WHONET setup</a></p>
-<p><a href="Renv_guide.html">Restoring an R environment</a></p>
-<p>Some setup also in: <a href="0_Before_we_meet.html">Preliminary
-preparation</a></p>
+<p>Environment is a package that allows you to reproduce an environment
+automatically. This guide will show you how to use the package.</p>
+<p><a href="https://rstudio.github.io/renv/articles/renv.html">Renv
+Vignette</a></p>
+<div id="how-i-did-setup-that" class="section level1" number="1">
+<h1><span class="header-section-number">1</span> How I did setup
+that</h1>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;renv&quot;</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>renv<span class="sc">::</span><span class="fu">init</span>()</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>renv<span class="sc">::</span><span class="fu">snapshot</span>()</span></code></pre></div>
 </div>
-<div id="workshop-november-2024" class="section level1">
-<h1>Workshop November 2024</h1>
-<p><a href="0_Before_we_meet.html">Preliminary preparation</a></p>
-<p><a href="0_Training_program.html">What you will learn</a></p>
-<p><a href="1_Introduction.html">Chap 1. Introduction</a></p>
-<p><a href="2_Basic_R_github.html">Chap 2. Basic R and github with
-Rstudio</a></p>
-<p><a href="3_basic_data_analysis.html">Chap 3. Basic R for data
-analysis</a></p>
-<p><a href="4_join_whonet.html">Chap 4. Using data directly from a
-database (WHONET) and joining datasets</a></p>
-</div>
-<div id="additional-information" class="section level1">
-<h1>Additional information</h1>
-<p>Do you want to use this material ? Please check out the <a href="https://github.com/NorwegianVeterinaryInstitute/INIKA/blob/main/LICENSE.md">license</a></p>
-<p>Do you want to contribute to the repository used to make this website
-? Please check out the repository: <a href="https://github.com/NorwegianVeterinaryInstitute/INIKA">NorwegianVeterinaryInstitute/INIKA</a></p>
+<div id="how-you-need-to-set-it-up" class="section level1" number="2">
+<h1><span class="header-section-number">2</span> How you need to set it
+up</h1>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;renv&quot;</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>renv<span class="sc">::</span><span class="fu">init</span>()</span></code></pre></div>
+<ul>
+<li>Then you need to copy the <code>renv.lock</code> file and use it to
+replace the one that was created in project directory. Then do:</li>
+</ul>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>renv<span class="sc">::</span><span class="fu">restore</span>()</span></code></pre></div>
 </div>
 </div>
 
    
+      <div id="rmd-source-code">LS0tDQp0aXRsZTogImByIHBhcmFtcyR0aXRsZWAiDQpkYXRlOiAiYHIgZm9ybWF0KFN5cy50aW1lKCksICclZCAlQiwgJVknKWAiDQphdXRob3I6IEV2ZSBaZXlsIEZpc2tlYmVjayBhbmQgTWFkZWxhaW5lIE5vcnN0csO2bQ0KcGFyYW1zOg0KICANCiAgdGl0bGU6ICJSZW52IDogcmVwcm9kdWNpbmcgYW4gZW52aXJvbm1lbnQgYXV0b21hdGljYWxseSAtIGd1aWRlIiANCiAgcHJvamVjdF9wYXRoOiAiYHIgaGVyZTo6aGVyZSgpYCINCmtuaXQ6IChmdW5jdGlvbihpbnB1dEZpbGUsIGVuY29kaW5nKSB7DQogIA0KICBybWFya2Rvd246OnJlbmRlcihpbnB1dEZpbGUsIGVuY29kaW5nID0gZW5jb2RpbmcsIG91dHB1dF9kaXIgPSAiLi4vLi4vZG9jcyIpIH0pICANCm91dHB1dDogDQogIA0KICBybWRmb3JtYXRzOjpyZWFkdGhlZG93bjoNCiAgICAgIA0KICAgICAgDQogICAgICBjc3M6IC4uL3N0eWxlLmNzcw0KICAgICAgc2VsZl9jb250YWluZWQ6IHRydWUNCiAgICAgIGNvZGVfZG93bmxvYWQ6IHRydWUNCiAgICAgIHRvY19kZXB0aDogNA0KICAgICAgZGZfcHJpbnQ6IHBhZ2VkDQogICAgICBjb2RlX2ZvbGRpbmc6IHNob3cNCiAgICAgIGF1dGhvcjogcGFyYW1zJGF1dGhvcg0KICAgICAgaGlnaGxpZ2h0OiBlc3ByZXNzbw0KICAgICAgbnVtYmVyX3NlY3Rpb25zOiB0cnVlDQplZGl0b3Jfb3B0aW9uczogDQogIG1hcmtkb3duOiANCiAgICB3cmFwOiA3Mg0KICBjaHVua19vdXRwdXRfdHlwZTogY29uc29sZQ0KLS0tDQoNCmBgYHtyIHNldHVwLCBpbmNsdWRlPUZBTFNFfQ0Ka25pdHI6Om9wdHNfY2h1bmskc2V0KGVjaG8gPSBUUlVFLCBldmFsID0gRkFMU0UsIA0KICAgICAgICAgICAgICAgICAgICAgIG1lc3NhZ2U9RkFMU0UsIHdhcm5pbmc9RkFMU0UsDQogICAgICAgICAgICAgICAgICAgICAgcmVzdWx0cyA9ICdoaWRlJykNCmBgYA0KDQpFbnZpcm9ubWVudCBpcyBhIHBhY2thZ2UgdGhhdCBhbGxvd3MgeW91IHRvIHJlcHJvZHVjZSBhbiBlbnZpcm9ubWVudCBhdXRvbWF0aWNhbGx5LiBUaGlzIGd1aWRlIHdpbGwgc2hvdyB5b3UgaG93IHRvIHVzZSB0aGUgcGFja2FnZS4gDQoNCltSZW52IFZpZ25ldHRlXShodHRwczovL3JzdHVkaW8uZ2l0aHViLmlvL3JlbnYvYXJ0aWNsZXMvcmVudi5odG1sKQ0KDQojIEhvdyBJIGRpZCBzZXR1cCB0aGF0IA0KYGBge3IsIHNldHVwIGZvciBtZSwgZXZhbD1GQUxTRX0NCmluc3RhbGwucGFja2FnZXMoInJlbnYiKQ0KcmVudjo6aW5pdCgpDQpyZW52OjpzbmFwc2hvdCgpDQpgYGANCg0KIyBIb3cgeW91IG5lZWQgdG8gc2V0IGl0IHVwDQoNCmBgYHtyLCBzZXR1cCBmb3IgeW91LCBldmFsPUZBTFNFfQ0KaW5zdGFsbC5wYWNrYWdlcygicmVudiIpDQpyZW52Ojppbml0KCkNCmBgYA0KDQotIFRoZW4geW91IG5lZWQgdG8gY29weSB0aGUgYHJlbnYubG9ja2AgZmlsZSBhbmQgdXNlIGl0IHRvIHJlcGxhY2UgdGhlIG9uZSB0aGF0IHdhcyBjcmVhdGVkIGluIHByb2plY3QgZGlyZWN0b3J5LiBUaGVuIGRvOiANCg0KDQpgYGB7ciwgcmVzdG9yZSBlbnYgfQ0KcmVudjo6cmVzdG9yZSgpDQpgYGA=</div>
    
             
       
