@@ -147,21 +147,17 @@ NB: WHONET "fake" data for learning + data from Human sampling (KoboToolbox)
 
 -   [ ]  Reminder - reading from rds file    
 -   [ ]  joining data frames (WHONET to human data questionnaires)
+-   [ ]  making categories and plotting them 
+-   [ ]  data wide and long format trick
+-   [ ]  "bad looking plot", box plots, simple heat map
+-   [ ]  saving plots 
 
 <u>Only if time permits:</u>
 
 -   [ ]  removing objects from memory (dput trick)
 -   [ ]  notion of identity in objects and memory pointers - awareness identical and == 
+ -   [ ]  some more exercises and tidy selection means
   
-Needs to be done:
-
--   [ ]  merging data frames using dplyr (inner, left, right, full)
--   [ ]  visualization : reproducing WHONET graphs
-
-<u>Only if time permits:</u>
-
- -   [ ]  data wide and long format ? (not sure we have the data for that)
- -   [ ]  example: trick for making boxplots from long format
 
 
 <!-- I  think it will be actually more than enough material 

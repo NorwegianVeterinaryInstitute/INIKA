@@ -138,7 +138,7 @@ database:
 
 -   send all the data in R memory and then work on selecting and
     filtering what you need to answer the research question(s) you are
-    interested in. This is problematic when the amount of data is large, as 
+    interested in. This is problematic when the amount of data are large, as 
     it might  not be possible to do so with a normal computer with relatively 
     little RAM. (eg. the computer might crash, and/or the R session can me 
     killed). Consequently, working as such might not be possible at all. 
@@ -222,13 +222,14 @@ Lets look at the description of the collect function
 ```
 
 **Force computation = force evaluation.** The query instructions are
-sent to the SQL database and the data are sent back to R. When you
-assign the data that is sent back to an object, this object containing
-the data is then in R memory. This becomes equivalent to working on a
-data frame that we read into an R object from a spreadsheet.
+sent to the SQLite database and the data are sent back to R. When you
+assign the data that are sent back to an object, the object uses R memory. 
+This becomes equivalent to working on a data frame that we read into an R object
+directly from a spreadsheet.
 
 > PS: a tibble is a data frame created by the tibble R package (its a
-> data frame format). You do not need to bother about that here.
+> data frame format that has been optimized for efficiency). 
+You do not need to bother about details of data frame formats at this stage.
 
 ```{r}
 isolates_df <- collect(isolates_tbl)
@@ -239,26 +240,32 @@ head(isolates_df)
 
 ### We used R memory for nothing : freeing some memory (if we have time)
 
-Because we expect your data to be quite large, we would like to minimize
-memory usage, so your computer continues to function optimally.
+It is possible to remove objects from R memory. You want to remove 
+objects that you will not use again. This can be for example objects you used 
+temporarily to help check your data, tests data sets, etc. Freeing memory might 
+allow your computer to continue work optimally. Moreover, it can also contribute
+to clarify what is really necessary for you to keep to do your task. 
 
-But for demonstration purpose, we have created a data frame `isolate_df`
-that is stored in R memory. We want among other to remove this object
-from memory.
+> It has the same benefits as organizing and cleaning your desk. Keeping solely 
+what is necessary might help you work better. 
+
+For demonstration purpose, we have created a data frame `isolate_df`
+that is stored in R memory. We actually do not need it to use memory. We want to
+remove it from the memory (aka remove it from the Environment). 
 
 Note: In the environment panel, there is a little disc showing how much
 memory is used.
 
-#### A bit of understanding of memory
+#### A bit of understanding of memory (optional)
 
--   Lets create two more object for demonstration purpose
+-   Lets create two additional objects for demonstration purpose
 
 ```{r}
 dummy_a <- 10
 dummy_b <- isolates_df
 ```
 
--   listing the object in the environment
+-   listing the objects that are present in the environment
 
 ```{r}
 ls()
@@ -282,6 +289,9 @@ identical(isolates_df, dummy_b, ignore.bytecode = FALSE)
 -   [ ]  Read about how R compare objects [Identical
     function](https://rdrr.io/r/base/identical.html) and [memory and
     pointers](https://nonvalet.com/posts/20220316_memory_and_pointers_r/)
+    
+-   [ ]  Optional : find out how to find the address in memory where objects are 
+stored (This is starting to be really advanced !) - (We do not do during the course)
 
 ```{r}
 dummy_c <- dummy_b
@@ -289,11 +299,13 @@ identical(dummy_b, dummy_c)
 # does it modify the original object or create a copy ?
 ```
 
-The objects point to the same memory, but when we reassign a modified
-object then the memory location becomes different, and thus independent
-of the object it was originally copied from. This is good, but then it
-also mean that if you at each step creates copies of a modified object
-you can soon run out of memory.
+The objects point to the same memory address, BUT when we reassign a modified
+object, the memory storage address becomes different. The reassigned object then
+became independent of the original object it was originally copied from. 
+
+This is good, but then it
+also means that if you at each step creates copies of a modified object
+you can use a lot of RAM you actually do not need
 
 ```{r}
 dummy_c <- dummy_c %>% filter(PATIENT_ID == "231")
@@ -304,7 +316,6 @@ identical(dummy_b, dummy_c) # the objects are now different
 
 ```{r}
 ls() # listing objects
-
 ```
 
 We want to remove only one object
@@ -316,43 +327,59 @@ ls()
 ```
 
 We can see that the object has been removed from the environment. We
-want to remove several other objects: "isolates_df, dummy_b" and dummy_c
-if you did the exercise above. We can do that using a vector of object
+want to remove several other objects: eg. "isolates_df, dummy_b" and dummy_c
+if you did the exercise above. We can do that using a vector of objects
 
 ```{r}
-dput(ls()) # a trick to allow creating a vector you can copy and edit
+# a trick to allow creating a formatted vector you can copy and edit
+dput(ls()) 
 
 # I copy and edit the result
 rm(list = c("dummy_b", "dummy_c", "isolates_df"))
 ls()
 ```
 
-The objects are not in the memory anymore.
+Success ! the objects are removed from memory.
 
 ### Selecting and filtering data by sending instructions to the database.
 
 We can generally use the same verbs (aka functions[^3]) as in we learned
-in dplyr to filter and select data from a SQLite database using dbplyr.
+during the previous lesson (dplyr verbs) to filter and select data from a SQLite 
+database.
 
-[^3]: people call the dplyr functions verbs. Honestly I am not sure
-    about why this distinction is made for ... but this is a term that
-    can be found in the documentation and useful to know to allow get
-    better results for our searches
+[^3]: people call the dplyr functions verbs. This is because they are actions
+you do on the data (AND the are part of R grammar for data manipulation - which
+is like a language). 
 
-> Note that however not all dplyr verbs are available in dbplyr. This
-> might be due to the fact that some dplyr functionalities cannot be
-> directly translated into SQL queries. See here to see the functions
-> that work in
+
+> Note that however not all dplyr verbs can be translated by dbplyr to SQLite 
+query. SQL queries have to remain simple to work. 
+More advanced data transformations might not be possible via SQL query language. 
+It means that in those case you have to get the data into memory before you can
+do more complex data transformations. See example : 
 > [dbplyr](https://dbplyr.tidyverse.org/articles/dbplyr.html)
+
+Example: Try this with, and without collect to see the difference
 
 ```{r}
 isolates_tbl %>% 
+  # replace all empty by NA
+  mutate_all(~na_if(., "")) %>%
   collect() %>%
-  View()
-# str()
+  mutate_at(vars(AGE), 
+            ~ case_when(
+                stringr::str_detect(AGE, "m") ~ as.numeric(str_remove(AGE, "m"))/12,
+                TRUE ~ as.numeric(AGE)
+              )) 
 ```
 
 #### Reminder : cleaning and checking the data
+
+```{r}
+isolates_tbl %>% 
+  colnames()
+```
+
 
 ```{r}
 buidling_query <- 
@@ -363,9 +390,11 @@ buidling_query <-
   # Allows to rename colums by removing the prefix "X_"
   rename_with(~str_remove(., "X_")) %>%
   # I want to move the ID in the begining of the table 
-  select(PATIENT_ID, INIKA_ID, SPEC_NUM, everything())
+  select(PATIENT_ID, INIKA_ID, SPEC_NUM, everything()) 
+```
 
 
+```{r}
 show_query(buidling_query)
 ```
 
@@ -376,6 +405,9 @@ This is still a query building
 We can make a little control of the data as we have I
 
 ```{r}
+buidling_query %>% 
+  colnames()
+
 # ALL ids are identical 
 buidling_query %>% 
   filter(PATIENT_ID != INIKA_ID) 
@@ -389,9 +421,8 @@ buidling_query %>%
   filter(INIKA_ID != ID) 
 ```
 
-**Here you can see there was probably an error of recording, the data
-need to be corrected or removed, depending on the case.** (see previous
-session).
+**Here you can see there was probably an error during data recording. The data
+needs to be corrected or removed. 
 
 #### Filtering data prior to joining tables
 
@@ -401,8 +432,10 @@ Is it necessary ? Well the answer is it depends.
 > WHONET data to KoboToolbox human data, **as long as the INIKA_ID are
 > unique and correct**, the join will be correct. Having filtered the
 > data prior to joining can be useful as it can make it easier to see if
-> what we are doing is correct and/or to detect mistakes.
+> what we are doing is correct and easier to detect mistakes and errors.
 
+
+ - We can add elements to a query 
 ```{r}
 buidling_query <- 
  buidling_query %>%
@@ -411,7 +444,9 @@ buidling_query <-
 show_query(buidling_query)
 ```
 
-Great - now I have filtered the data we wanted, the human data
+The query to select solely the data I wanted (here human data) is ready. 
+I can now execute the query and get the data into memory.
+
 
 ```{r}
 human_lab_data <- 
@@ -421,28 +456,33 @@ human_lab_data <-
 View(human_lab_data)
 ```
 
-We have reduced the size of the data set, and it should be small enough
-to hold into the memory
 
 ## Closing a connection
 
-When you are finished working with the connection to the SQLite
-database, you should close it.
+When you are finished working with the connection to the database, 
+you should close it.
 
 ```{r}
 DBI::dbDisconnect(dbconn)
 dbconn # status is disconnected
 ```
 
-# Joining tables - the different kind of joints.
+Because the connection is closed, it is not possible anymore to access the
+data in the database. 
+```{r, eval=FALSE}
+isolates_tbl
+```
+
+
+# Joining tables and the different kind of joints.
 
 We need to combine information from two data sets. We use the test data
-that you entered in WHONET and the human data for questionnaires we have
-used yesterday to learn how to prepare data for analysis as an example.
+that you entered in WHONET and the human data (from KoboToolbox we have
+used yesterday as an example to learn how to prepare data analysis).
 
 ## Importing the human data that was saved in an rds file.
 
-We need to re-import the data we saved in the previous session.
+We need to re-import the data we have saved in the previous session.
 
 ```{r}
 human_question_data <- readRDS(
@@ -465,31 +505,45 @@ joins](https://tavareshugo.github.io/r-intro-tidyverse-gapminder/fig/07-dplyr_jo
 
 ------------------------------------------------------------------------
 
-Be careful, if you ID (or key that you use to join data is not unique,
-this will create all combination of joins). Therefore each observation
-(row) in each data set has to be uniquely identified, and all the
-columns necessary to this unique identification need to be present in
-the dataset we want to join.
+Be careful, if the ID (or key that you use to join the data sets are not unique,
+it might create all combination of possible joins). 
+**Therefore each observation (row) in each data set has to be uniquely identified**, 
+and all the columns necessary to this unique identification need to be present in
+the data set we want to joint and all those columns need to be used for the joint.
+
+
+Find about the joins that are possible in dplyr : 
+```{r}
+# will also give you the information about the other mutating joints
+?left_join 
+# Filtering joins 
+?anti_join 
+```
+
+You can also search the help using the following command : 
+```{r}
+??"mutating join"
+help.search("filtering join")
+```
+
 
 Discussion:
 
 -   [ ]  What is the difference between the different types of joins ?
--   [ ]  The problem of IDs that are not unique.
+-   [ ]  What is the problem of IDs that are not unique. How can you solve 
+    this problem ?
 
 > You can read about how to [join data using dplyr
 > here](https://rpubs.com/odenipinedo/joining-data-with-dplyr) and
 > [here](https://tavareshugo.github.io/r-intro-tidyverse-gapminder/08-joins/index.html).
 > Those links are the source of the 2 images above.
 
-```{r}
-# will also give you the information about the other mutating joints
-?left_join 
-```
-
 ## Combining different data frames using mutating joints
 
 -   Finding which columns are common to the two data frames : if they
-    are not named identically you need to compare those yourself
+    are not named identically you need to compare those yourself and then
+    specify during the joining operation which column should correspond to 
+    which other column
 
 ```{r}
 colnames(human_question_data)
@@ -508,13 +562,13 @@ my_innerjoin <-
   dplyr::inner_join(human_lab_data, by = c("INIKA_OH_TZ_ID" = "PATIENT_ID")) 
 
 my_innerjoin %>%
-  #View()
   str()
 ```
 
 -   anti-join is very practical because it allows you to find the
-    observations that are not matched. It can allow you to find out if
-    the proper data are excluded from the join
+    observations that are not matched, quiet helpful to find out if all the 
+    data that was supposed to be joined actually was joined. 
+    
 
 ```{r, message=TRUE}
 colnames(my_innerjoin)
@@ -534,9 +588,20 @@ human_question_data %>%
 
 This shows all the data in human_question_data that are not in my_inner
 join. The message also gives you information about which columns were
-used to create the join
+used to join the datasets, because it was not specified which columns needed to 
+be used in the join. 
 
-## Verifying that the data is consistent (if time - same principle as Yesterday)
+> This also shows why its important to name columns consistently between datasets
+you will want to join at one point. Inconsistent data in columns sharing the same 
+name prevent "easy" data joining. Eg. a `date` column in one data set could represent
+the date of sampling while in another dataset it could represnt the date of analysis. 
+The data in the columns of the two datasets is then not the same, but the computer
+will assume that they are identical if their name is identical. 
+
+## Verifying that the data are consistent (optional - as previous lesson)
+
+If you have columns where the data registered is expected to be identical, 
+use those column to inspect that everyting appears consistent 
 
 This allows you both to detect if the common data that has been
 registered in the two different tables is consistent, thus allowing to
@@ -545,46 +610,71 @@ data.
 
 ```{r}
 colnames(my_innerjoin)
+my_innerjoin %>%
+  head() %>%
+  print(width = Inf)
 ```
 
-Here I see that the data in \`"Age\_\_yrs" should correspond to the data
-in column. Similarly The data in the "Gender" column should correspond
-to the data in "SEX". Moreover, it should be possible to retrieve the
-data from "AGE" from the "DATE_BIRTH" and the date to which the data has
-been collected if its correct inside ...
+- Checking if we have duplicated ids and if so getting those IDs
+```{r}
+my_innerjoin %>%
+  select(INIKA_OH_TZ_ID) %>%
+  # one way to get the duplicated IDs
+  filter(duplicated(INIKA_OH_TZ_ID)) 
+```
 
-We will test the consistence of the data in a subset to make it easier
-to check
 
 ```{r}
 my_innerjoin %>%
-  select(1:3, AGE, SEX) %>%
-  head()
-
+  filter(INIKA_OH_TZ_ID == "23123") %>%
+  print(width = Inf)
 ```
 
-How hell the data is not complete. We do as if it was.
-
-> Warning: to see if the data is coherent, the types of the data must be
-> identical or the test of equality must account for this
+Finding where the differences between rows supposed to belong to the same individual are located - trick
 
 ```{r}
-my_innerjoin %>%
-  select(1:3, AGE, SEX) %>%
-  # another way to write one variable
-  mutate_at(.vars = "AGE", as.integer) %>%
-  mutate_at(.vars = "Gender", as.character) %>%
-  # This allows to test without changing the data - but if you have many different
-  # categories it is better to recode the data 
-  mutate(SAME_AGE = if_else(!is.na(AGE) & Age__yrs == AGE , "inconsistent" , "missing"),
-         SAME_SEX = case_when(
-           Gender == "Male" & SEX == "M" ~ "ok",
-           Gender == "Female" & SEX == "F"~ "ok",
-           SEX == "" ~  "missing",
-           TRUE ~ "inconsistent")
-         ) 
+test_diff <- 
+  my_innerjoin %>%
+  filter(INIKA_OH_TZ_ID == "23123") %>%
+  # transposes the data (matrix)
+  t()
 
+# transpo
+test_diff # the col names are now rows
+# The rows are named ! its a matrix not a dataframe
+typeof(test_diff)
+class(test_diff) 
+rownames(test_diff) 
+
+# select the first column, corresponding to the first ID 
+test_diff[,1] 
+
+# test which row content are different 
+test_diff[,1] != test_diff[,2] 
+
+# gives the row number where the difference is located
+different_rows <- which(test_diff[,1] != test_diff[,2]) 
+different_rows
+
+# show you the selection of rows which have different values
+test_diff[different_rows,]
 ```
+
+The data that is not homogeneous (eg Age - if was sampled the same day ...) needs
+to be checked and modified. 
+
+
+#### Exercise: replace all empty cells by NA
+```{r,  class.source = "fold-hide"}
+my_innerjoin <- 
+  my_innerjoin %>%
+  # Add NA if empty
+  mutate_all(~if_else(. == "", NA, .))
+```
+
+### Exercise : changing the types of the columns
+
+### Exercise : Correcting incorrect values  
 
 # Reporting: tables and plotting data
 
@@ -594,7 +684,13 @@ the isolate table
 
 ## Preparation of the data (reminder)
 
+- the connection to the data base was closed - we need to reopen it
+
 ```{r}
+dbconn <- DBI::dbConnect(RSQLite::SQLite(), 
+                    here::here(whonet_data_path, "TZA-INIKA_TZ-2024.sqlite"))
+
+isolates_tbl <- tbl(dbconn, "Isolates") 
 glimpse(isolates_tbl)
 ```
 
@@ -608,11 +704,35 @@ removed all the columns I did not need.
 
 ```{r}
 isolates_tbl %>%
-  select(-ROW_IDX, - ends_with("_NAME"), -SEX, -DATE_BIRTH,- PAT_TYPE,
-         -DEPARTMENT, -SEROTYPE, -MRSA, -INDUC_CLI, -ORG_TYPE, - DATE_DATA, 
-         -CITY, -COUNTY, -STATE, -FOOD, -BRAND, -DATE_ADMIS, -MARKET_CAT,
-         -COUNTRY_A, -LABORATORY, -ISOL_NUM, -COMMENT) %>%
-  glimpse()
+  # Examples to select and remove columns we do not need
+  select(-ROW_IDX, - ends_with("_A"), -PATIENT_ID, -INSTITUT, -SPEC_CODE, 
+         -ISOL_NUM, - SPEC_TYPE, -ORG_TYPE, -COMMENT) %>%
+    # Transforms empty cells to NA
+  mutate(across(everything(), 
+                ~if_else(. %in% c("", "NA"), NA, .))) %>%
+  # renaming of columns starting by X 
+  # Importance of using ^: beginning of the string
+  # otherwise you will loose  "AMX_ED10" (I did that ! )
+  rename_with(~str_remove(., "^X_")) %>%
+  # I do not need those columns, they are not informative for what I want to do
+  select(-LABORATORY, -DATE_DATA) %>%
+  # I wont use the FARM data nor the spec data right now - so I can remove them 
+  # Adding "SPEC_DATE" otherwise it would be removed 
+  select(-starts_with("FARM"),  
+         -starts_with("SPEC"), 
+         matches(c("SPEC_DATE", "SPEC_NUM"))) %>%
+  # I  Want to see INIKA_ID first then all the other columns
+  select(INIKA_ID, everything()) %>%
+  # we need to get the data from SQLite database to memory otherwise it wont work
+  # this complicated query cannot be translated to SQL by dbplyr
+  collect() %>%
+  mutate_at(vars(AGE), 
+          ~ case_when(
+              stringr::str_detect(AGE, "m") ~ as.numeric(str_remove(AGE, "m"))/12,
+              TRUE ~ as.numeric(AGE)
+            )) %>%
+  
+  View()
 ```
 
 when this is ok, we can assign this to a table
@@ -620,73 +740,64 @@ when this is ok, we can assign this to a table
 ```{r}
 my_isolates_tbl <- 
   isolates_tbl %>%
-  select(-ROW_IDX, - ends_with("_NAME"), -SEX, -DATE_BIRTH,- PAT_TYPE,
-         -DEPARTMENT, -SEROTYPE, -MRSA, -INDUC_CLI, -ORG_TYPE, - DATE_DATA, 
-         -CITY, -COUNTY, -STATE, -FOOD, -BRAND, -DATE_ADMIS, -MARKET_CAT,
-          -COUNTRY_A, -LABORATORY, -ISOL_NUM, -COMMENT) 
-
-# Note its still a query ! 
-show_query(my_isolates_tbl) 
+  select(-ROW_IDX, - ends_with("_A"), -PATIENT_ID, -INSTITUT, -SPEC_CODE, 
+         -ISOL_NUM, - SPEC_TYPE, -ORG_TYPE, -COMMENT) %>%
+  mutate(across(everything(), 
+                ~if_else(. %in% c("", "NA"), NA, .))) %>%
+  rename_with(~str_remove(., "^X_")) %>%
+  select(-LABORATORY, -DATE_DATA) %>%
+  select(-starts_with("FARM"),  
+         -starts_with("SPEC"), 
+         matches(c("SPEC_DATE", "SPEC_NUM"))) %>%
+  select(INIKA_ID, everything()) %>%
+  collect() %>%
+  mutate_at(vars(AGE), 
+          ~ case_when(
+              stringr::str_detect(AGE, "m") ~ as.numeric(str_remove(AGE, "m"))/12,
+              TRUE ~ as.numeric(AGE)
+            )) 
 ```
 
-Note: I should do data quality check also (here its a test data - so I
-will skip it, BUT please do as shown in previous lesson)
-
+I do not check more in detail the data quality - I assume its ok. 
 ```{r}
 my_isolates_tbl %>%
   glimpse()
 ```
 
-Now I need to transform the table to the correct types
+I want to transform the table to the correct types, for those that are not yet
+ok. 
+> I could have done that in the previous step, 
+BUT I like control and to check if what I intended to do is what my code did. 
 
+- Here I try to show you other ways to select columns
 ```{r}
-# transforms empty strings (character) and "NA" to NA values 
-my_isolates_tbl <- 
-  my_isolates_tbl %>%
-
-  mutate(across(everything(), 
-                ~if_else(. %in% c("", "NA"), NA, .))) 
-
-# some functions in dplyr are not implemented as sql query - I need
-
-# to collect data to be able to continue 
-my_isolates_tbl  <- 
-  my_isolates_tbl %>%
-  collect() 
-
 my_isolates_tbl <- 
   my_isolates_tbl %>%
   # DATE specimen using Tanzanian time zone
   mutate(SPEC_DATE = lubridate::ymd_hms(SPEC_DATE, tz = "Africa/Addis_Ababa")) %>%
-  # Need to think about transformations you want to have
-  # transforms AGE in months to AGE in years 
-  mutate(AGE_YEARS = as.integer(stringr::str_remove_all(AGE, "m"))/12) %>%
-  select(-AGE) %>%
-  # transformation of data to factor - eg. a way to select columns 
-  mutate(across(matches(
-    c("BETA_LACT", "ESBL", "CARBAPENEM")),
-    as.factor)) %>%
-  # Transforming measuring values to reals 
-  mutate(across(matches(
-    c("AMX_ED10", "AZM_ED15", "CRO_ED30", "CIP_ED5", "DOX_ED30", "FLR_ED30", 
-      "GEN_ED10", "MEM_ED10", "OXY_ED30", "POL_ED300", "SXT_ED1_2","TYL_ED30")),
-    as.numeric)) 
-  
+  # AGE has already been transformed previously 
+  # transformation of values data to real - another way to select columns 
+  mutate(across(contains("ED"), as.numeric)) %>%
+  # columns to be as factor  But its the numbering at this stage NOT before 
+  # This is vulnerable to change of code before - so it would probably be better
+  # to select columns by name 
+  mutate(across(17:21, factor)) %>%
+  mutate(across(all_of(c("ORIGIN", "ORGANISM")), factor)) 
 
-str(my_isolates_tbl) # str allows to see the levels of factors
+# str allows to see the levels of factors
+str(my_isolates_tbl) 
+# where as gplimse do not show the levels
+#glimpse(my_isolates_tbl)
 ```
 
-````{=html}
-<!-- A note 
-PS: Getting the vector of timezone 
+PS: In case of need, you can get the vector of possible timezones to choose
+from like that 
 ```{r}
 OlsonNames()
 # Tanzania should be this one
 "Africa/Addis_Ababa"
 ```
 
--->
-````
 
 Transforming character to factors depends on what you want to do.
 Factors are categorical variables.
@@ -694,23 +805,25 @@ Factors are categorical variables.
 ## grouping (reminder)
 
 I for example want to see how many different isolates were analyzed per
-patient.
+INIKA_ID
 
 ```{r}
 my_isolates_tbl %>%
-  select(PATIENT_ID, SPEC_NUM) %>%
-  distinct() %>%
-  group_by(PATIENT_ID) %>%
-  summarize(N = n()) 
+  select(INIKA_ID, SPEC_NUM) %>%
+  group_by(INIKA_ID) %>%
+  summarize(N = n()) %>%
+  arrange(desc(N))
 ```
 
-Making a check
+Making a control of the data 
 
 ```{r}
 my_isolates_tbl %>%
-  select(PATIENT_ID, SPEC_NUM) %>%
-  filter(PATIENT_ID == "18910")
+  select(INIKA_ID, SPEC_NUM) %>%
+  filter(INIKA_ID == "18910")
 ```
+
+This is ok, I see two Specimens were analyzed for INIKA_ID 18910
 
 ## Understanding the data (reminder )
 
@@ -720,17 +833,17 @@ my_isolates_tbl %>%
 ```{r}
 test_selection <- 
   my_isolates_tbl %>%
-  select(PATIENT_ID, SPEC_NUM,  
+  select(INIKA_ID, SPEC_NUM,  
          AMX_ED10,  AZM_ED15,  CIP_ED5)
 
 test_selection
 ```
 
 I need to think how i want to split my data (I am not used to analyze
-those data, so I need to thinkg about it and plot it)
+those data, so I need to think about it and plot it)
 
 ```{r}
-summary(test_selection %>% select (-PATIENT_ID, -SPEC_NUM))
+summary(test_selection %>% select (-INIKA_ID, -SPEC_NUM))
 ```
 
 ## Long format for fast plots (new)
@@ -739,13 +852,21 @@ Transforming data to long format is a nice way to rapidly make eg.
 boxplot for many variables at once.
 
 ```{r}
-test_selection %>%
+test_selection <- 
+  test_selection %>%
   # security to be sure there is no grouping
   # all isolates (no groups)
   ungroup() %>% 
-  pivot_longer(cols = -c(PATIENT_ID, SPEC_NUM), 
+  pivot_longer(cols = -c(INIKA_ID, SPEC_NUM), 
                names_to = "Antibiotic", 
-               values_to = "diameter value") %>%
+               values_to = "diameter value") 
+
+test_selection
+```
+
+
+```{r}
+test_selection %>%
   # Here is the trick to use variables with spaces in ggplot - useful at final plotting
   ggplot(aes(x = Antibiotic, y = `diameter value`)) +
   geom_boxplot() +
@@ -755,11 +876,12 @@ test_selection %>%
 
 ## Making categories for plotting
 
-Example making categories of values for plotting measured values of
+Example making categories of values for plotting the measured values of
 resistances
 
 ! Categories of resistance are artificial (eg. I assumed that there was
-a break point and that it was the same for all all antibiotics)
+a size break point and that it was the same for all all antibiotics - and 
+I do no know. What do my lab colleagues think of that ?)
 
 Note: here we transform to ordered factor, because the order is
 important for plotting and has qualitative meaning.
@@ -781,34 +903,45 @@ test_selection2 <-
       "GEN_ED10", "MEM_ED10", "OXY_ED30", "POL_ED300", "SXT_ED1_2","TYL_ED30")),
     factor, ordered = TRUE, levels = c("Sensitive", "Intermediate", "Resistant"))
     ) %>%
-  group_by(PATIENT_ID) 
+  group_by(INIKA_ID) 
   
 str(test_selection2)
+head(test_selection2)
+
 str(my_isolates_tbl)
 ```
 
 We can use the data in different ways.
 
-I want to see eg. if the data is consistent for the same patient,
+#### A bad looking plot (but can be used for data exploration)
+I want to see eg. if the data are consistent for the same patient,
 visually.
 
 ```{r}
-test_selection2 %>%
-  select(PATIENT_ID, matches(
-    c("AMX_ED10", "AZM_ED15", "CRO_ED30", "CIP_ED5", "DOX_ED30", "FLR_ED30", 
-      "GEN_ED10", "MEM_ED10", "OXY_ED30", "POL_ED300", "SXT_ED1_2","TYL_ED30"))) %>%
+test_selection2 <- 
+  test_selection2 %>%
+  select(INIKA_ID, SPEC_NUM, AMX_ED10, AZM_ED15, CRO_ED30, CIP_ED5, DOX_ED30, 
+         FLR_ED30, GEN_ED10, MEM_ED10, OXY_ED30, POL_ED300, SXT_ED1_2,
+         TYL_ED30) %>%
   distinct() %>%
-  #glimpse()
-  pivot_longer(cols = -PATIENT_ID, 
+  pivot_longer(cols = -c("INIKA_ID", "SPEC_NUM"),
                names_to = "Antibiotic", 
-               values_to = "Resistance") %>%
+               values_to = "Resistance")
+# cols = -c(INIKA_ID, SPEC_NUM) works now
+# it means the quoting / unquoting function has been improved 
+head(test_selection2)
+```
+
+
+```{r}
+test_selection2 %>% 
   ggplot(aes(x = Antibiotic, y = Resistance, color = Resistance)) +
   # I want the geom_col because I want to see the values and nopt the count
   #geom_col(stat = "identity", position = position_dodge(width = 0.5)) +
   geom_point(size = 3) +
   theme_bw() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-  facet_wrap(~PATIENT_ID)
+  theme(axis.text.x = element_text(angle = 80, hjust = 1)) +
+  facet_wrap(~INIKA_ID)
 ```
 
 This is a way to look at your data (not the best graph though) - but it
@@ -818,25 +951,55 @@ several points for the same antibiotic.
 It also shows your plots do not need to be perfect if its only to
 understand the data.
 
+#### Saving plots
+- save the plot as a png file
+```{r}
+ggsave(here::here("results", "test_selection2.png"), 
+       plot = last_plot(),
+       width = 10, 
+       height = 10,
+       units = "cm")
+```
+
+**Bahhh this looks bad! It does not look as good as one I can see directly in Rstudio 
+on my screen.**
+
+
+This is because the
+way the plot looks is influenced by the plotting system I use (on screen system
+is different than saving as png system). So I need to adjust the saving parameters
+and look again how the plots looks like. 
+
+```{r}
+ggsave(here::here("results", "test_selection2.png"), 
+       plot = last_plot(),
+       width = 30, 
+       height = 20,
+       units = "cm",
+       dpi = 300)
+```
+
+This look better. 
+
+#### An example of heatmap
+
 Example of heatmap
 
 ```{r}
 test_selection2 %>%
-  ungroup() %>%
-  select(PATIENT_ID, SPEC_NUM,  matches(
-    c("AMX_ED10", "AZM_ED15", "CRO_ED30", "CIP_ED5", "DOX_ED30", "FLR_ED30", 
-      "GEN_ED10", "MEM_ED10", "OXY_ED30", "POL_ED300", "SXT_ED1_2","TYL_ED30"))) %>%
-  distinct() %>%
-  pivot_longer(cols = -c(PATIENT_ID, SPEC_NUM),
-               names_to = "Antibiotic", 
-               values_to = "Resistance") %>%
-  arrange(PATIENT_ID) %>%
   ggplot(aes(x = Antibiotic, y =  SPEC_NUM, fill = Resistance)) +
   geom_tile()  +
-  theme_bw() +
+  theme_bw()  +
   # inverse coordinates 
   coord_flip()
 ```
+
+## End: do not forget to disconnect
+Finish: Do not forget to close the connection to the database
+```{r}
+DBI::dbDisconnect(dbconn)
+```
+
 
 # Make sure you understood correctly
 
@@ -853,6 +1016,15 @@ Other specific resources can be:
     lesson](https://swcarpentry.github.io/r-novice-inflammation/12-supp-factors.html)
 -   [ ] data types - [Look at this
     lesson](https://swcarpentry.github.io/r-novice-inflammation/13-supp-data-structures.html)
+    
+  
+Now you should understand why we insist that the work of gathering data needs to 
+be as good and consistent as possible. 
+
+Wrong IDs waste data - you cannot use those, and because inconsistencies in 
+data registering make you either loose more data and/or make you spend a lot of time
+to ensure that the data set quality is good.
+
 
 # Tricks
 
@@ -861,7 +1033,9 @@ Other specific resources can be:
     `contains`, `matches`, `one_of`, `num_range`
 
 -   Use the course material in `Rmarkdown`, you can copy the examples of
-    formatting and adapt the course material to your need.
+    formatting and adapt the course material to your needs. 
+    Do not forget to seach on internet, a lot of information can help you. 
+    
 
 -   "pie chart" visualization is controversial in data science (its
     difficult to evaluate the difference between parts), however there
@@ -880,7 +1054,11 @@ Other specific resources can be:
 
 -   [programming in the
     tidyverse](https://krlmlr.github.io/tidyprog/index.html)
-    particularly the chapter about tidy evaluation should be usefull
+    particularly the chapter about tidy evaluation should be useful
+    
+-   A new package that might be helpful to get 
+    [publication ready plots](https://github.com/jbengler/tidyplots)
+    (I haven't tried it yet)
 
 ## Other ressources that I either used or look at and found if could be useful for you one day
 
