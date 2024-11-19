@@ -27,6 +27,9 @@ editor_options:
   markdown: 
     wrap: 72
 ---
+
+<u>Warning:</u>. This is in development and has not been tested yet. Please if you have problems to use it, let us know. 
+
 # A note on installation : which version to use ? 
 
 An installer for windows has the **extension (file name ending with)** `.msi`.
@@ -43,20 +46,27 @@ Once a software is installed, and can be run, the extension on windows is `.exe`
 
 [Pandoc](https://pandoc.org/) is a universal document converter, ie: it allows to translate / save document from one type eg. Rmarkdown `.Rmd` to another eg. word document `.docx` or many other formats, eg. portable document `.pdf`. The list of the formats you can convert from and to is given on the pandoc website. If you use pandoc alone to convert between types, the conversion of the **formatting (how it looks like)** might not be exactly as you wish but it does certainly help to go faster in the process.  
 
-Pandoc, when used directly from Rstudio to render your Rmarkdown file (`.Rmd` file containing both codes and notes) as a word document (`.docx`) is a very powerful tool, because the integration of Rstudio and pandoc is very well done.
+Pandoc, when used directly from Rstudio to render your Rmarkdown files (`.Rmd` file containing both codes and notes) as a word document (`.docx`) is a very powerful tool, because the integration of Rstudio and pandoc is very well done.
 
 ## Choice 1: installation of pandoc via a special R package
 
-This is an adaptation of pandoc as Rpackage. It is still under development and might not be as complete as the original pandoc that you can install as standalone.
-
-The description and development website for this package (a github repository) can be found  [here](https://github.com/cderv/pandoc)
+This is an adaptation of pandoc as an R package. 
+It is still under development and might not be as complete as the original pandoc
+version that you can install as standalone.
+ 
+The description and development website for this package (a github repository) 
+can be found  [here](https://github.com/cderv/pandoc)
 
 
 ```{r}
 install.packages("pandoc")
 ```
+
+<!--
 - [ ] check : 
 https://bookdown.org/yihui/rmarkdown-cookbook/install-pandoc.html
+
+--> 
 
 ## Choice 2: installation of the stand alone version of pandoc
 

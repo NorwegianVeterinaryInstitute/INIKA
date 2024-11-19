@@ -36,6 +36,8 @@ Please click on the links to find go to the content.
 
 Some setup also in: [Preliminary preparation](0_Before_we_meet.html)
 
+[Installation for of Rmarkdown document rendering to word and pdf files format](Installation_for_rendering_formats.html)
+
 # Workshop November 2024
 
 [Preliminary preparation](0_Before_we_meet.html)
