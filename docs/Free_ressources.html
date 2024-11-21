@@ -5,10 +5,10 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="generator" content="pandoc" />
 
-        <meta name="author" content="NVI INIKA team" />
+        <meta name="author" content="Eve Zeyl Fiskebeck" />
     
     
-    <title>INIKA website Content</title>
+    <title>Links to good Free Software ressources I know of</title>
 
         <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -177,6 +177,94 @@ window.buildTabsets = function(tocID) {
   });
 };
 
+</script>
+        <script>
+window.initializeCodeFolding = function(show) {
+
+  // handlers for show-all and hide all
+  $("#rmd-show-all-code").click(function() {
+    $('div.r-code-collapse').each(function() {
+      $(this).collapse('show');
+    });
+  });
+  $("#rmd-hide-all-code").click(function() {
+    $('div.r-code-collapse').each(function() {
+      $(this).collapse('hide');
+    });
+  });
+
+  // index for unique code element ids
+  var currentIndex = 1;
+
+  // select all R code blocks
+  var rCodeBlocks = $('pre.r, pre.python, pre.bash, pre.sql, pre.cpp, pre.stan, pre.julia, pre.foldable');
+  rCodeBlocks.each(function() {
+
+    // create a collapsable div to wrap the code in
+    var div = $('<div class="collapse r-code-collapse"></div>');
+    var showThis = (show || $(this).hasClass('fold-show')) && !$(this).hasClass('fold-hide');
+    var id = 'rcode-643E0F36' + currentIndex++;
+    div.attr('id', id);
+    $(this).before(div);
+    $(this).detach().appendTo(div);
+
+    // add a show code button right above
+    var showCodeText = $('<span>' + (showThis ? 'Hide' : 'Code') + '</span>');
+    var showCodeButton = $('<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm code-folding-btn pull-right float-right"></button>');
+    showCodeButton.append(showCodeText);
+    showCodeButton
+        .attr('data-toggle', 'collapse')
+        .attr('data-target', '#' + id)
+        .attr('aria-expanded', showThis)
+        .attr('aria-controls', id);
+
+    var buttonRow = $('<div class="row"></div>');
+    var buttonCol = $('<div class="col-md-12"></div>');
+
+    buttonCol.append(showCodeButton);
+    buttonRow.append(buttonCol);
+
+    div.before(buttonRow);
+
+    // show the div if necessary
+    if (showThis) div.collapse('show');
+
+    // update state of button on show/hide
+    //   * Change text
+    //   * add a class for intermediate states styling
+    div.on('hide.bs.collapse', function () {
+      showCodeText.text('Code');
+      showCodeButton.addClass('btn-collapsing');
+    });
+    div.on('hidden.bs.collapse', function () {
+      showCodeButton.removeClass('btn-collapsing');
+    });
+    div.on('show.bs.collapse', function () {
+      showCodeText.text('Hide');
+      showCodeButton.addClass('btn-expanding');
+    });
+    div.on('shown.bs.collapse', function () {
+      showCodeButton.removeClass('btn-expanding');
+    });
+
+  });
+
+}
+</script>
+        <script>/*! @source http://purl.eligrey.com/github/FileSaver.js/blob/master/FileSaver.js */
+var saveAs=saveAs||function(e){"use strict";if("undefined"==typeof navigator||!/MSIE [1-9]\./.test(navigator.userAgent)){var t=e.document,n=function(){return e.URL||e.webkitURL||e},o=t.createElementNS("http://www.w3.org/1999/xhtml","a"),r="download"in o,i=function(e){var t=new MouseEvent("click");e.dispatchEvent(t)},a=/Version\/[\d\.]+.*Safari/.test(navigator.userAgent),c=e.webkitRequestFileSystem,f=e.requestFileSystem||c||e.mozRequestFileSystem,u=function(t){(e.setImmediate||e.setTimeout)(function(){throw t},0)},d="application/octet-stream",s=0,l=4e4,v=function(e){var t=function(){"string"==typeof e?n().revokeObjectURL(e):e.remove()};setTimeout(t,l)},p=function(e,t,n){t=[].concat(t);for(var o=t.length;o--;){var r=e["on"+t[o]];if("function"==typeof r)try{r.call(e,n||e)}catch(i){u(i)}}},w=function(e){return/^\s*(?:text\/\S*|application\/xml|\S*\/\S*\+xml)\s*;.*charset\s*=\s*utf-8/i.test(e.type)?new Blob(["\ufeff",e],{type:e.type}):e},y=function(t,u,l){l||(t=w(t));var y,m,S,h=this,R=t.type,O=!1,g=function(){p(h,"writestart progress write writeend".split(" "))},b=function(){if(m&&a&&"undefined"!=typeof FileReader){var o=new FileReader;return o.onloadend=function(){var e=o.result;m.location.href="data:attachment/file"+e.slice(e.search(/[,;]/)),h.readyState=h.DONE,g()},o.readAsDataURL(t),void(h.readyState=h.INIT)}if((O||!y)&&(y=n().createObjectURL(t)),m)m.location.href=y;else{var r=e.open(y,"_blank");void 0===r&&a&&(e.location.href=y)}h.readyState=h.DONE,g(),v(y)},E=function(e){return function(){return h.readyState!==h.DONE?e.apply(this,arguments):void 0}},N={create:!0,exclusive:!1};return h.readyState=h.INIT,u||(u="download"),r?(y=n().createObjectURL(t),void setTimeout(function(){o.href=y,o.download=u,i(o),g(),v(y),h.readyState=h.DONE})):(e.chrome&&R&&R!==d&&(S=t.slice||t.webkitSlice,t=S.call(t,0,t.size,d),O=!0),c&&"download"!==u&&(u+=".download"),(R===d||c)&&(m=e),f?(s+=t.size,void f(e.TEMPORARY,s,E(function(e){e.root.getDirectory("saved",N,E(function(e){var n=function(){e.getFile(u,N,E(function(e){e.createWriter(E(function(n){n.onwriteend=function(t){m.location.href=e.toURL(),h.readyState=h.DONE,p(h,"writeend",t),v(e)},n.onerror=function(){var e=n.error;e.code!==e.ABORT_ERR&&b()},"writestart progress write abort".split(" ").forEach(function(e){n["on"+e]=h["on"+e]}),n.write(t),h.abort=function(){n.abort(),h.readyState=h.DONE},h.readyState=h.WRITING}),b)}),b)};e.getFile(u,{create:!1},E(function(e){e.remove(),n()}),E(function(e){e.code===e.NOT_FOUND_ERR?n():b()}))}),b)}),b)):void b())},m=y.prototype,S=function(e,t,n){return new y(e,t,n)};return"undefined"!=typeof navigator&&navigator.msSaveOrOpenBlob?function(e,t,n){return n||(e=w(e)),navigator.msSaveOrOpenBlob(e,t||"download")}:(m.abort=function(){var e=this;e.readyState=e.DONE,p(e,"abort")},m.readyState=m.INIT=0,m.WRITING=1,m.DONE=2,m.error=m.onwritestart=m.onprogress=m.onwrite=m.onabort=m.onerror=m.onwriteend=null,S)}}("undefined"!=typeof self&&self||"undefined"!=typeof window&&window||this.content);"undefined"!=typeof module&&module.exports?module.exports.saveAs=saveAs:"undefined"!=typeof define&&null!==define&&null!==define.amd&&define([],function(){return saveAs});</script>
+        <script>
+window.initializeSourceEmbed = function(filename) {
+  $("#rmd-download-source").click(function() {
+    var src = $("#rmd-source-code").html();
+    var a = document.createElement('a');
+    a.href = "data:text/x-r-markdown;base64," + src;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  });
+};
 </script>
         <style type="text/css">
 
@@ -2397,8 +2485,19 @@ window.onload = function() {
     </script>
 
     <!-- code folding -->
+        <script>
+      $(document).ready(function () {
+	  	  window.initializeSourceEmbed("Free_ressources.Rmd");
+	  	  	  window.initializeCodeFolding("hide" === "show");
+	        });
+    </script>
     
     <!-- code download -->
+        <style>
+#rmd-source-code {
+display: none;
+}
+</style>
     
     <!-- tabsets dropdown -->
 
@@ -2465,28 +2564,39 @@ margin-left: 0 !important;
        <a role="button" href="#" data-toggle="wy-nav-top"><span class="glyphicon glyphicon-menu-hamburger"></span></a>
      </nav>
          
+      <div class="btn-group pull-right">
+     <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+     <ul class="dropdown-menu" style="min-width: 50px;">
+	    	    <li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+	    <li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+	    	    <li role="separator" class="divider"></li>
+	    	    	    	    <li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+	         </ul>
+   </div>
    
         
-      <h1 class="title">INIKA website Content</h1>
+      <h1 class="title">Links to good Free Software ressources I know
+of</h1>
       
          <!-- readthedown authors -->
    <div id="sidebar">
-    <h2><a href="#content">INIKA website Content</a></h2>
+    <h2><a href="#content">Links to good Free Software ressources I know
+of</a></h2>
     <div id="toc">
       <ul>
-      <li><a href="#software-setup" id="toc-software-setup">Software
-      setup</a></li>
-      <li><a href="#workshop-november-2024" id="toc-workshop-november-2024">Workshop November 2024</a></li>
-      <li><a href="#other-external-ressources-that-might-be-useful-for-your-work" id="toc-other-external-ressources-that-might-be-useful-for-your-work">Other
-      external ressources that might be useful for your work</a></li>
-      <li><a href="#additional-information" id="toc-additional-information">Additional information</a></li>
+      <li><a href="#office-software-work" id="toc-office-software-work"><span class="toc-section-number">1</span> Office software &amp;
+      Work</a></li>
+      <li><a href="#portable-software" id="toc-portable-software"><span class="toc-section-number">2</span> Portable software</a></li>
+      <li><a href="#others" id="toc-others"><span class="toc-section-number">3</span> Others</a></li>
+      <li><a href="#useful-online-softwaretools-ressources" id="toc-useful-online-softwaretools-ressources"><span class="toc-section-number">4</span> Useful online software/tools
+      ressources</a></li>
       </ul>
     </div>
     <div id="postamble" data-toggle="wy-nav-shift" class="status">
-                  <p class="author"><span class="glyphicon glyphicon-user"></span> NVI
-INIKA team</p>
+                  <p class="author"><span class="glyphicon glyphicon-user"></span> Eve
+Zeyl Fiskebeck</p>
                         <p class="date"><span class="glyphicon glyphicon-calendar"></span> 21
-november, 2024</p>
+November, 2024</p>
           </div>
    </div>
      
@@ -2496,46 +2606,175 @@ november, 2024</p>
    
 <!-- Don't indent these lines or it will mess pre blocks indentation --> 
 <div id="main">
-<!--
-Github pages site : https://norwegianveterinaryinstitute.github.io/INIKA/
--->
-<p>Please click on the links to find go to the content.</p>
-<div id="software-setup" class="section level1">
-<h1>Software setup</h1>
-<p><a href="detailed_git_setup.html">Git setup</a></p>
-<p><a href="WHONET_usage.html">WHONET setup</a></p>
-<p><a href="Renv_guide.html">Restoring an R environment</a></p>
-<p><a href="Installation_for_rendering_formats.html">Installation for of
-Rmarkdown document rendering to word and pdf files format</a></p>
-<p>Some setup also in: <a href="0_Before_we_meet.html">Preliminary
-preparation</a></p>
+<p>Here you can find some links of software you can use for free<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> and might
+be useful for you also. Some might need a system administrator to
+install them for you, others you can install alone.</p>
+<p><strong>You do not need to install those software - But if you think
+they might ease your work, do so. They might provide functionalities you
+need BUT do not yet have yet</strong>.</p>
+<p>Feel free to suggest adding some several software to this list.</p>
+<div id="office-software-work" class="section level1" number="1">
+<h1><span class="header-section-number">1</span> Office software &amp;
+Work</h1>
+<ul>
+<li><p><a href="https://www.libreoffice.org/download/download-libreoffice/">LibreOffice
+suite</a> can be viewed as the equivalent to microsoft office suite. It
+includes among other software equivalent to word, excel and powerpoint,
+and allow to open and save documents into the same file formats as
+Microsoft office.</p></li>
+<li><p><a href="https://docs.freeplane.org/">Freeplane</a> . Freeplane
+is an amazing free mind-mapping software, its very good if you need
+something visual to organize your thoughts. It might be a bit
+un-intuitive to start with, but if you watch one or two videos on
+youtube to help you start, this will easy. I still use in a simple way,
+which is largely good enough to help me think.</p></li>
+<li><p><a href="https://obsidian.md/">Obsidian</a> is a note taking
+software, knowledge database and some more. The notes are written in
+Markdown, you can look at your R files, tag notes by themes etc. It is a
+bit like an alternative to onenote, but the functionalities can be
+extended by plugins. Its my definitive favorite, because it allows me to
+write in markdown, and to link notes together. There are many videos on
+youtube showing you how people can use it. (Its my number one working
+tool, but maybe a bit scary for you to start with). You can also take
+notes as drawings (like I used during the course). The plugging is
+called <code>excalidraw</code>. Obsidian can be used in a simple way to
+manage projects and task, take notes, write ideas osv… . There is a
+mobile app to allow notes taking on the go. If you need to sync your
+notes, its possible to have a sync. via google drive (its what I am
+doing).</p></li>
+<li><p><a href="https://xodo.com/">Xodo</a> Annotation and reading of
+pdfs. Maybe a bit limited functionality for the free version on windows,
+but excellent as android app.</p></li>
+</ul>
 </div>
-<div id="workshop-november-2024" class="section level1">
-<h1>Workshop November 2024</h1>
-<p><a href="0_Before_we_meet.html">Preliminary preparation</a></p>
-<p><a href="0_Training_program.html">What you will learn</a></p>
-<p><a href="1_Introduction.html">Chap 1. Introduction</a></p>
-<p><a href="2_Basic_R_github.html">Chap 2. Basic R and github with
-Rstudio</a></p>
-<p><a href="3_basic_data_analysis.html">Chap 3. Basic R for data
-analysis</a></p>
-<p><a href="4_join_whonet.html">Chap 4. Using data directly from a
-database (WHONET) and joining datasets</a></p>
+<div id="portable-software" class="section level1" number="2">
+<h1><span class="header-section-number">2</span> Portable software</h1>
+<p><a href="https://portableapps.com/">Portable Apps</a> have a lot of
+software (<code>apps</code>) that can be installed on a USB key and used
+on any computer without requiring administrative rights on the computer.
+The complete list of current software can be found <a href="https://portableapps.com/apps">here</a>. To install those, you
+either first install a menu and then the apps, OR you install directly
+the app, but then you will have to go to the folder where you installed
+it to launch it, by clicking on the file that was created during
+installation and that ends with <code>.exe</code>.</p>
+<p>Installing those software on an USB key (it might require to be big
+enough) can allow you to have access to the same programs on different
+computers, if you have to change between computers often, this might be
+an idea to use a usb key, BUT it will be slower than installing on the
+PC.</p>
+<p>Usually, software version that are available as portable app, are not
+at the latest version, because it takes time to make a software to a
+portable software. This is normal.</p>
+<p>Here are the <a href="https://portableapps.com/download/success">Instructions for
+installation with the menu</a>.</p>
+<p>Here is a list of those that I really find very useful:</p>
+<ol style="list-style-type: decimal">
+<li><p><a href="https://portableapps.com/apps/office/libreoffice_portable">Libre
+office - portable version</a>.</p></li>
+<li><p><a href="https://portableapps.com/apps/graphics_pictures/drawio-portable">Drawio</a>
+a workflow and diagram software. Allow to launch the app directly from
+your computer, I am unsure though if it can be used when offline. I use
+it online, through this webpage : <a href="https://app.diagrams.net/">Drawio</a>.</p></li>
+<li><p><a href="https://portableapps.com/apps/office/dia_portable">Dia</a> a
+simple tool that allow to make workflow and diagrams. Great to organize
+your thoughts. Will work without Internet access.</p></li>
+<li><p><a href="https://portableapps.com/apps/graphics_pictures/inkscape_portable">Inkscape</a>
+This is a vector graphic image editor. This software is usually a linux
+software, but works on windows as a portable app. This is similar in a
+way to <em>adobe illustrator</em>. (This is a most useful software for
+making illustrations). There is some learning curve, but there are
+several good guides and video online to help you how to use it.</p></li>
+<li><p><a href="https://portableapps.com/apps/graphics_pictures/gimp_portable">Gimp</a>.
+A photo editor. This software is usually a linux software, but works on
+windows as a portable app. This is similar in a way to <em>adobe
+photoshop</em>. It is not so easy to use as a beginner, but there are
+several guides and video online to help you how to use it. (I rarely
+need to use this one, but some people might need it).</p></li>
+<li><p><a href="https://portableapps.com/apps/graphics_pictures/irfanview_portable">irfanview</a>
+is a little software to allow you to view images saved in different
+foramts with your computer.</p></li>
+<li><p>There are several tools that allow you manipulate pdf files, eg.
+arranging, rotating, viewing and taking notes. I use often <a href="https://portableapps.com/apps/office/pdf-arranger-portable">pdf
+arranger</a>, one of my colleague uses <a href="https://portableapps.com/apps/office/sumatra_pdf_portable">Sumatra
+PDF</a>.</p></li>
+<li><p><a href="https://portableapps.com/apps/office/zotero-portable">Zotero
+portable</a> is the portable version of the free (and fantastic) library
+manager <a href="https://www.zotero.org/">Zotero</a>. Zotero can be
+linked to Rstudio, and allows you to insert your bibliography in
+Markdown documents, so you can really make a document that is ready to
+be submitted to a journal. It also comes with the ability to take notes
+(also possible to take them in Markdown if you want to train) for each
+paper you have in your reference manager, and comes with a minimal but
+practical pdf annotator. For me, it beats Mendeley and Endnote by far,
+but thats maybe a matter of taste.</p></li>
+<li><p><a href="https://portableapps.com/apps/office/calibre-portable">Calibre
+portable</a> alow not only management but creation of ebooks from
+different formats … which allows you to make most things readeable on
+the go (eg. when you transfer those to your cell phone also, then it can
+be very practical). This is the portable version, the normal version can
+be found <a href="https://calibre-ebook.com/">here</a>.</p></li>
+<li><p><a href="https://portableapps.com/apps/internet/thunderbird_portable">Thunderbird
+portable</a> is an email client (you can download and then write answers
+to emails when you do not have access to internet, and then send them
+when you again gain access to internet). This is the portable version of
+the software, the normal version can found <a href="https://www.thunderbird.net/en-US/">here</a>.</p></li>
+<li><p><a href="https://portableapps.com/apps/utilities/7-zip_portable">7zip
+portable</a> is a compression decompression utility. This is the
+portable version of the software. (In case you do not always have this
+one on windows).</p></li>
+</ol>
+<p>You have also have very good alternatives to windows file manager
+(more practical). There is also File syncing that can be useful to make
+backup of your files (eg. <a href="https://portableapps.com/apps/utilities/freefilesync-portable">Free
+File Sync</a>) and tools for files comparison and merging (which is nice
+when you have different version of the same file and do not know which
+one to use, I did not use those then but it might be).</p>
 </div>
-<div id="other-external-ressources-that-might-be-useful-for-your-work" class="section level1">
-<h1>Other external ressources that might be useful for your work</h1>
-<p><a href="Free_ressources.html">Free but very good software you can
-use for your work</a></p>
+<div id="others" class="section level1" number="3">
+<h1><span class="header-section-number">3</span> Others</h1>
+<ol style="list-style-type: decimal">
+<li><a href="https://bitwarden.com/">Bitwarden</a> is a password
+manager. It can be used for free to manage your passwords and fills them
+directly eg. using an app extension on your webrowser (Firefox and
+Google chrome). There is a phone app also (at least android).<br />
+The paying version has a bit more option, but the free is as secure as
+the non-paying to store passwords. This allows you to use more
+complicated passwords and not reusing the same password to log into
+different sites. For the passwords stored on Bitwarden to be save, you
+need however to use a difficult password to login (at least 14 long,
+with letters, numbers, upper and lower letters, and special characters)
+AND a double identification system (2FA two factor authentication
+activated). There might be better ones, but I know this one works for
+me.</li>
+</ol>
 </div>
-<div id="additional-information" class="section level1">
-<h1>Additional information</h1>
-<p>Do you want to use this material ? Please check out the <a href="https://github.com/NorwegianVeterinaryInstitute/INIKA/blob/main/LICENSE.md">license</a></p>
-<p>Do you want to contribute to the repository used to make this website
-? Please check out the repository: <a href="https://github.com/NorwegianVeterinaryInstitute/INIKA">NorwegianVeterinaryInstitute/INIKA</a></p>
+<div id="useful-online-softwaretools-ressources" class="section level1" number="4">
+<h1><span class="header-section-number">4</span> Useful online
+software/tools ressources</h1>
+<ul>
+<li><p><a href="https://excalidraw.com/">Excalidraw</a> is a drawing
+tool that can be used online, and shared between people, to be used as a
+white board (eg. during online meetings). It works better though if you
+have access to a mouse (instead of the keypad). The drawing can be saved
+(eg. .png).</p></li>
+<li><p><a href="https://app.diagrams.net/">Drawio</a> is a drawing tool
+that can be used online.</p></li>
+<li><p><a href="https://convertio.co/">Easy file conversion between file
+formats</a>: Madelains’ link.</p></li>
+</ul>
+</div>
+<div class="footnotes footnotes-end-of-document">
+<hr />
+<ol>
+<li id="fn1"><p>for education &amp; research, but not for anything
+commercial usually, see the licences terms of each respective software
+for more information.<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+</ol>
 </div>
 </div>
 
    
+      <div id="rmd-source-code">LS0tDQp0aXRsZTogImByIHBhcmFtcyR0aXRsZWAiDQpkYXRlOiAiYHIgZm9ybWF0KFN5cy50aW1lKCksICclZCAlQiwgJVknKWAiDQphdXRob3I6IEV2ZSBaZXlsIEZpc2tlYmVjaw0KcGFyYW1zOg0KICB0aXRsZTogIkxpbmtzIHRvIGdvb2QgRnJlZSBTb2Z0d2FyZSByZXNzb3VyY2VzIEkga25vdyBvZiIgDQogIHByb2plY3RfcGF0aDogImByIGhlcmU6OmhlcmUoKWAiDQogIA0Ka25pdDogKGZ1bmN0aW9uKGlucHV0RmlsZSwgZW5jb2RpbmcpIHsNCiAgcm1hcmtkb3duOjpyZW5kZXIoaW5wdXRGaWxlLCBlbmNvZGluZyA9IGVuY29kaW5nLCBvdXRwdXRfZGlyID0gIi4uLy4uL2RvY3MiKSB9KQ0KICAgIA0Kb3V0cHV0OiANCiAgcm1kZm9ybWF0czo6cmVhZHRoZWRvd246DQogICAgICBjc3M6IC4uL3N0eWxlLmNzcw0KICAgICAgc2VsZl9jb250YWluZWQ6IHRydWUNCiAgICAgIGNvZGVfZG93bmxvYWQ6IHRydWUNCiAgICAgIHRvY19kZXB0aDogNA0KICAgICAgZGZfcHJpbnQ6IHBhZ2VkDQogICAgICBjb2RlX2ZvbGRpbmc6IGhpZGUNCiAgICAgIGF1dGhvcjogcGFyYW1zJGF1dGhvcg0KICAgICAgaGlnaGxpZ2h0OiBlc3ByZXNzbw0KICAgICAgbnVtYmVyX3NlY3Rpb25zOiB0cnVlDQogIA0KZWRpdG9yX29wdGlvbnM6IA0KICBtYXJrZG93bjogDQogICAgd3JhcDogNzINCi0tLQ0KDQpgYGB7ciBzZXR1cCwgaW5jbHVkZT1GQUxTRX0NCmtuaXRyOjpvcHRzX2NodW5rJHNldChlY2hvID0gVFJVRSkNCmBgYA0KDQoNCkhlcmUgeW91IGNhbiBmaW5kIHNvbWUgbGlua3Mgb2Ygc29mdHdhcmUgeW91IGNhbiB1c2UgZm9yIGZyZWVbXjFdIGFuZCBtaWdodCBiZQ0KdXNlZnVsIGZvciB5b3UgYWxzby4gU29tZSBtaWdodCBuZWVkIGEgc3lzdGVtIGFkbWluaXN0cmF0b3IgdG8gaW5zdGFsbCB0aGVtIA0KZm9yIHlvdSwgb3RoZXJzIHlvdSBjYW4gaW5zdGFsbCBhbG9uZS4gDQoNCioqWW91IGRvIG5vdCBuZWVkIHRvIGluc3RhbGwgdGhvc2Ugc29mdHdhcmUgLSBCdXQgaWYgeW91IHRoaW5rIHRoZXkgbWlnaHQgZWFzZSANCnlvdXIgd29yaywgZG8gc28uIFRoZXkgbWlnaHQgcHJvdmlkZSBmdW5jdGlvbmFsaXRpZXMgeW91IG5lZWQgQlVUIGRvIG5vdA0KeWV0IGhhdmUgeWV0KiouDQoNCkZlZWwgZnJlZSB0byBzdWdnZXN0IGFkZGluZyBzb21lIHNldmVyYWwgc29mdHdhcmUgdG8gdGhpcyBsaXN0Lg0KDQpbXjFdOiBmb3IgZWR1Y2F0aW9uICYgcmVzZWFyY2gsIGJ1dCBub3QgZm9yIGFueXRoaW5nIGNvbW1lcmNpYWwgdXN1YWxseSwgc2VlIA0KdGhlIGxpY2VuY2VzIHRlcm1zIG9mIGVhY2ggcmVzcGVjdGl2ZSBzb2Z0d2FyZSBmb3IgbW9yZSBpbmZvcm1hdGlvbi4gDQoNCiMgT2ZmaWNlIHNvZnR3YXJlICYgV29yaw0KDQotIFtMaWJyZU9mZmljZSBzdWl0ZV0oaHR0cHM6Ly93d3cubGlicmVvZmZpY2Uub3JnL2Rvd25sb2FkL2Rvd25sb2FkLWxpYnJlb2ZmaWNlLykNCmNhbiBiZSB2aWV3ZWQgYXMgdGhlIGVxdWl2YWxlbnQgdG8gbWljcm9zb2Z0IG9mZmljZSBzdWl0ZS4gSXQgaW5jbHVkZXMgYW1vbmcgb3RoZXINCnNvZnR3YXJlIGVxdWl2YWxlbnQgdG8gd29yZCwgZXhjZWwgYW5kIHBvd2VycG9pbnQsIGFuZCBhbGxvdyB0byBvcGVuIGFuZCBzYXZlIA0KZG9jdW1lbnRzIGludG8gdGhlIHNhbWUgZmlsZSBmb3JtYXRzIGFzIE1pY3Jvc29mdCBvZmZpY2UuIA0KDQotIFtGcmVlcGxhbmVdKGh0dHBzOi8vZG9jcy5mcmVlcGxhbmUub3JnLykgLiBGcmVlcGxhbmUgaXMgYW4gYW1hemluZyBmcmVlIG1pbmQtbWFwcGluZyBzb2Z0d2FyZSwgaXRzIA0KdmVyeSBnb29kIGlmIHlvdSBuZWVkIHNvbWV0aGluZyB2aXN1YWwgdG8gb3JnYW5pemUgeW91ciB0aG91Z2h0cy4gSXQgbWlnaHQNCmJlIGEgYml0IHVuLWludHVpdGl2ZSB0byBzdGFydCB3aXRoLCBidXQgaWYgeW91IHdhdGNoIG9uZSBvciB0d28gdmlkZW9zIG9uIA0KeW91dHViZSB0byBoZWxwIHlvdSBzdGFydCwgdGhpcyB3aWxsIGVhc3kuIEkgc3RpbGwgdXNlIGluIGEgc2ltcGxlIHdheSwgd2hpY2gNCmlzIGxhcmdlbHkgZ29vZCBlbm91Z2ggdG8gaGVscCBtZSB0aGluay4NCg0KLSBbT2JzaWRpYW5dKGh0dHBzOi8vb2JzaWRpYW4ubWQvKSBpcyBhIG5vdGUgdGFraW5nIHNvZnR3YXJlLCBrbm93bGVkZ2UgZGF0YWJhc2UNCmFuZCBzb21lIG1vcmUuIFRoZSBub3RlcyBhcmUgd3JpdHRlbiBpbiBNYXJrZG93biwgeW91IGNhbiBsb29rIGF0IHlvdXIgUiBmaWxlcywNCnRhZyBub3RlcyBieSB0aGVtZXMgZXRjLiBJdCBpcyBhIGJpdCBsaWtlIGFuIGFsdGVybmF0aXZlIHRvIG9uZW5vdGUsIGJ1dCB0aGUNCmZ1bmN0aW9uYWxpdGllcyBjYW4gYmUgZXh0ZW5kZWQgYnkgcGx1Z2lucy4gSXRzIG15IGRlZmluaXRpdmUgZmF2b3JpdGUsIGJlY2F1c2UNCml0IGFsbG93cyBtZSB0byB3cml0ZSBpbiBtYXJrZG93biwgYW5kIHRvIGxpbmsgbm90ZXMgdG9nZXRoZXIuIFRoZXJlIGFyZSBtYW55IA0KdmlkZW9zIG9uIHlvdXR1YmUgc2hvd2luZyB5b3UgaG93IHBlb3BsZSBjYW4gdXNlIGl0LiAoSXRzIG15IG51bWJlciBvbmUgd29ya2luZyANCnRvb2wsIGJ1dCBtYXliZSBhIGJpdCBzY2FyeSBmb3IgeW91IHRvIHN0YXJ0IHdpdGgpLiBZb3UgY2FuIGFsc28gdGFrZSANCm5vdGVzIGFzIGRyYXdpbmdzIChsaWtlIEkgdXNlZCBkdXJpbmcgdGhlIGNvdXJzZSkuIFRoZSBwbHVnZ2luZyBpcyBjYWxsZWQNCmBleGNhbGlkcmF3YC4gT2JzaWRpYW4gY2FuIGJlIHVzZWQgaW4gYSBzaW1wbGUgd2F5IHRvIG1hbmFnZSBwcm9qZWN0cyBhbmQgdGFzaywNCnRha2Ugbm90ZXMsIHdyaXRlIGlkZWFzIG9zdi4uLiAuIFRoZXJlIGlzIGEgbW9iaWxlIGFwcCB0byBhbGxvdyBub3RlcyB0YWtpbmcgb24NCnRoZSBnby4gSWYgeW91IG5lZWQgdG8gc3luYyB5b3VyIG5vdGVzLCBpdHMgcG9zc2libGUgdG8gaGF2ZSBhIHN5bmMuIHZpYSBnb29nbGUNCmRyaXZlIChpdHMgd2hhdCBJIGFtIGRvaW5nKS4NCg0KLSBbWG9kb10oaHR0cHM6Ly94b2RvLmNvbS8pIEFubm90YXRpb24gYW5kIHJlYWRpbmcgb2YgcGRmcy4gTWF5YmUgYSBiaXQgbGltaXRlZCBmdW5jdGlvbmFsaXR5IGZvciB0aGUgZnJlZSB2ZXJzaW9uIG9uIHdpbmRvd3MsIGJ1dCBleGNlbGxlbnQgYXMgYW5kcm9pZCBhcHAuDQoNCiMgUG9ydGFibGUgc29mdHdhcmUNCg0KDQpbUG9ydGFibGUgQXBwc10oaHR0cHM6Ly9wb3J0YWJsZWFwcHMuY29tLykgaGF2ZSBhIGxvdCBvZiBzb2Z0d2FyZSAoYGFwcHNgKSB0aGF0IGNhbiBiZQ0KaW5zdGFsbGVkIG9uIGEgVVNCIGtleSBhbmQgdXNlZCBvbiBhbnkgY29tcHV0ZXIgd2l0aG91dCByZXF1aXJpbmcgYWRtaW5pc3RyYXRpdmUNCnJpZ2h0cyBvbiB0aGUgY29tcHV0ZXIuIFRoZSBjb21wbGV0ZSBsaXN0IG9mIGN1cnJlbnQgc29mdHdhcmUgY2FuIGJlIGZvdW5kIFtoZXJlXShodHRwczovL3BvcnRhYmxlYXBwcy5jb20vYXBwcykuIFRvIGluc3RhbGwgdGhvc2UsIHlvdSBlaXRoZXIgZmlyc3QgaW5zdGFsbA0KYSBtZW51IGFuZCB0aGVuIHRoZSBhcHBzLCBPUiB5b3UgaW5zdGFsbCBkaXJlY3RseSB0aGUgYXBwLCBidXQgdGhlbiB5b3Ugd2lsbCBoYXZlDQp0byBnbyB0byB0aGUgZm9sZGVyIHdoZXJlIHlvdSBpbnN0YWxsZWQgaXQgdG8gbGF1bmNoIGl0LCBieSBjbGlja2luZyBvbiB0aGUgZmlsZQ0KdGhhdCB3YXMgY3JlYXRlZCBkdXJpbmcgaW5zdGFsbGF0aW9uIGFuZCB0aGF0IGVuZHMgd2l0aCBgLmV4ZWAuIA0KDQpJbnN0YWxsaW5nIHRob3NlIHNvZnR3YXJlIG9uIGFuIFVTQiBrZXkgKGl0IG1pZ2h0IHJlcXVpcmUgdG8gYmUgYmlnIGVub3VnaCkgY2FuDQphbGxvdyB5b3UgdG8gaGF2ZSBhY2Nlc3MgdG8gdGhlIHNhbWUgcHJvZ3JhbXMgb24gZGlmZmVyZW50IGNvbXB1dGVycywgaWYgeW91DQpoYXZlIHRvIGNoYW5nZSBiZXR3ZWVuIGNvbXB1dGVycyBvZnRlbiwgdGhpcyBtaWdodCBiZSBhbiBpZGVhIHRvIHVzZSBhIHVzYiBrZXksIA0KQlVUIGl0IHdpbGwgYmUgc2xvd2VyIHRoYW4gaW5zdGFsbGluZyBvbiB0aGUgUEMuIA0KDQpVc3VhbGx5LCBzb2Z0d2FyZSB2ZXJzaW9uIHRoYXQgYXJlIGF2YWlsYWJsZSBhcyBwb3J0YWJsZSBhcHAsIGFyZSBub3QgYXQgdGhlDQpsYXRlc3QgdmVyc2lvbiwgYmVjYXVzZSBpdCB0YWtlcyB0aW1lIHRvIG1ha2UgYSBzb2Z0d2FyZSB0byBhIHBvcnRhYmxlIHNvZnR3YXJlLg0KVGhpcyBpcyBub3JtYWwuDQoNCkhlcmUgYXJlIHRoZSBbSW5zdHJ1Y3Rpb25zIGZvciBpbnN0YWxsYXRpb24gd2l0aCB0aGUgbWVudV0oaHR0cHM6Ly9wb3J0YWJsZWFwcHMuY29tL2Rvd25sb2FkL3N1Y2Nlc3MpLg0KDQpIZXJlIGlzIGEgbGlzdCBvZiB0aG9zZSB0aGF0IEkgcmVhbGx5IGZpbmQgdmVyeSB1c2VmdWw6IA0KDQoxLiBbTGlicmUgb2ZmaWNlIC0gcG9ydGFibGUgdmVyc2lvbl0oaHR0cHM6Ly9wb3J0YWJsZWFwcHMuY29tL2FwcHMvb2ZmaWNlL2xpYnJlb2ZmaWNlX3BvcnRhYmxlKS4NCg0KMS4gW0RyYXdpb10oaHR0cHM6Ly9wb3J0YWJsZWFwcHMuY29tL2FwcHMvZ3JhcGhpY3NfcGljdHVyZXMvZHJhd2lvLXBvcnRhYmxlKSANCmEgd29ya2Zsb3cgYW5kIGRpYWdyYW0gc29mdHdhcmUuIEFsbG93IHRvIGxhdW5jaCB0aGUgYXBwIGRpcmVjdGx5IGZyb20geW91ciANCmNvbXB1dGVyLCBJIGFtIHVuc3VyZSB0aG91Z2ggaWYgaXQgY2FuIGJlIHVzZWQgd2hlbiBvZmZsaW5lLiBJIHVzZSBpdCBvbmxpbmUsIA0KdGhyb3VnaCB0aGlzIHdlYnBhZ2UgOiBbRHJhd2lvXShodHRwczovL2FwcC5kaWFncmFtcy5uZXQvKS4NCg0KMS4gW0RpYV0oaHR0cHM6Ly9wb3J0YWJsZWFwcHMuY29tL2FwcHMvb2ZmaWNlL2RpYV9wb3J0YWJsZSkgYSBzaW1wbGUgdG9vbCB0aGF0IA0KYWxsb3cgdG8gbWFrZSB3b3JrZmxvdyBhbmQgZGlhZ3JhbXMuIEdyZWF0IHRvIG9yZ2FuaXplIHlvdXIgdGhvdWdodHMuIFdpbGwgd29yaw0Kd2l0aG91dCBJbnRlcm5ldCBhY2Nlc3MuIA0KDQoxLiBbSW5rc2NhcGVdKGh0dHBzOi8vcG9ydGFibGVhcHBzLmNvbS9hcHBzL2dyYXBoaWNzX3BpY3R1cmVzL2lua3NjYXBlX3BvcnRhYmxlKQ0KVGhpcyBpcyBhIHZlY3RvciBncmFwaGljIGltYWdlIGVkaXRvci4gVGhpcyBzb2Z0d2FyZSBpcyB1c3VhbGx5IGEgbGludXggc29mdHdhcmUsIA0KYnV0IHdvcmtzIG9uIHdpbmRvd3MgYXMgYSBwb3J0YWJsZSBhcHAuIFRoaXMgaXMgc2ltaWxhciBpbiBhIHdheSB0byANCl9hZG9iZSBpbGx1c3RyYXRvcl8uIChUaGlzIGlzIGEgbW9zdCB1c2VmdWwgc29mdHdhcmUgZm9yIG1ha2luZyBpbGx1c3RyYXRpb25zKS4gDQpUaGVyZSBpcyBzb21lIGxlYXJuaW5nIGN1cnZlLCBidXQgdGhlcmUgYXJlIHNldmVyYWwgZ29vZCBndWlkZXMgYW5kIHZpZGVvIG9ubGluZSB0bw0KaGVscCB5b3UgaG93IHRvIHVzZSBpdC4NCg0KMS4gW0dpbXBdKGh0dHBzOi8vcG9ydGFibGVhcHBzLmNvbS9hcHBzL2dyYXBoaWNzX3BpY3R1cmVzL2dpbXBfcG9ydGFibGUpLiBBIHBob3RvDQplZGl0b3IuIFRoaXMgc29mdHdhcmUgaXMgdXN1YWxseSBhIGxpbnV4IHNvZnR3YXJlLCBidXQgd29ya3Mgb24gd2luZG93cyBhcyBhIHBvcnRhYmxlDQphcHAuIFRoaXMgaXMgc2ltaWxhciBpbiBhIHdheSB0byBfYWRvYmUgcGhvdG9zaG9wXy4gSXQgaXMgbm90IHNvIGVhc3kgdG8gdXNlIGFzIGENCmJlZ2lubmVyLCBidXQgdGhlcmUgYXJlIHNldmVyYWwgZ3VpZGVzIGFuZCB2aWRlbyBvbmxpbmUgdG8gaGVscCB5b3UgaG93IHRvIHVzZSBpdC4NCihJIHJhcmVseSBuZWVkIHRvIHVzZSB0aGlzIG9uZSwgYnV0IHNvbWUgcGVvcGxlIG1pZ2h0IG5lZWQgaXQpLg0KDQoxLiBbaXJmYW52aWV3XShodHRwczovL3BvcnRhYmxlYXBwcy5jb20vYXBwcy9ncmFwaGljc19waWN0dXJlcy9pcmZhbnZpZXdfcG9ydGFibGUpIA0KaXMgYSBsaXR0bGUgc29mdHdhcmUgdG8gYWxsb3cgeW91IHRvIHZpZXcgaW1hZ2VzIHNhdmVkIGluIGRpZmZlcmVudCBmb3JhbXRzDQp3aXRoIHlvdXIgY29tcHV0ZXIuIA0KDQoxLiBUaGVyZSBhcmUgc2V2ZXJhbCB0b29scyB0aGF0IGFsbG93IHlvdSBtYW5pcHVsYXRlIHBkZiBmaWxlcywgZWcuIGFycmFuZ2luZywgDQpyb3RhdGluZywgdmlld2luZyBhbmQgdGFraW5nIG5vdGVzLiBJIHVzZSBvZnRlbiBbcGRmIGFycmFuZ2VyXShodHRwczovL3BvcnRhYmxlYXBwcy5jb20vYXBwcy9vZmZpY2UvcGRmLWFycmFuZ2VyLXBvcnRhYmxlKSwgb25lIG9mIG15DQpjb2xsZWFndWUgdXNlcyBbU3VtYXRyYSBQREZdKGh0dHBzOi8vcG9ydGFibGVhcHBzLmNvbS9hcHBzL29mZmljZS9zdW1hdHJhX3BkZl9wb3J0YWJsZSkuDQoNCg0KMS4gW1pvdGVybyBwb3J0YWJsZV0oaHR0cHM6Ly9wb3J0YWJsZWFwcHMuY29tL2FwcHMvb2ZmaWNlL3pvdGVyby1wb3J0YWJsZSkgaXMgdGhlIHBvcnRhYmxlIHZlcnNpb24gb2YgdGhlIGZyZWUgKGFuZCBmYW50YXN0aWMpIGxpYnJhcnkNCm1hbmFnZXIgW1pvdGVyb10oaHR0cHM6Ly93d3cuem90ZXJvLm9yZy8pLiBab3Rlcm8gY2FuIGJlIGxpbmtlZCB0byBSc3R1ZGlvLCBhbmQNCmFsbG93cyB5b3UgdG8gaW5zZXJ0IHlvdXIgYmlibGlvZ3JhcGh5IGluIE1hcmtkb3duIGRvY3VtZW50cywgc28geW91IGNhbiByZWFsbHkNCm1ha2UgYSBkb2N1bWVudCB0aGF0IGlzIHJlYWR5IHRvIGJlIHN1Ym1pdHRlZCB0byBhIGpvdXJuYWwuIEl0IGFsc28gY29tZXMgd2l0aA0KdGhlIGFiaWxpdHkgdG8gdGFrZSBub3RlcyAoYWxzbyBwb3NzaWJsZSB0byB0YWtlIHRoZW0gaW4gTWFya2Rvd24gaWYgeW91IHdhbnQgDQp0byB0cmFpbikgZm9yIGVhY2ggcGFwZXIgeW91IGhhdmUgaW4geW91ciByZWZlcmVuY2UgbWFuYWdlciwgYW5kDQpjb21lcyB3aXRoIGEgbWluaW1hbCBidXQgcHJhY3RpY2FsIHBkZiBhbm5vdGF0b3IuIEZvciBtZSwgaXQgYmVhdHMgTWVuZGVsZXkgYW5kDQpFbmRub3RlIGJ5IGZhciwgYnV0IHRoYXRzIG1heWJlIGEgbWF0dGVyIG9mIHRhc3RlLiANCg0KMS4gW0NhbGlicmUgcG9ydGFibGVdKGh0dHBzOi8vcG9ydGFibGVhcHBzLmNvbS9hcHBzL29mZmljZS9jYWxpYnJlLXBvcnRhYmxlKSBhbG93DQpub3Qgb25seSBtYW5hZ2VtZW50IGJ1dCBjcmVhdGlvbiBvZiBlYm9va3MgZnJvbSBkaWZmZXJlbnQgZm9ybWF0cyAuLi4gd2hpY2ggYWxsb3dzDQp5b3UgdG8gbWFrZSBtb3N0IHRoaW5ncyByZWFkZWFibGUgb24gdGhlIGdvIChlZy4gd2hlbiB5b3UgdHJhbnNmZXIgdGhvc2UgdG8geW91cg0KY2VsbCBwaG9uZSBhbHNvLCB0aGVuIGl0IGNhbiBiZSB2ZXJ5IHByYWN0aWNhbCkuIFRoaXMgaXMgdGhlIHBvcnRhYmxlIHZlcnNpb24sIA0KdGhlIG5vcm1hbCB2ZXJzaW9uIGNhbiBiZSBmb3VuZCBbaGVyZV0oaHR0cHM6Ly9jYWxpYnJlLWVib29rLmNvbS8pLg0KDQoxLiBbVGh1bmRlcmJpcmQgcG9ydGFibGVdKGh0dHBzOi8vcG9ydGFibGVhcHBzLmNvbS9hcHBzL2ludGVybmV0L3RodW5kZXJiaXJkX3BvcnRhYmxlKQ0KaXMgYW4gZW1haWwgY2xpZW50ICh5b3UgY2FuIGRvd25sb2FkIGFuZCB0aGVuIHdyaXRlIGFuc3dlcnMgdG8gZW1haWxzIHdoZW4geW91DQpkbyBub3QgaGF2ZSBhY2Nlc3MgdG8gaW50ZXJuZXQsIGFuZCB0aGVuIHNlbmQgdGhlbSB3aGVuIHlvdSBhZ2FpbiBnYWluIGFjY2VzcyB0bw0KaW50ZXJuZXQpLiBUaGlzIGlzIHRoZSBwb3J0YWJsZSB2ZXJzaW9uIG9mIHRoZSBzb2Z0d2FyZSwgdGhlIG5vcm1hbCB2ZXJzaW9uIGNhbg0KZm91bmQgW2hlcmVdKGh0dHBzOi8vd3d3LnRodW5kZXJiaXJkLm5ldC9lbi1VUy8pLg0KDQoxLiBbN3ppcCBwb3J0YWJsZV0oaHR0cHM6Ly9wb3J0YWJsZWFwcHMuY29tL2FwcHMvdXRpbGl0aWVzLzctemlwX3BvcnRhYmxlKSBpcyBhDQpjb21wcmVzc2lvbiBkZWNvbXByZXNzaW9uIHV0aWxpdHkuIFRoaXMgaXMgdGhlIHBvcnRhYmxlIHZlcnNpb24gb2YgdGhlIHNvZnR3YXJlLg0KKEluIGNhc2UgeW91IGRvIG5vdCBhbHdheXMgaGF2ZSB0aGlzIG9uZSBvbiB3aW5kb3dzKS4NCg0KDQpZb3UgaGF2ZSBhbHNvIGhhdmUgdmVyeSBnb29kIGFsdGVybmF0aXZlcyB0byB3aW5kb3dzIGZpbGUgbWFuYWdlciANCihtb3JlIHByYWN0aWNhbCkuIFRoZXJlIGlzIGFsc28gRmlsZSBzeW5jaW5nIHRoYXQgY2FuIGJlIHVzZWZ1bCB0byBtYWtlDQpiYWNrdXAgb2YgeW91ciBmaWxlcyAoZWcuIFtGcmVlIEZpbGUgU3luY10oaHR0cHM6Ly9wb3J0YWJsZWFwcHMuY29tL2FwcHMvdXRpbGl0aWVzL2ZyZWVmaWxlc3luYy1wb3J0YWJsZSkpIGFuZCB0b29scw0KZm9yIGZpbGVzIGNvbXBhcmlzb24gYW5kIG1lcmdpbmcgKHdoaWNoIGlzIG5pY2Ugd2hlbiB5b3UgaGF2ZSBkaWZmZXJlbnQgdmVyc2lvbg0Kb2YgdGhlIHNhbWUgZmlsZSBhbmQgZG8gbm90IGtub3cgd2hpY2ggb25lIHRvIHVzZSwgSSBkaWQgbm90IHVzZSB0aG9zZSB0aGVuDQpidXQgaXQgbWlnaHQgYmUpLg0KDQojIE90aGVycyANCg0KMS4gW0JpdHdhcmRlbl0oaHR0cHM6Ly9iaXR3YXJkZW4uY29tLykgaXMgYSBwYXNzd29yZCBtYW5hZ2VyLiANCkl0IGNhbiBiZSB1c2VkIGZvciBmcmVlIHRvIG1hbmFnZSB5b3VyIA0KcGFzc3dvcmRzIGFuZCBmaWxscyB0aGVtIGRpcmVjdGx5IGVnLiB1c2luZyBhbiBhcHAgZXh0ZW5zaW9uIG9uIHlvdXIgd2Vicm93c2VyDQooRmlyZWZveCBhbmQgR29vZ2xlIGNocm9tZSkuIFRoZXJlIGlzIGEgcGhvbmUgYXBwIGFsc28gKGF0IGxlYXN0IGFuZHJvaWQpLiAgDQpUaGUgcGF5aW5nIHZlcnNpb24gaGFzIGEgYml0IG1vcmUgb3B0aW9uLCBidXQgdGhlIGZyZWUgaXMgYXMgc2VjdXJlIGFzIHRoZSBub24tcGF5aW5nDQp0byBzdG9yZSBwYXNzd29yZHMuIFRoaXMgYWxsb3dzIHlvdSB0byB1c2UgbW9yZSBjb21wbGljYXRlZCBwYXNzd29yZHMgYW5kIG5vdCByZXVzaW5nDQp0aGUgc2FtZSBwYXNzd29yZCB0byBsb2cgaW50byBkaWZmZXJlbnQgc2l0ZXMuIEZvciB0aGUgcGFzc3dvcmRzIHN0b3JlZCBvbiBCaXR3YXJkZW4NCnRvIGJlIHNhdmUsIHlvdSBuZWVkIGhvd2V2ZXIgdG8gdXNlIGEgZGlmZmljdWx0IHBhc3N3b3JkIHRvIGxvZ2luIChhdCBsZWFzdCAxNCANCmxvbmcsIHdpdGggbGV0dGVycywgbnVtYmVycywgdXBwZXIgYW5kIGxvd2VyIGxldHRlcnMsIGFuZCBzcGVjaWFsIGNoYXJhY3RlcnMpIEFORA0KYSBkb3VibGUgaWRlbnRpZmljYXRpb24gc3lzdGVtICgyRkEgdHdvIGZhY3RvciBhdXRoZW50aWNhdGlvbiBhY3RpdmF0ZWQpLiBUaGVyZSANCm1pZ2h0IGJlIGJldHRlciBvbmVzLCBidXQgSSBrbm93IHRoaXMgb25lIHdvcmtzIGZvciBtZS4gDQoNCiMgVXNlZnVsIG9ubGluZSBzb2Z0d2FyZS90b29scyByZXNzb3VyY2VzDQoNCi0gW0V4Y2FsaWRyYXddKGh0dHBzOi8vZXhjYWxpZHJhdy5jb20vKSBpcyBhIGRyYXdpbmcgdG9vbCB0aGF0IGNhbiBiZSB1c2VkIG9ubGluZSwgDQphbmQgc2hhcmVkIGJldHdlZW4gcGVvcGxlLCB0byBiZSB1c2VkIGFzIGEgd2hpdGUgYm9hcmQgKGVnLiBkdXJpbmcgb25saW5lIG1lZXRpbmdzKS4NCkl0IHdvcmtzIGJldHRlciB0aG91Z2ggaWYgeW91IGhhdmUgYWNjZXNzIHRvIGEgbW91c2UgKGluc3RlYWQgb2YgdGhlIGtleXBhZCkuIFRoZQ0KZHJhd2luZyBjYW4gYmUgc2F2ZWQgKGVnLiAucG5nKS4NCg0KLSBbRHJhd2lvXShodHRwczovL2FwcC5kaWFncmFtcy5uZXQvKSBpcyBhIGRyYXdpbmcgdG9vbCB0aGF0IGNhbiBiZSB1c2VkIG9ubGluZS4NCg0KLSBbRWFzeSBmaWxlIGNvbnZlcnNpb24gYmV0d2VlbiBmaWxlIGZvcm1hdHNdKGh0dHBzOi8vY29udmVydGlvLmNvLyk6IE1hZGVsYWlucycgbGluay4NCg0KDQoNCg==</div>
    
             
       

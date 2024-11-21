@@ -34,9 +34,9 @@ Please click on the links to find go to the content.
 
 [Restoring an R environment](Renv_guide.html)
 
-Some setup also in: [Preliminary preparation](0_Before_we_meet.html)
-
 [Installation for of Rmarkdown document rendering to word and pdf files format](Installation_for_rendering_formats.html)
+
+Some setup also in: [Preliminary preparation](0_Before_we_meet.html)
 
 # Workshop November 2024
 
@@ -51,6 +51,10 @@ Some setup also in: [Preliminary preparation](0_Before_we_meet.html)
 [Chap 3. Basic R for data analysis](3_basic_data_analysis.html)
 
 [Chap 4. Using data directly from a database (WHONET) and joining datasets](4_join_whonet.html)
+
+# Other external ressources that might be useful for your work
+
+[Free but very good software you can use for your work](Free_ressources.html)
 
 # Additional information
 

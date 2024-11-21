@@ -1,0 +1,190 @@
+---
+title: "`r params$title`"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+author: Eve Zeyl Fiskebeck
+params:
+  title: "Links to good Free Software ressources I know of" 
+  project_path: "`r here::here()`"
+  
+knit: (function(inputFile, encoding) {
+  rmarkdown::render(inputFile, encoding = encoding, output_dir = "../../docs") })
+    
+output: 
+  rmdformats::readthedown:
+      css: ../style.css
+      self_contained: true
+      code_download: true
+      toc_depth: 4
+      df_print: paged
+      code_folding: hide
+      author: params$author
+      highlight: espresso
+      number_sections: true
+  
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+Here you can find some links of software you can use for free[^1] and might be
+useful for you also. Some might need a system administrator to install them 
+for you, others you can install alone. 
+
+**You do not need to install those software - But if you think they might ease 
+your work, do so. They might provide functionalities you need BUT do not
+yet have yet**.
+
+Feel free to suggest adding some several software to this list.
+
+[^1]: for education & research, but not for anything commercial usually, see 
+the licences terms of each respective software for more information. 
+
+# Office software & Work
+
+- [LibreOffice suite](https://www.libreoffice.org/download/download-libreoffice/)
+can be viewed as the equivalent to microsoft office suite. It includes among other
+software equivalent to word, excel and powerpoint, and allow to open and save 
+documents into the same file formats as Microsoft office. 
+
+- [Freeplane](https://docs.freeplane.org/) . Freeplane is an amazing free mind-mapping software, its 
+very good if you need something visual to organize your thoughts. It might
+be a bit un-intuitive to start with, but if you watch one or two videos on 
+youtube to help you start, this will easy. I still use in a simple way, which
+is largely good enough to help me think.
+
+- [Obsidian](https://obsidian.md/) is a note taking software, knowledge database
+and some more. The notes are written in Markdown, you can look at your R files,
+tag notes by themes etc. It is a bit like an alternative to onenote, but the
+functionalities can be extended by plugins. Its my definitive favorite, because
+it allows me to write in markdown, and to link notes together. There are many 
+videos on youtube showing you how people can use it. (Its my number one working 
+tool, but maybe a bit scary for you to start with). You can also take 
+notes as drawings (like I used during the course). The plugging is called
+`excalidraw`. Obsidian can be used in a simple way to manage projects and task,
+take notes, write ideas osv... . There is a mobile app to allow notes taking on
+the go. If you need to sync your notes, its possible to have a sync. via google
+drive (its what I am doing).
+
+- [Xodo](https://xodo.com/) Annotation and reading of pdfs. Maybe a bit limited functionality for the free version on windows, but excellent as android app.
+
+# Portable software
+
+
+[Portable Apps](https://portableapps.com/) have a lot of software (`apps`) that can be
+installed on a USB key and used on any computer without requiring administrative
+rights on the computer. The complete list of current software can be found [here](https://portableapps.com/apps). To install those, you either first install
+a menu and then the apps, OR you install directly the app, but then you will have
+to go to the folder where you installed it to launch it, by clicking on the file
+that was created during installation and that ends with `.exe`. 
+
+Installing those software on an USB key (it might require to be big enough) can
+allow you to have access to the same programs on different computers, if you
+have to change between computers often, this might be an idea to use a usb key, 
+BUT it will be slower than installing on the PC. 
+
+Usually, software version that are available as portable app, are not at the
+latest version, because it takes time to make a software to a portable software.
+This is normal.
+
+Here are the [Instructions for installation with the menu](https://portableapps.com/download/success).
+
+Here is a list of those that I really find very useful: 
+
+1. [Libre office - portable version](https://portableapps.com/apps/office/libreoffice_portable).
+
+1. [Drawio](https://portableapps.com/apps/graphics_pictures/drawio-portable) 
+a workflow and diagram software. Allow to launch the app directly from your 
+computer, I am unsure though if it can be used when offline. I use it online, 
+through this webpage : [Drawio](https://app.diagrams.net/).
+
+1. [Dia](https://portableapps.com/apps/office/dia_portable) a simple tool that 
+allow to make workflow and diagrams. Great to organize your thoughts. Will work
+without Internet access. 
+
+1. [Inkscape](https://portableapps.com/apps/graphics_pictures/inkscape_portable)
+This is a vector graphic image editor. This software is usually a linux software, 
+but works on windows as a portable app. This is similar in a way to 
+_adobe illustrator_. (This is a most useful software for making illustrations). 
+There is some learning curve, but there are several good guides and video online to
+help you how to use it.
+
+1. [Gimp](https://portableapps.com/apps/graphics_pictures/gimp_portable). A photo
+editor. This software is usually a linux software, but works on windows as a portable
+app. This is similar in a way to _adobe photoshop_. It is not so easy to use as a
+beginner, but there are several guides and video online to help you how to use it.
+(I rarely need to use this one, but some people might need it).
+
+1. [irfanview](https://portableapps.com/apps/graphics_pictures/irfanview_portable) 
+is a little software to allow you to view images saved in different foramts
+with your computer. 
+
+1. There are several tools that allow you manipulate pdf files, eg. arranging, 
+rotating, viewing and taking notes. I use often [pdf arranger](https://portableapps.com/apps/office/pdf-arranger-portable), one of my
+colleague uses [Sumatra PDF](https://portableapps.com/apps/office/sumatra_pdf_portable).
+
+
+1. [Zotero portable](https://portableapps.com/apps/office/zotero-portable) is the portable version of the free (and fantastic) library
+manager [Zotero](https://www.zotero.org/). Zotero can be linked to Rstudio, and
+allows you to insert your bibliography in Markdown documents, so you can really
+make a document that is ready to be submitted to a journal. It also comes with
+the ability to take notes (also possible to take them in Markdown if you want 
+to train) for each paper you have in your reference manager, and
+comes with a minimal but practical pdf annotator. For me, it beats Mendeley and
+Endnote by far, but thats maybe a matter of taste. 
+
+1. [Calibre portable](https://portableapps.com/apps/office/calibre-portable) alow
+not only management but creation of ebooks from different formats ... which allows
+you to make most things readeable on the go (eg. when you transfer those to your
+cell phone also, then it can be very practical). This is the portable version, 
+the normal version can be found [here](https://calibre-ebook.com/).
+
+1. [Thunderbird portable](https://portableapps.com/apps/internet/thunderbird_portable)
+is an email client (you can download and then write answers to emails when you
+do not have access to internet, and then send them when you again gain access to
+internet). This is the portable version of the software, the normal version can
+found [here](https://www.thunderbird.net/en-US/).
+
+1. [7zip portable](https://portableapps.com/apps/utilities/7-zip_portable) is a
+compression decompression utility. This is the portable version of the software.
+(In case you do not always have this one on windows).
+
+
+You have also have very good alternatives to windows file manager 
+(more practical). There is also File syncing that can be useful to make
+backup of your files (eg. [Free File Sync](https://portableapps.com/apps/utilities/freefilesync-portable)) and tools
+for files comparison and merging (which is nice when you have different version
+of the same file and do not know which one to use, I did not use those then
+but it might be).
+
+# Others 
+
+1. [Bitwarden](https://bitwarden.com/) is a password manager. 
+It can be used for free to manage your 
+passwords and fills them directly eg. using an app extension on your webrowser
+(Firefox and Google chrome). There is a phone app also (at least android).  
+The paying version has a bit more option, but the free is as secure as the non-paying
+to store passwords. This allows you to use more complicated passwords and not reusing
+the same password to log into different sites. For the passwords stored on Bitwarden
+to be save, you need however to use a difficult password to login (at least 14 
+long, with letters, numbers, upper and lower letters, and special characters) AND
+a double identification system (2FA two factor authentication activated). There 
+might be better ones, but I know this one works for me. 
+
+# Useful online software/tools ressources
+
+- [Excalidraw](https://excalidraw.com/) is a drawing tool that can be used online, 
+and shared between people, to be used as a white board (eg. during online meetings).
+It works better though if you have access to a mouse (instead of the keypad). The
+drawing can be saved (eg. .png).
+
+- [Drawio](https://app.diagrams.net/) is a drawing tool that can be used online.
+
+- [Easy file conversion between file formats](https://convertio.co/): Madelains' link.
+
+
+
