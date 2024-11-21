@@ -28,6 +28,8 @@ Please click on the links to find go to the content.
 
 # Software setup
 
+[which version should I choose](which_version.html)
+
 [Git setup](detailed_git_setup.html)
 
 [WHONET setup](WHONET_usage.html)

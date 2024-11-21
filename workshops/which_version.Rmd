@@ -1,0 +1,45 @@
+---
+title: "`r params$title`"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+author: Eve Zeyl Fiskebeck and Madelaine Norström
+params:
+  title: "Installation : Which version should I choose" 
+  
+knit: (function(inputFile, encoding) {
+  rmarkdown::render(inputFile, encoding = encoding, output_dir = "../docs") })
+    
+output: 
+  
+  rmdformats::readthedown:
+      css: ../styles/style.css
+      self_contained: true
+      code_download: true
+      toc_depth: 4
+      df_print: paged
+      code_folding: show
+      author: params$author
+      highlight: espresso
+      number_sections: true
+      
+
+  
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# A note on installation : which version to use ? 
+
+An installer for windows has the **extension (file name ending with)** `.msi`.
+
+- x86 means its a 32 bits windows computers (most older computers)
+- x64 means its for a 64 bits windows computers (most recent laptops, and likely the version you should choose when you install software).
+- x86_64 is meant for both 32 and 64 bits windows computers
+
+Usually, software versions for 32 bits computer will work on 64 bits computers BUT software version for 32 bits computer will NOT work on 64 bits computers. In doubt, you may choose the 32 bits version. 
+
+Once a software is installed, and can be run, the extension on windows is `.exe` (for executable).
