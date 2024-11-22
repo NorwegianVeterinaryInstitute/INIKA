@@ -158,4 +158,35 @@ in `C:/WHONET/Data` and the original WHONET file is called `TZA-INIKA_TZ-2024.sq
 
 **Then you will need to upload this file on INIKA Google drive to your backup area.**
 
+# Changing LAB configuration
+
+## Aggreement with NVI team before changing LAB configuration
+
+Should you need (maybe at the beginning of data registering AND 
+**in agreement with the teams members (Janice & Camilla)**
+during meetings, you may have to replace the original lab
+configuration by another one. This is a file that Janice will provide.
+
+**BEFORE** you replace the lab file with a new one, you need to delete the old one.
+Either directly, using WHONET OR you can delete the file via _windows file manager_. 
+The file is in `C:/WHONET` and starts by `LAB`eg . `LABTZA.INIKA_TZ`
+
+Then you can import the new lab file as described in the first section of this 
+document.
+
+## Reopening the data 
+
+**BEFORE reopening the data file after a change of lab configuration, you MUST
+backup the data file in Google drive, including the date (and eventually time)
+of the backup!, even if you did a backup just before.**
+
+Then you can open the data that was created with the previous lab configuration.
+It might ask you to remove or make some change. **If WHONET software asks
+you to remove columns that
+contain important information, you should have discussed this with the INIKA 
+team members at NVI. If this has not been discussed, this is not good. Please
+take this up with the team members.**
+
+
+
 Back to [Index](index.html)

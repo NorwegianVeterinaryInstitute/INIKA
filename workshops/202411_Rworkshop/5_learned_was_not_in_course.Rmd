@@ -1,0 +1,73 @@
+---
+title: "What did you learn ?"
+author: "Eve Fiskebeck"
+date: "`r Sys.Date()`"
+output: 
+  revealjs::revealjs_presentation
+    embed-resources: true
+    logo: "./img/logo.png"
+    slide-number: c/t
+    incremental: true
+    title-slide-attributes: 
+      data-background-image: "./files/front_page.png"
+      data-background-size: "50%"
+      data-background-position: "50% 95%"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+# What did you learn and was not written in the course :
+
+- Writing code needs to be spelled correctly (and exactly). As a beginner its 
+not easy to see those kind of mistakes (it can be complicated too also when 
+more experienced)
+- Spaces, and special symbols (such as ?\/:) in file names and column names are 
+not a good idea (they make you work more difficult). Keep to use underscores as 
+separators for example. 
+- quotes and brackets comes in pairs and are important. Not using them correctly 
+will lead code that might not work.
+- exploring the layout of a software and its options (eg through the meny) is a 
+good idea. It will help you progress faster.
+
+
+
+## Specific to Rstudio 
+
+- press `Esc` if the console is _waiting for more instructions_ (when it starts 
+  by the symbol `+`). The cause of this is mostly cause by brackets or quotes 
+  that have not been closed.
+- The error messages are informative. They can point you to the type of problem 
+  existing in your code 
+   - file not existing / not found : is 99% of the time the path or filename is 
+   not correct
+ - warning message are informative, but are not necessarily errors. They are 
+   there to inform you that something might not be as you expected.
+
+
+## Gloassary 
+
+### General IT
+
+- **path** : the location of a file on your computer. It is a series of folders 
+  separated by `/` (or `\` on windows).
+- **file name** : the name of a file.
+
+### Specific to R studio
+
+- to render : the action of transforming a Rmarkdown file into a document (html, 
+  pdf, word, etc)
+
+
+# Bonus 
+
+How can you make such a presentation while using Rmarkdown?
+
+- Install this revealjs package 
+```{r}
+install.packages("revealjs")
+```
+
+
+
