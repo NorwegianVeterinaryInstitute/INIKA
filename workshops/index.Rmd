@@ -28,7 +28,7 @@ Please click on the links to find go to the content.
 
 # Software setup
 
-[which version should I choose](which_version.html)
+[Which version should I choose](which_version.html)
 
 [Git setup](detailed_git_setup.html)
 
@@ -40,7 +40,12 @@ Please click on the links to find go to the content.
 
 Some setup also in: [Preliminary preparation](0_Before_we_meet.html)
 
-# Workshop November 2024
+# Workshop November 2024'
+
+[Principles of data registration](https://ucdavisdatalab.github.io/workshop_keeping_data_tidy/#spreadsheet-best-practices) - A good external resource - **THIS YOU MUST UNDERSTAND** - 
+if you do not understand this it will be difficult to work with data in R later on,
+it will make you work much more for the same result. Do you really want to do more
+work than required your whole carrier ? If terms are difficults, please ask us.
 
 [Preliminary preparation](0_Before_we_meet.html)
 
