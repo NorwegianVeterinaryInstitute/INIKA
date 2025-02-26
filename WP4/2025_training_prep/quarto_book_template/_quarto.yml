@@ -4,10 +4,14 @@ project:
 
 number-sections: true
 #bibliography: references.bib
+toc: true
+toc-depth: 4
+toc-expand: 4
+toc-title: "Table of Contents"
 
 book:
   title: "INIKA_OH_TZ: WP4. Data Analysis"
-  date: "`r format(Sys.time(), '%d %B, %Y')`"
+  date: last-modified
   author: "Eve Zeyl Fiskebeck"
   chapters:
     - index.qmd
@@ -29,16 +33,14 @@ format:
     #theme: darkly
     #theme: slate
     #css: styles.css
-    toc: true
-    toc_depth: 4
-    toc_expand: 4
-    toc-title: "Table of Contents"
+    embed-resources: true
+    html-math-method: katex
     code-links: 
       - text: Source Code
         icon: githbub
-        #href: data-import.py
+        href: https://github.com/NorwegianVeterinaryInstitute/INIKA/tree/main/WP4/2025_training_prep/quarto_book_template
   pdf:
     documentclass: scrreprt
 
-editor: visual
+editor: source
 
