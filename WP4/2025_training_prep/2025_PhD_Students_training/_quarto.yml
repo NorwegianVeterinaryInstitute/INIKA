@@ -1,0 +1,44 @@
+project:
+  type: book
+  output-dir: _book
+
+number-sections: true
+#bibliography: references.bib
+toc: true
+toc-depth: 4
+toc-expand: 4
+toc-title: "Table of Contents"
+
+book:
+  title: "INIKA_OH_TZ: PhD Student Training. 2025"
+  date: last-modified
+  author: "Eve Zeyl Fiskebeck, Jannice Slettemeas, Camilla Sekse and Madelaine Norström"
+  cover-image: cover.png
+  chapters:
+    - index.qmd
+    - part: "Data analysis with R" 
+      chapters:
+      - data_analysis/data_analysis_resources.qmd
+      - data_analysis/data_wrangling.qmd
+      - data_analysis/data_analysis.qmd
+    - part: "Bioinformatics. Comparative genomics" 
+      chapters:
+      - bioinformatics/bioinformatics_resources.qmd
+      - bioinformatics/comparative_genomics.qmd
+    - references.qmd
+
+format:
+  html:
+    theme: superhero
+    embed-resources: true
+    html-math-method: katex
+    code-overflow: wrap
+    code-links: 
+      - text: Source Code
+        icon: githbub
+        href: https://github.com/NorwegianVeterinaryInstitute/INIKA/tree/main/WP4/2025_training_prep/2025_PhD_Students_training
+  pdf:
+    documentclass: scrreprt
+
+editor: source
+
