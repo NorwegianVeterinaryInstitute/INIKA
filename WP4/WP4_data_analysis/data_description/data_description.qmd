@@ -1,0 +1,10 @@
+# Data description
+
+The objective is to get an idea of the merged data sets to be able to discuss
+how and what we can extract from it (according or not to the original plan)
+
+- Descriptive statistics for the merged dataset 
+- otherthings to explore ....
+
+
+

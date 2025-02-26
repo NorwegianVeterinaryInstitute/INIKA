@@ -1,33 +1,50 @@
 project:
   type: book
-  output-dir: _article_template
+  output-dir: _book
 
-toc: true
 number-sections: true
 #bibliography: references.bib
+toc: true
+toc-depth: 4
+toc-expand: 4
+toc-title: "Table of Contents"
 
 book:
-  title: "INIKA_OH_TZ: WP4. Data Analysis"
-  author: "Eve Zeyl Fiskebeck"
-  date: "26/02/2025"
+  date: last-modified
+  author: "Eve Zeyl Fiskebeck, Madelaine Norström."
+  title: "INIKA - WP4: Data Analysis"
+  page-footer:
+    left: |
+      INIKA_OH_TZ
+      WP4. Data Analysis
+    right: |
+      This book was built with <a href="https://quarto.org/">Quarto</a>.
+  cover-image: cover.png
+  
   chapters:
     - index.qmd
-    - abstract.qmd
-    - introduction.qmd
-    - methods.qmd
-    - results.qmd
-    - discussion.qmd
-    - conclusions.qmd  
+    - part: "Data description" 
+      chapters:
+      - data_description/data_information.qmd
+      - data_description/data_wrangling.qmd
+      - data_description/data_description.qmd
     - references.qmd
-
-
 
 format:
   html:
-    theme: cosmo
+    theme: superhero
+    #theme: darkly
+    #theme: slate
     #css: styles.css
+    embed-resources: true
+    html-math-method: katex
+    code-overflow: wrap
+    code-links: 
+      - text: Source Code
+        icon: githbub
+        href: https://github.com/NorwegianVeterinaryInstitute/INIKA/tree/main/WP4/WP4_data_analysis
   pdf:
     documentclass: scrreprt
 
-editor: visual
+editor: source
 

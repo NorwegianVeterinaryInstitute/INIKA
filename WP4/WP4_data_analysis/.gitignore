@@ -1,1 +1,7 @@
 /.quarto/
+/.Rproj.user/
+/_book/
+/raw_data/
+!raw_data/_metadata.yml
+/results/
+!results/_metadata.yml

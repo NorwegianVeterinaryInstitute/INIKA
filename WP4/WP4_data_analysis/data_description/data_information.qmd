@@ -1,0 +1,15 @@
+# Data sets information
+
+Per dataset 
+- A short presentation of the datasets sources. 
+- Collection - important collection considerations
+- People involved (data registring)
+- Motes of collections that are important to consider for analyses (eg. specific method,
+interpretation etc)
+
+
+## (D1) 
+
+## (D2) 
+
+## (D3) 

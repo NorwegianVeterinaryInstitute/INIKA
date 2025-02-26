@@ -1,1 +1,8 @@
 # Material and Methods
+
+<!-- code options to fold or show
+```{r}
+#| code-fold: true
+#| code-summary: "Show the code"
+```
+-->

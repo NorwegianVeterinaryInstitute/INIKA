@@ -1,0 +1,16 @@
+
+# Data wrangling   
+## Dataset quality check (individually)
+  
+  ### (D1)
+  ### (D2)
+  ### (D3)
+
+
+## Data merging and qualtity check of the merged dataset
+### Data merging
+### Quality check 
+
+- indicators of eventual inconsistencies ? 
+  
+  

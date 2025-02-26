@@ -2,41 +2,61 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "WP4_data_analysis",
+    "title": "INIKA - WP4: Data Analysis",
     "section": "",
-    "text": "Preface\nThis is a Quarto book.\nTo learn more about Quarto books visit https://quarto.org/docs/books.\n\n1 + 1\n\n[1] 2",
+    "text": "Preface",
     "crumbs": [
       "Preface"
     ]
   },
   {
-    "objectID": "intro.html",
-    "href": "intro.html",
-    "title": "1  Introduction",
-    "section": "",
-    "text": "This is a book created from markdown and executable code.\nSee Knuth (1984) for additional discussion of literate programming.\n\n1 + 1\n\n[1] 2\n\n\n\n\n\n\nKnuth, Donald E. 1984. “Literate Programming.” Comput. J. 27 (2): 97–111. https://doi.org/10.1093/comjnl/27.2.97.",
+    "objectID": "index.html#objectives",
+    "href": "index.html#objectives",
+    "title": "INIKA - WP4: Data Analysis",
+    "section": "Objectives",
+    "text": "Objectives",
     "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction</span>"
+      "Preface"
     ]
   },
   {
-    "objectID": "summary.html",
-    "href": "summary.html",
-    "title": "2  Summary",
-    "section": "",
-    "text": "In summary, this book has no content whatsoever.\n\n1 + 1\n\n[1] 2",
+    "objectID": "index.html#objectives-project",
+    "href": "index.html#objectives-project",
+    "title": "INIKA - WP4: Data Analysis",
+    "section": "Objectives (Project)",
+    "text": "Objectives (Project)\n\nT4.1. Merge and assess the quality of data collected through WP1 to WP3. D.4.1 A clean data “set” for further analyses in T.4.2-T.4.4.\nT4.2.Determine possible associations between drivers such as AMU/attitudes and the phenotypic resistance of bacteria within and between sectors using logistic regression models. Possible differences in AMR and AMU according to geographical area and season will also be assessed. D.4.2 Peer review scientific publications and/or proceedings.\nT4.3 Assess the patterns of AMR determinants (i.e. genes, transferable plasmids) in the three sectors using statistical modelling. The number of isolates obtained from each source (human, animal and environment) and the number of isolates where the WGS analyses have been performed determines what will be included in the statistical analyses. D.4.3 Peer review scientific publications and/or proceedings.\nT4.4 Comparative genomics of bacterial isolates from different sources and sectors, and use a “OH” approach to elucidate associations between reservoirs. D.4.2 Per review scientific publications and/or proceedings.",
     "crumbs": [
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Summary</span>"
+      "Preface"
     ]
   },
   {
-    "objectID": "references.html",
-    "href": "references.html",
-    "title": "References",
-    "section": "",
-    "text": "Knuth, Donald E. 1984. “Literate Programming.” Comput.\nJ. 27 (2): 97–111. https://doi.org/10.1093/comjnl/27.2.97.",
+    "objectID": "index.html#tasks-status",
+    "href": "index.html#tasks-status",
+    "title": "INIKA - WP4: Data Analysis",
+    "section": "Tasks & Status",
+    "text": "Tasks & Status\n\nT4.1\n\n\nT4.2\n\n\nT4.3\n\n\nT4.4",
     "crumbs": [
-      "References"
+      "Preface"
+    ]
+  },
+  {
+    "objectID": "index.html#objectives-pasted-from-the-project",
+    "href": "index.html#objectives-pasted-from-the-project",
+    "title": "INIKA - WP4: Data Analysis",
+    "section": "Objectives (Pasted from the Project)",
+    "text": "Objectives (Pasted from the Project)\n\nT4.1. Merge and assess the quality of data collected through WP1 to WP3. D.4.1 A clean data “set” for further analyses in T.4.2-T.4.4.\nT4.2.Determine possible associations between drivers such as AMU/attitudes and the phenotypic resistance of bacteria within and between sectors using logistic regression models. Possible differences in AMR and AMU according to geographical area and season will also be assessed. D.4.2 Peer review scientific publications and/or proceedings.\nT4.3 Assess the patterns of AMR determinants (i.e. genes, transferable plasmids) in the three sectors using statistical modelling. The number of isolates obtained from each source (human, animal and environment) and the number of isolates where the WGS analyses have been performed determines what will be included in the statistical analyses. D.4.3 Peer review scientific publications and/or proceedings.\nT4.4 Comparative genomics of bacterial isolates from different sources and sectors, and use a “OH” approach to elucidate associations between reservoirs. D.4.2 Per review scientific publications and/or proceedings.",
+    "crumbs": [
+      "Preface"
+    ]
+  },
+  {
+    "objectID": "index.html#tasks---working-plan-status",
+    "href": "index.html#tasks---working-plan-status",
+    "title": "INIKA - WP4: Data Analysis",
+    "section": "Tasks - Working plan (& Status)",
+    "text": "Tasks - Working plan (& Status)\n\nT4.1\n\nFile: data_description/data_information.qmd. Short presentation of the datasets sources. Including notes of collections that are important to consider for analyses\nFile: data_description/data_wrangling.qmd.\n\nDataset quality check (individually) (might want to consider splitting in subparts one per dataset)\nDataset merging & quality check (globally)\n\nFile: data_description/data_description.qmd.\n\nBasic statistics merged dataset (getting an overview of what we have currently to be able to discuss)\n\n\n\n\nT4.2\n\n\nT4.3\n\n\nT4.4",
+    "crumbs": [
+      "Preface"
     ]
   }
 ]
