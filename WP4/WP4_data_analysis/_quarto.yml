@@ -1,0 +1,33 @@
+project:
+  type: book
+  output-dir: _article_template
+
+toc: true
+number-sections: true
+#bibliography: references.bib
+
+book:
+  title: "INIKA_OH_TZ: WP4. Data Analysis"
+  author: "Eve Zeyl Fiskebeck"
+  date: "26/02/2025"
+  chapters:
+    - index.qmd
+    - abstract.qmd
+    - introduction.qmd
+    - methods.qmd
+    - results.qmd
+    - discussion.qmd
+    - conclusions.qmd  
+    - references.qmd
+
+
+
+format:
+  html:
+    theme: cosmo
+    #css: styles.css
+  pdf:
+    documentclass: scrreprt
+
+editor: visual
+
