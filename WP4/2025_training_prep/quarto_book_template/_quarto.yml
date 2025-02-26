@@ -13,6 +13,7 @@ book:
   title: "INIKA_OH_TZ: WP4. Data Analysis"
   date: last-modified
   author: "Eve Zeyl Fiskebeck"
+  cover-image: cover.png
   chapters:
     - index.qmd
     - abstract.qmd
@@ -23,10 +24,6 @@ book:
     - conclusions.qmd  
     - references.qmd
 
-# Not sure if this is necessary
-# knit: (function(inputFile, encoding) {
-#   rmarkdown::render(inputFile, encoding = encoding, output_dir = "../../docs") })
-  
 format:
   html:
     theme: superhero
@@ -35,6 +32,7 @@ format:
     #css: styles.css
     embed-resources: true
     html-math-method: katex
+    code-overflow: wrap
     code-links: 
       - text: Source Code
         icon: githbub
