@@ -10,15 +10,15 @@ toc-expand: 4
 toc-title: "Table of Contents"
 
 book:
+  title: "INIKA - WP4: Data Analysis"
   date: last-modified
   author: "Eve Zeyl Fiskebeck, Madelaine Norström."
-  title: "INIKA - WP4: Data Analysis"
-  page-footer:
-    left: |
-      INIKA_OH_TZ
-      WP4. Data Analysis
-    right: |
-      This book was built with <a href="https://quarto.org/">Quarto</a>.
+  # page-footer:
+  #   left: |
+  #     INIKA_OH_TZ
+  #     WP4. Data Analysis
+  #   right: |
+  #     This book was built with <a href="https://quarto.org/">Quarto</a>.
   cover-image: cover.png
   
   chapters:
