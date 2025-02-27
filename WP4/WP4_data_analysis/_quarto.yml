@@ -1,6 +1,6 @@
 project:
   type: book
-  output-dir: _book
+  output-dir: "../../docs/WP4/"
 
 number-sections: true
 #bibliography: references.bib
