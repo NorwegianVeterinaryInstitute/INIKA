@@ -1,0 +1,98 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "INIKA - WP4: Data Analysis",
+    "section": "",
+    "text": "Preface",
+    "crumbs": [
+      "Preface"
+    ]
+  },
+  {
+    "objectID": "index.html#objectives-pasted-from-the-project",
+    "href": "index.html#objectives-pasted-from-the-project",
+    "title": "INIKA - WP4: Data Analysis",
+    "section": "Objectives (Pasted from the Project)",
+    "text": "Objectives (Pasted from the Project)\n\nT4.1. Merge and assess the quality of data collected through WP1 to WP3. D.4.1 A clean data “set” for further analyses in T.4.2-T.4.4.\nT4.2.Determine possible associations between drivers such as AMU/attitudes and the phenotypic resistance of bacteria within and between sectors using logistic regression models. Possible differences in AMR and AMU according to geographical area and season will also be assessed. D.4.2 Peer review scientific publications and/or proceedings.\nT4.3 Assess the patterns of AMR determinants (i.e. genes, transferable plasmids) in the three sectors using statistical modelling. The number of isolates obtained from each source (human, animal and environment) and the number of isolates where the WGS analyses have been performed determines what will be included in the statistical analyses. D.4.3 Peer review scientific publications and/or proceedings.\nT4.4 Comparative genomics of bacterial isolates from different sources and sectors, and use a “OH” approach to elucidate associations between reservoirs. D.4.2 Per review scientific publications and/or proceedings.",
+    "crumbs": [
+      "Preface"
+    ]
+  },
+  {
+    "objectID": "index.html#tasks---working-plan-status",
+    "href": "index.html#tasks---working-plan-status",
+    "title": "INIKA - WP4: Data Analysis",
+    "section": "Tasks - Working plan (& Status)",
+    "text": "Tasks - Working plan (& Status)\n\nT4.1\n\nFile: data_description/data_information.qmd. Short presentation of the datasets sources. Including notes of collections that are important to consider for analyses\nFile: data_description/data_wrangling.qmd.\n\nDataset quality check (individually) (might want to consider splitting in subparts one per dataset)\nDataset merging & quality check (globally)\n\nFile: data_description/data_description.qmd.\n\nBasic statistics merged dataset (getting an overview of what we have currently to be able to discuss)\n\nDiscussion together :\n\nfurther check?\ncorrection of datasets ?\ndo we know what we can obtain from the dataset ?\n\n\n\n\nT4.2\n\nEve Refreshing stats : Logistic regression (in parallel maybe course material)\n\nDetermine possible associations between drivers such as AMU/attitudes and the phenotypic resistance of bacteria within and between sectors using logistic regression models. Possible differences in AMR and AMU according to geographical area and season will also be assessed. D.4.2 Peer review scientific publications and/or proceedings.\n\n\nT4.3\n\n\nT4.4",
+    "crumbs": [
+      "Preface"
+    ]
+  },
+  {
+    "objectID": "data_description/data_information.html",
+    "href": "data_description/data_information.html",
+    "title": "1  Data sets information",
+    "section": "",
+    "text": "1.1 (D1)\nPer dataset - A short presentation of the datasets sources. - Collection - important collection considerations - People involved (data registring) - Motes of collections that are important to consider for analyses (eg. specific method, interpretation etc)",
+    "crumbs": [
+      "Data description",
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Data sets information</span>"
+    ]
+  },
+  {
+    "objectID": "data_description/data_information.html#d2",
+    "href": "data_description/data_information.html#d2",
+    "title": "1  Data sets information",
+    "section": "1.2 (D2)",
+    "text": "1.2 (D2)",
+    "crumbs": [
+      "Data description",
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Data sets information</span>"
+    ]
+  },
+  {
+    "objectID": "data_description/data_information.html#d3",
+    "href": "data_description/data_information.html#d3",
+    "title": "1  Data sets information",
+    "section": "1.3 (D3)",
+    "text": "1.3 (D3)",
+    "crumbs": [
+      "Data description",
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Data sets information</span>"
+    ]
+  },
+  {
+    "objectID": "data_description/data_wrangling.html",
+    "href": "data_description/data_wrangling.html",
+    "title": "2  Data wrangling",
+    "section": "",
+    "text": "2.1 Dataset quality check (individually)\n### (D1) ### (D2) ### (D3)",
+    "crumbs": [
+      "Data description",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Data wrangling</span>"
+    ]
+  },
+  {
+    "objectID": "data_description/data_wrangling.html#data-merging-and-qualtity-check-of-the-merged-dataset",
+    "href": "data_description/data_wrangling.html#data-merging-and-qualtity-check-of-the-merged-dataset",
+    "title": "2  Data wrangling",
+    "section": "2.2 Data merging and qualtity check of the merged dataset",
+    "text": "2.2 Data merging and qualtity check of the merged dataset\n\n2.2.1 Data merging\n\n\n2.2.2 Quality check\n\nindicators of eventual inconsistencies ?",
+    "crumbs": [
+      "Data description",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Data wrangling</span>"
+    ]
+  },
+  {
+    "objectID": "data_description/data_description.html",
+    "href": "data_description/data_description.html",
+    "title": "3  Data description",
+    "section": "",
+    "text": "The objective is to get an idea of the merged data sets to be able to discuss how and what we can extract from it (according or not to the original plan)\n\nDescriptive statistics for the merged dataset\notherthings to explore ….",
+    "crumbs": [
+      "Data description",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Data description</span>"
+    ]
+  }
+]
