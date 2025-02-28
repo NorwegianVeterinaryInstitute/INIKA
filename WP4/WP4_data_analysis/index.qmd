@@ -16,7 +16,10 @@ Work package leader for WP4:
 Project leader: 
 - Prof Madelaine Norström
 
-In the present document, we only will present the part for data analysis of WP4. 
+In the present document (index/preface), are the plans for WP4. 
+The other parts of the book, will cover data analysis code, 
+necessary information on methods and analysis to prepare puclications, 
+and results.
 
 ## Objectives (Pasted from the Project description)
 
@@ -30,12 +33,19 @@ In the present document, we only will present the part for data analysis of WP4.
 
 ## Tasks - Working plan (& Status)
 
+### T4.0 Genera functionning of WP4
+- [ ] decide on when to have first meeting with Dr Elpidius Rukambile. First meeting 
+with Madelaine for me will be 17/03 for both start WP4 and Students. Should we do
+that short after ? 
+- [ ] need to implement regular meetings for progress
+
 ### T4.1 
 - [ ] File: `data_description/data_information.qmd`. Short presentation of the datasets sources. Including notes of collections that are important to consider for analyses
 
 
 - [ ] File: `data_description/data_wrangling.qmd`. 
-  - [ ] Dataset quality check (individually) (might want to consider splitting in subparts one per dataset) 
+  - [ ] Assessing data quality (individually for each datgaset) (might want to consider splitting in subparts one per dataset) 
+  - [ ] Eventual feedback on error detected and corrections if necessary.
   - [ ] Dataset merging & quality check (globally)
   
 
