@@ -1,0 +1,985 @@
+---
+title: "OrganiseKAP"
+author: "Madelaine Norström"
+date: "2025-02-08"
+output:
+  word_document: default
+  html_document: default
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+`
+# This below isn't working but I save it.``
+```{r}
+#Testnames<-INIKA_SURVEY_CORRECTIDS %>%
+#  names()
+#remove_dummies<-Testnames[str_detect(Testnames, "\\/")]
+#INIKAKAP<-INIKA_SURVEY_CORRECTIDS %>%
+#  select(!remove_dummies)%>%
+#filter(!is.na(INIKA_OH_TZ_ID)) 
+
+```
+```{r}
+#install.packages("here")
+#install.packages("DiagrammeR")
+library(tidyverse)
+                 
+```
+```{r}
+here::here()
+```
+```{r}
+path_data<-here::here("outputDataset", "INIKAKAT.csv")
+```
+```{r}
+
+library(readxl)
+INIKA_SURVEY_CORRECTIDS <- read_excel("K:/FAG/Tverrfaglig/AMR/FoU-aktiviteter & prosjekter/31218_INIKA_OH_TZ/WP2/INIKA_SURVEY_CORRECTIDS.xlsx")
+View(INIKA_SURVEY_CORRECTIDS) 
+
+```
+
+```{r}
+
+INIKA_SURVEY<-INIKA_SURVEY_CORRECTIDS%>%
+  rename(AB_Thoughts="Do you think antibiotic usage can be reduced in your farm by increasing biosecurity/ improved feed/ or vaccination?", Other_feed="What feed do you use for your broiler?/Other specify", Spec_feed="If others, specify...113", Other_KeepHealthy="If others, specify...121", Timesick="When was the last time a chicken/bird was sick?", sick_other="If others, specify...131",
+         Sickinterven="If others, specify...138",
+Means_of_Decion_ABUSAGE="How does he/she reach at the judgment of advising you to use antibiotics on your farm", 
+Respect_the_Treatment_Guidelines_by_AHP="Do you respect/align with the treatment guidelines prescribed by the Animal health practitioners?", 
+Barriers_Withdrawal="If No, why is it difficult to consider/apply the withdraw period?", 
+Active_in_community="Are you currently involved in a local community/association?",
+ Gender_roles_BroilerFarming_Clean=   "Cleaning farmhouse/sheds.", 
+ Gender_roles_BroilerFarming_Disp_Manure ="Disposal of manure/wastes", 
+ Gender_Reasons ="In your opinion, what are the reasons for males/females being involved more in broiler farmers?", 
+Parlament_1="The parliament/congress...330", Parlament_2="The parliament/congress...338")
+
+
+Testnames<-INIKA_SURVEY %>%
+names()
+remove_dummies_1<-Testnames[str_detect(Testnames, "\\/")]     
+
+INIKAKAP<-INIKA_SURVEY%>%
+select(!remove_dummies_1)%>%
+filter(!is.na(INIKA_OH_TZ_ID))
+  
+
+
+
+write.csv(INIKAKAP, file = paste("K:/FAG/Tverrfaglig/AMR/FoU-aktiviteter & prosjekter/31218_INIKA_OH_TZ/WP2/TestDUMMIES.csv", sep = ""))
+
+
+
+```
+
+
+
+
+
+
+```{r}
+
+new_columns <- 
+  colnames(INIKAKAP) %>%
+  str_replace_all(" ", "_") %>%
+  str_replace_all( "[?/,;.*()-]", "_") %>%
+  str_remove_all("(^_*)|(_*$)|")
+ 
+
+
+```
+
+
+
+```{r}
+# Step 3: Replacing the column names
+colnames(INIKAKAP) <- new_columns
+colnames(INIKAKAP)
+```
+```{r}
+
+# Rename columns that have the same base name
+colnames(INIKAKAP) <- make.names(colnames(INIKAKAP), unique = TRUE)
+```
+```{r}
+str(INIKAKAP)
+```
+
+
+```{r}
+remove_df<-INIKAKAP%>%
+  select(-phonenumber)%>%
+  mutate_all(as.character)%>%
+ mutate_all(~if_else(is.na(.), "0", "1"))%>%
+  mutate_all(as.numeric)%>%
+  summarise_all(~sum(.x, na.rm = T))%>%
+  t()%>% 
+  tibble::as_tibble(rownames = "mycolumns") %>%
+  filter(V1 == 0)
+```
+
+
+
+
+
+```{r}
+
+INIKAnew<-INIKAKAP%>%
+  select(!remove_df$mycolumns)
+
+
+
+```
+```{r}
+colnames(INIKANEW)
+```
+
+
+
+
+```{r}
+
+test<-KAPREST$GPS_Latitude 
+view(test)
+```
+
+
+```{r}
+QUEST<-INIKAnew%>%
+  mutate(Original_Education_R=Education_level_of_respondent)%>%
+  dplyr::rename(Respondent= "Name_of_the_respondent", 
+    Breed = "Breed_of_chicken", 
+         Herdsize ="Number_of_chickens",  
+         No_Sheds= "Number_of_sheds", 
+         No_Prod="Production_cycle_per_year"  ,
+         DateI= "Date_and_time_of_Interview"   ,
+         FarmPurp="Primary_role_of_the_farm"  , 
+         Age_R= "Age_of_respondent"  , 
+         Gender_R=  "Sex_of_respondent" , 
+         Status_R="Marital_status_of_respondent"  ,
+         Ethnic_R="Ethinicity_of_respondent" ,   
+         Gender_F= "Sex_of_the_farm_owner"  ,
+         Status_F="Marital_status_of_the_farm_owner",   
+         Interviewer= "Name_of_the_Interviewer"  , 
+         Ethnic_F=  "Ethnicity_of_the_farm_owner" , 
+         Occupation_R  = "Occupation_of_respondent",  
+        
+         Education_R = "Education_level_of_respondent",     
+         Education_F=  "Education_level_of_the_farm_owner",                                                   Occupation_F="Occupation_of_the_farm_owner"   , 
+FamilySize="Family_size", 
+FarmYears="Number_of_years_farming",
+NoWorkers="Number_of_workers_employed_on_the_farm",
+Flockage= "What_is_the_current_stage_of_your_flocks___Check_more_than_one_option_if_have_flocks_of_different_stages", Knowledge_AB = "Are_you_familiar_with_the_term_antibiotics", 
+AB_Understanding= "According_to_you__what_is_it" ,                                                   
+AB_training= "Have_you_ever_received_formal_training_on_the_appropriate_use_of_antibiotics" ,
+Source_Training_AB=  "Who_provided_that_training____42"  ,                                           Source_info_AB_Use=  "What_sources_of_information_do_you_rely_on_to_learn_about_antibiotic_use_in_farming___you_can_select_more_than_one_option", Specify_OTHERS_SOURCE_AB= "If_others_please_specify" ,
+                 
+Heard_AMR= "Have_you_ever_heard_of_antibiotic_resistance"   ,                                      
+Knowledge_AMR= "If_yes__How_familiar_are_you_with_the_concept_of_antibiotic_resistance" ,
+Explanation_AMR= "If_very_familiar_what_is_it" ,                                                     
+AMR_CONS= "What_do_you_believe_are_the_consequences_of_antibiotic_resistance", 
+
+AMR_CONS_OTHERS_SPEC= "If_others__please_specify___61"  ,
+Preventing_AMR_Guidelines= "Strictly_follow_the_recommended_antibiotic_use_guidelines_or_the_advice_and_prescription_guidance_from_veterinarians",                                                                                    PREV_NOUSAGE= "Don.t_use_antibiotics_at_all",
+Preventing_AMR_Biosecurity =  "Increase_biosecurity_measures"   ,                                        
+Preventing_AMR_SwitchBreed =  "Switch_to_other_breeds" ,
+Preventing_AMR_Genral_Husbandry =  "Following_good_chicken_keeping_practices__General_husbandry"  ,                  Preventing_AMR_POLICIES= "Advocate_for_policies_to_regulate_antibiotic_use"   ,                      Peventing_AMR_Others= "If_others__please_specify_and_rank",
+
+Usage_OF_AB= "Do_you_use_antimicrobials_for_your_chickens",                                         Usage_OF_AB_Frequency =  "If_yes__how_often_do_you_use_them"  , 
+Never_usage_Know=  "If_never_how_do_you_know_to_administer_the_antibiotics", Other_Drugs_last_12Months= "Any_other_drugs_used_in_the_last_12_month"  ,                                                                   
+Ways_of_administer_ABs=  "How_do_you_primarily_administer_antimicrobials_to_your_chicken"  ,  
+Explanation_OH= "If_yes__what_does_it_mean",  
+Broiler_Disease_Outbreak_Human_Health= "How_likely_do_you_think_that_disease_outbreak_in_broiler_farm_can_affect_human_health" ,
+Knowledge_Collaborative_OH= "Are_you_aware_of_any_collaborative_efforts_between_animal_health_workers__public_health_and_environment_officers_in_your_region"   ,                                                                     Explaination_Collaborative_OH= "If_Yes__mention",
+ Participation_Training_OH= "Have_you_ever_participated_in_any_training_program_or_workshop_related_to_the_OHA"   ,     
+ Concern_AMR_FarmProductivity="How_concerned_are_you_about_the_potential_impact_of_antibiotic_resistance_on_your_farms_productivity_and_livelihood" ,                                                     Correct_AB_Usage="How_important_do_you_think__it_is_to_use_antibiotics_correctly"   ,                Overusage_AB_Poultry= "Do_you_think_antibiotics_are_overused_in_the_poultry_sector",                 AMR_Knowledge_Perception= "What_do_you_think_of_your_knowledge_on_antibiotics"   ,                                    Know_IF_AB_Usage_AMR=   "Do_you_think_that_the_usage_of_antibiotics_over_a_long_period_can_create_resistance" ,                                                                                       
+Know_IF_AB_GrowthP_AMR= "Do_you_think_that_the_usage_of_antibiotics_as_a_growth_promoter_or_for_preventive_purpose_can_create_resistance",
+Practices_AB_Causes_AMR = "Which_of_the_following_antibiotic_use_practices_do_you_think_contribute_to_antibiotic_resistance___select_more_than_one" ,
+Administer_AB_Consult_Animal_HEALTH = "Do_you_consult_an_animal_health_practitioner_before_administering_antibiotics" ,                                                                                                            Administer_AB_Knowhow =    "If_No__how_do_you_know_how_to_administer_the_antibiotics", 
+Purpose_of_Broiler_F=  "What_is_the_main_purpose_of_keeping_broiler"    ,
+Feed_use=  "What_feed_do_you_use_for_your_broiler"    , 
+
+Disease_Last_time= "What_kind_of_disease_was_it" ,
+Disposal_dead_broilers_G = "Disposal_of_dead_broilers"  ,
+Decision_Treatment_G= "Decision_for_treatment"  ,
+AB_Disposal_G="Disposal_of_antibiotics_left_over" ,
+Water_providing_G= "Providing_water"  ,
+Income_Decision_G="Decisions_to_use_income_from_broilers" ,
+Access_InformationAB="Do_you_feel_that_you_have_access_to_information_about_antibiotic_resistance")
+
+
+
+write.csv(QUEST, file = paste("K:/FAG/Tverrfaglig/AMR/FoU-aktiviteter & prosjekter/31218_INIKA_OH_TZ/WP2/QUEST.csv", sep = ""))
+
+
+ 
+```
+```{r}
+Test<-QUEST%>%
+select(INIKA_OH_TZ_ID, Have_you_ever_heard_about_One_Health)%>%
+mutate(Have_you_ever_heard_about_One_Health=case_when(Have_you_ever_heard_about_One_Health
+== "no" ~ "No",
+TRUE  ~ Have_you_ever_heard_about_One_Health
+ ))
+       
+
+```
+
+```{r}
+colnames(QUEST)
+```
+
+```{r}
+
+
+
+INIKAKAT<- QUEST%>%
+  mutate(Location = case_when(
+    is.na(Location) & !is.na(Tap_to_record_GPS_coordinate_of_this_location) ~ Tap_to_record_GPS_coordinate_of_this_location,  
+    TRUE ~ Location))%>%  
+  
+  mutate(Location_latitude = case_when(
+    is.na(Location_latitude) & !is.na(Tap_to_record_GPS_coordinate_of_this_location_latitude) ~ Tap_to_record_GPS_coordinate_of_this_location_latitude, 
+    TRUE ~ Location_latitude))%>%
+  
+  mutate(Location_longitude = case_when(
+    is.na(Location_longitude) & !is.na(Tap_to_record_GPS_coordinate_of_this_location_longitude) ~ Tap_to_record_GPS_coordinate_of_this_location_longitude, 
+    TRUE ~ Location_longitude))%>% 
+  
+    mutate(Location_altitude = case_when(
+    is.na(Location_altitude) & !is.na(Tap_to_record_GPS_coordinate_of_this_location_altitude) ~ Tap_to_record_GPS_coordinate_of_this_location_altitude, 
+    TRUE ~ Location_altitude))%>% 
+  
+    mutate(Location_precision = case_when(
+    is.na(Location_precision) & !is.na(Tap_to_record_GPS_coordinate_of_this_location_precision) ~ Tap_to_record_GPS_coordinate_of_this_location_precision,  
+    TRUE ~ Location_precision))%>% 
+  
+  mutate(Have_you_ever_heard_about_One_Health=case_when(Have_you_ever_heard_about_One_Health
+== "no" ~ "No",
+TRUE  ~ Have_you_ever_heard_about_One_Health
+ ))%>%
+
+mutate(Gender_F = case_when(Gender_F == "female" ~ "Female",
+  Gender_F == "male" ~ "Male",
+  TRUE ~ Gender_F
+))%>%
+  
+  mutate(Gender_R = case_when(
+    Gender_R == "female" ~ "Female",
+    Gender_R == "male" ~ "Male",
+    TRUE ~ Gender_R
+  ))%>%
+  
+  
+  mutate(Status_R = case_when(
+    Status_R %in% c("Maried", "Female", "Married") ~ "Married",  
+    Status_R %in% c("Window", "widow", "4") ~ "Widow",            
+    Status_R %in% c("3", "2", "7", "single", "Single") ~ "Single",         
+    TRUE ~ Status_R
+  ))%>%
+  
+  mutate(Status_F = case_when(
+    Status_F %in% c("Maried", "Female", "Married") ~ "Married",  
+    Status_F %in% c("Window", "widow", "4") ~ "Widow",            
+    Status_F %in% c("3", "2", "7", "single", "Single") ~ "Single",         
+    TRUE ~ Status_F
+  ))%>%
+  
+
+  mutate(REGIONNO = case_when(
+    Region == "Mwanza" | Region == "Mwnza" ~ "2",
+    Region == "Kilimanjaro" | Region == "Moshi" ~ "1",
+    TRUE ~ Region
+  ))%>%
+  mutate(DISTRICTNO = case_when(
+    District == "Ilemela" ~ "1",
+    District == "Nyamagana" ~ "2",
+    District == "Magu" ~ "3",
+    District %in% c("Moshi Municipal","Morogoro Municipal","Moshi", "Municipal Mc", "Moshi DC", "Moshi urban", "Moshi municipal", "Moshi urban(Boma mbuzi)") ~ "1",
+    District %in% c("Moshi/rural", "Moshi rural", "Moshi Village", "Moshi village") ~ "2",
+    District %in% c("Hai", "Hai district", "Siha") ~ "3",
+    TRUE ~ District
+  ))%>%
+  mutate(REGIONNO = case_when(
+    Respondent %in% c("Emanuel swai", "Azaria mndeme", "Miliki Mbwambo", "Magret Roman kirio", "Flate Mariwa") ~ "1",
+    TRUE ~ REGIONNO
+  ))%>%
+  mutate(DISTRICTNO = case_when(
+    Respondent %in% c("Emanuel swai", "Azaria mndeme", "Miliki Mbwambo", "Magret Roman kirio", "Flate Mariwa") ~ "1",
+    Respondent == "Elizabeth Mtui" ~ "3",
+    TRUE ~ DISTRICTNO
+  ))%>%
+  mutate(Respondent = case_when(
+    Respondent == "bilabaN" ~ "Heriet simonfundi",
+    Respondent == "Norbert N" ~ "Rose lema",
+    TRUE ~ Respondent
+  ))%>%
+  mutate(Interviewer = case_when(
+    Respondent %in% c("Heriet simonfundi", "Rose lema") ~ "bilabaN",
+    TRUE ~ Respondent
+  ))%>%
+  mutate(Region = case_when(
+    REGIONNO == "1" ~ "Kilimanjaro",
+    REGIONNO == "2" ~ "Mwanza",
+    TRUE ~ Region
+  ))%>%
+  mutate(Education_R = case_when(
+    Education_R %in% c("Standard Seven", "Standard seven", "Standard sevev", "STD SEVEN", 	
+                       "Standard sevev.","Standard 7", "StandardVII", "Standard VII", "STANDARD VII") ~ "Primary",
+    Education_R %in% c("Form IV", "STANDARD IV", "Standard IV", "Standard four", "From four", "Form VI", "Form two", "Four IV", "Form four", "Formfour", "Form4", "Form six", "Form IV", "Fotm IV", "Form II") ~ "Secondary",
+    Education_R %in% c("Degree", "Certificate","Diploma", "Advanced diploma", "Bachelor", "Cerrificate", "Certificate - Animal Health", "Colledge", "A degree") ~ "College",
+    TRUE ~ Education_R
+  ))%>%
+  mutate(Ethnic_R = case_when(
+    Ethnic_R %in% c("MCHAGA","Mchanga","Mchaga"
+    ) ~ "Chaga",
+    Ethnic_R == "Mpare" ~ "Pare",
+    Ethnic_R %in% c ("Msukuma", "0") ~ "Sukuma",
+    TRUE ~ "Others"
+  ))%>%
+  mutate(Ethnic_F = case_when(
+    Ethnic_F %in% c("MCHAGA", "Mchaga") ~ "Chaga",
+    Ethnic_F == "Mpare" ~ "Pare",
+    Ethnic_F  %in% c("Msukuma", "0") ~ "Sukuma",
+    TRUE ~ "Others"
+  ))%>%
+  mutate(Education_F = case_when(
+    Education_F %in% c("Standard Seven", "Standard seven", "STD SEVEN", "Standard 7", "StandardVII", "Standard VII", "STANDARD VII") ~ "Primary",
+    Education_F %in% c("Form IV", "Four IV", "Form four", "Formfour", "Form4", "Form six", "Form IV", "Fotm IV", "Form II") ~ "Secondary",
+    Education_F %in% c( "Cerrificate", "Certificate - Animal Health") ~ "College",
+    Education_F %in% c("Bachelor degree","Degree","Diploma", "Advanced diploma", "Bachelor","PhD") ~ "University",
+    TRUE ~ Education_F
+  ))%>%
+  mutate(Occupation_R = case_when(
+    Occupation_R %in% c("farmer", "Farmer", "FARMER", "Famer", "Farm Manager", "Farming", "Livestock", "Livestock keeper", "Livestock Farmer", "Livestock farmer","Farmer.", "Farmer and business", "Farmer and Business", "Broiler Farmer, agricultural, and poultry business man", "Farmer and Intrepreneurer") ~ "Farmer",
+    Occupation_R %in% c("Farmer and loan officer", "Farmer and Nutritionist","Farmer and electrical technician", 	
+                        "Farmer and interprenewer","Famer and mechanical person", "Farmer/cooker","Farmer_and_Other", 	
+                        "Interprenewer in livestock keeper","Farming and other business", "Farmer_and_Other", "Farmer and Other", "Manager & Farming", 	
+                        "Pastor and farmer") ~ "Farmer_and_Other",
+    
+    TRUE ~ "Other"
+  ))%>%
+  
+  
+  mutate(Usage_OF_AB = case_when(
+    Usage_OF_AB == "no" ~ "Male",
+    TRUE ~ Usage_OF_AB
+  ))%>%
+  
+  mutate(Knowledge_AB = case_when(
+    Knowledge_AB == "no" ~ "No",
+    Knowledge_AB == "yes" ~ "Yes",
+    TRUE ~ Knowledge_AB
+  ))%>%
+  
+    mutate(AB_Thoughts = case_when(
+    AB_Thoughts == "no" ~ "No",
+    AB_Thoughts== "yes" ~ "Yes",
+    TRUE ~ AB_Thoughts
+  ))%>%
+    mutate(Heard_AMR = case_when(
+    Heard_AMR == "no" ~ "No",
+ 
+    Heard_AMR== "yes" ~ "Yes",
+    TRUE ~ Heard_AMR
+    
+    
+    ))%>%
+    mutate(Would_you_be_interested_in_participating_in_workshops_or_training_sessions_on_sustainable_anti_practices__including_antibiotic_use = case_when(
+    Would_you_be_interested_in_participating_in_workshops_or_training_sessions_on_sustainable_anti_practices__including_antibiotic_use == "no" ~ "No",
+    Would_you_be_interested_in_participating_in_workshops_or_training_sessions_on_sustainable_anti_practices__including_antibiotic_use== "yes" ~ "Yes",
+    TRUE ~ Would_you_be_interested_in_participating_in_workshops_or_training_sessions_on_sustainable_anti_practices__including_antibiotic_use
+    
+    ))%>%
+    mutate(Access_InformationAB = case_when(
+    Access_InformationAB == "no" ~ "No",
+    Access_InformationAB== "yes" ~ "Yes",
+    TRUE ~ Access_InformationAB
+    
+    ))%>%
+    mutate(Do_you_think_you_are_willing_to_invest_time_and_resources_in_learning_about_responsible_antibiotic_use_practices = case_when(
+    Do_you_think_you_are_willing_to_invest_time_and_resources_in_learning_about_responsible_antibiotic_use_practices == "no" ~ "No",
+    Do_you_think_you_are_willing_to_invest_time_and_resources_in_learning_about_responsible_antibiotic_use_practices== "yes" ~ "Yes",
+    TRUE ~ Do_you_think_you_are_willing_to_invest_time_and_resources_in_learning_about_responsible_antibiotic_use_practices
+    
+  ))%>%  mutate(Usage_OF_AB = case_when(
+    Usage_OF_AB == "no" ~ "No",
+    Usage_OF_AB== "yes" ~ "Yes",
+    TRUE ~ Usage_OF_AB
+    
+  ))%>%  mutate(Do_you_have_access_to_credit_or_loans_for_your_farming_activities = case_when(
+    Do_you_have_access_to_credit_or_loans_for_your_farming_activities == "no" ~ "No",
+    Do_you_have_access_to_credit_or_loans_for_your_farming_activities== "yes" ~ "Yes",
+    TRUE ~ Do_you_have_access_to_credit_or_loans_for_your_farming_activities
+  ))%>%
+   
+  
+  
+     mutate(Is_broiler_farming_your_main_income = case_when(
+    Is_broiler_farming_your_main_income == "no" ~ "No",
+    Is_broiler_farming_your_main_income== "yes" ~ "Yes",
+    TRUE ~ Is_broiler_farming_your_main_income
+  ))%>%
+    
+     mutate(In_general__do_broiler_farmers_continue_selling_the_chickens_during_the_treatment_period = case_when(
+    In_general__do_broiler_farmers_continue_selling_the_chickens_during_the_treatment_period == "no" ~ "No",
+    In_general__do_broiler_farmers_continue_selling_the_chickens_during_the_treatment_period== "yes" ~ "Yes",
+    TRUE ~ In_general__do_broiler_farmers_continue_selling_the_chickens_during_the_treatment_period
+  ))%>%
+  
+  
+   mutate(During_the_treatment_period__do_you_continue_selling_chickens = case_when(
+    During_the_treatment_period__do_you_continue_selling_chickens == "no" ~ "No",
+    During_the_treatment_period__do_you_continue_selling_chickens== "yes" ~ "Yes",
+    TRUE ~ During_the_treatment_period__do_you_continue_selling_chickens
+  ))%>%
+  
+     mutate(Are_your_chickens_under_antibiotic_treatment_now = case_when(
+    Are_your_chickens_under_antibiotic_treatment_now == "no" ~ "No",
+    Are_your_chickens_under_antibiotic_treatment_now== "yes" ~ "Yes",
+    TRUE ~ Are_your_chickens_under_antibiotic_treatment_now
+  ))%>%
+  
+  
+     mutate(Are_there_any_other_alternatives_apart_from_the_use_of_antibiotics = case_when(
+    Are_there_any_other_alternatives_apart_from_the_use_of_antibiotics == "no" ~ "No",
+    Are_there_any_other_alternatives_apart_from_the_use_of_antibiotics== "yes" ~ "Yes",
+    TRUE ~ Are_there_any_other_alternatives_apart_from_the_use_of_antibiotics
+  ))%>%
+  
+  
+   mutate(Do_you_keep_records_of_antibiotics_administered = case_when(
+    Do_you_keep_records_of_antibiotics_administered == "no" ~ "No",
+    Do_you_keep_records_of_antibiotics_administered== "yes" ~ "Yes",
+    TRUE ~ Do_you_keep_records_of_antibiotics_administered
+  ))%>%
+  
+   mutate(In_general__do_you_think_broiler_farmers_consult_animal_health_practitioners_before_administering_antibiotics = case_when(In_general__do_you_think_broiler_farmers_consult_animal_health_practitioners_before_administering_antibiotics == "no" ~ "No",In_general__do_you_think_broiler_farmers_consult_animal_health_practitioners_before_administering_antibiotics== "yes" ~ "Yes",
+    TRUE ~In_general__do_you_think_broiler_farmers_consult_animal_health_practitioners_before_administering_antibiotics
+  ))%>%
+  
+    mutate(Administer_AB_Consult_Animal_HEALTH = case_when(
+    Administer_AB_Consult_Animal_HEALTH == "no" ~ "No",
+    Administer_AB_Consult_Animal_HEALTH== "yes" ~ "Yes",
+    TRUE ~ Administer_AB_Consult_Animal_HEALTH
+  ))%>%
+  
+  
+  
+  mutate(Have_you_ever_heard_about_One_Health = case_when(
+    Have_you_ever_heard_about_One_Health == "no" ~ "No",
+    Have_you_ever_heard_about_One_Health== "yes" ~ "Yes",
+    TRUE ~ Have_you_ever_heard_about_One_Health
+  ))%>%
+  
+  
+  mutate(AB_training = case_when(
+    AB_training == "no" ~ "No",
+    AB_training== "yes" ~ "Yes",
+    TRUE ~ AB_training
+  ))%>%
+  mutate(Knowledge_AMR = case_when(
+    Knowledge_AMR == "somwhat familar" ~ "Somewhat familiar",
+    Knowledge_AMR == "somewhat_familiar" ~ "Somewhat familiar",
+    Knowledge_AMR == "very_familiar" ~ "Very familiar",
+    TRUE ~ Knowledge_AMR
+  ))%>%
+  mutate(AMR_Knowledge_Perception = case_when(
+    AMR_Knowledge_Perception == "average_knowledge" ~ "Average knowledge",
+    AMR_Knowledge_Perception == "high_knowledge" ~ "High knowledge",
+    AMR_Knowledge_Perception == "low_knowledge" ~ "Low knowledge",
+    AMR_Knowledge_Perception == "very_high_knowledge" ~ "Very high knowledge",
+    TRUE ~ AMR_Knowledge_Perception
+  ))%>%
+  mutate(Knowledge_Collaborative_OH = case_when(
+    Knowledge_Collaborative_OH == "no" ~ "No",
+    Knowledge_Collaborative_OH == "yes" ~ "Yes",
+    TRUE ~ Knowledge_Collaborative_OH
+  ))%>%
+  mutate(AB_Understanding = case_when(
+    AB_Understanding %in% c(
+      "Are drugs to control bacterial diseases",
+      "Drugs to prevent diseases",
+      "Drugs to prevent from disease",
+      "Drugs to control diseases",
+      "Drugs to control diseases of chiken",
+      "Drugs use to prevent disease",
+      "Drugs used to control diseases",
+      "Medicine to prevent disease",
+      "Medicine use to prevent disease",
+      "Medicine used to prevent disease",
+      "Preventive drugs to the chickens",
+      "These are drugs to control diseases",
+      "They use to prevent disease to chickens",
+      "We use to prevent chicken from sick",
+      "Drugs used to prevent dealth of chickens"
+    ) ~ "Prevent",
+    AB_Understanding %in% c(
+      "Drugs use to treat and prevent chickens from sick",
+      "It prevent and treat diaseases",
+      "Medicine for both preventing and treatment of diseases",
+      "Medicine for chicken to heal and prevent them",
+      "Medicine use to cure diseases and prevent them from sick",
+      "Medicine use to prevent and cure diseases",
+      "Medicine use to prevent and treat diaseases",
+      "Medicine use to treat and cure diseases",
+      "Medicines used to treatments and prevention of diseases",
+      "Medicined for Treatment and prevention",
+      "Medicines used for prevent and reatments of diseases",
+      "Medicines used for prevention and treatment of diseases",
+      "Prevent and treatment of diseases",
+      "Medicine used to prevent and cure",
+      "Medicine used to prevent and cure diseases",
+      "Medicine used to prevent and treat chickens",
+      "Thinks used to kill germs and control diseases",
+      "To prevent disease and treat diseases",
+      "Medicines for treatment and prevention of diseases",
+      "This are medicine used to prevent chickens from sick",
+      "Medicined for Treatment and prevention"
+    ) ~ "Prevent and Treat",
+    AB_Understanding %in% c(
+      "Chemical to kill bacteria diseases",
+      "Chemical to treat diseases",
+      "Chemical used to manage diseases.",
+      "Chemicals and drugs to treat diseases",
+      "Chemicals and things used to treat diaseses",
+      "Chemicals to cure chicken diseases",
+      "Chemicals used to treat diseases",
+      "Diseases to kill germ",
+      "Drugs for treating chicken",
+      "Drugs for treating chickens",
+      "Drugs ides to treat diseases",
+      "Drugs that We use for treatment",
+      "Drugs to give chicken when they are sick",
+      "Drugs to help chickens when they get sick",
+      "Drugs to kill bacteria",
+      "Drugs to kill bacteria chicken diseases",
+      "Drugs to kill disease",
+      "Drugs to kill diseases",
+      "Drugs to kill drugs",
+      "Drugs to kill germs",
+      "Drugs to kill germs of chicken",
+      "Drugs to that treat diaseases",
+      "Drugs to treat chicken diseases",
+      "Drugs to treat diseases",
+      "Drugs use to cure diseases",
+      "Drugs use to treat chickens",
+      "Drugs use to treat different diseases",
+      "Drugs used to cure diseases",
+      "Drugs used to cure diseases to the chickens",
+      "Drugs used to kill diseases",
+      "Drugs used to kill druds",
+      "Drugs used to treat chickens",
+      "Drugs used to treat diseases",
+      "Drugs used to treat diseases of chikens",
+      "Drugs used to treat germs",
+      "Drugs used to treat kill germs",
+      "For treatments of diseases",
+      "Germs to treat diseases",
+      "Medicine help chickens",
+      "Medicine that kills bacteria",
+      "Medicine to treat chickens",
+      "Medicine to treat diseases",
+      "Medicine to treat diseases more than one",
+      "Medicine use to cure diseases",
+      "Medicine use to prevent diseases",
+      "These are drugs that kill bacteria",
+      "These are drugs used to treat specific diseases",
+      "These are drugs which treat diseases",
+      "Things that kill bacteria",
+      "Things used to treat diseases",
+      "Medicine use to treat chickens",
+      "Medicine use to treat diseases",
+      "Medicines used for treatment of diseases",
+      "Medicines used to treat diseases",
+      "Medicine used to treat chickens",
+      "Medicine used to treat diseases",
+      "Medicines for treating chickens",
+      "Medicines for treatment of diseases",
+      "Medicines for treatments of diseases",
+      "Medicines used to treatments",
+      "Medicines used yo treat diseases",
+      "Treat for chickens diseases",
+      "Use to treat chickens",
+      "When the chicken is sick we use them"
+    ) ~ "Treatment",
+    AB_Understanding %in% c(
+      "Medicines used to treat medicines",
+      "Medicines used to treat Medicines",
+      "Drugs we use to the chickens"
+    ) ~ "Unsure",
+    TRUE ~ "Missing"
+  ))%>%
+  
+  mutate(Breed = case_when
+         (Breed %in% c("Alvin", "Arvin broiler", "Arvin broilersBroiler", "Broiler - arvin", "Broiler -arvin", "Broiler and croiler", "Broiler and Saso", "Broiler arvin", "Broiler Ross 308", "Broiler silverland", "Broiler, Kuroirer and Saso", "Broiler, layers", "Broiler, saso", "Broiler,alvin", "Broiler,layers", "Broiler,Saso", "Broilers alvin", "Cob 500", "Cobb 500", "Cobb and Rose", "Cobb500", "cobb500 & sasso", "Conb500","Conb500Roos 308", "Ros308", "Ross 305", "Ross 308", "Ross300", "Ross308", "Intercheeck broiler", "Interchick", "Interchicks", "Interchicks and centrachicks", "Interchicks and centrochicks","Saso and broiler",  "Silverland broiler",
+                       "Saso and Broiler", "Saso Ross", "Saso Ross 308", "Silverland broiler", "Arvin broiler", "Arvin broilersBroiler", "Broiler - arvin", "Broiler -arvin", "Broiler and croiler", "Broiler and Saso", "Broiler arvin", "Broiler Ross 308", "Broiler silverland", "Broiler, Kuroirer and Saso", "Broiler, layers", "Broiler, saso", "Broiler,alvin", "Broiler,layers", "Broiler,Saso", "Broilers alvin", "Cob 500", "Cobb 500", "Cobb and Rose", "Cobb500", "cobb500 & sasso", "Conb500Roos 308", "Ros308", "Ross 305", "Ross 308", "Ross300", "Ross308", "Intercheeck broiler","Saso and broiler", "Silverland broiler", "Saso and Broiler", "Saso Ross", 
+                       "Saso Ross 308","Saso, kroiler and Broiler", "Arvin broilers", "300", "Roos 308") ~ "Broiler", 
+           Breed %in% c("Saso silverland", "Saso silverland 308", "Chroirer", "Croiler", "Croiler - Interchicks", "Croiler and Saso",
+                        "Asho", "Ashok", "Ashork", "Bovans", "Chotara", "Erveness and sendlecheck", "Evines", "Falcon", "hashokh", "Intercheeck ,and kencheek",
+                        "Joshi", "Kibo and silverland", "Kloiler", "Kroiler", "Kroiler/ layers", "Kuroiler", "Layers and saso", "Saso", "Saso- silver land",
+                        "Saso- tanbro","Tanbro,saso", "Saso - silverland", "Saso & kloiler", "Saso 38", "Saso& kroiler", "Saso, croiler",
+                        "Saso,chotara", "Saso,Chotara", "Silverland", "Silverland saso", "Tanbro", "Tanbro -intercheeck", "Tanbro and Saso", "Tanbro,sasoall") ~ "Crossbreds" ,
+           TRUE ~ Breed
+           ))%>%
+
+mutate(Overusage_AB_Poultry = case_when(Overusage_AB_Poultry=="very_overused" ~ "Very Overused",
+                                        Overusage_AB_Poultry =="somewhat_overused" ~ "Somewhat overused",
+                                        Overusage_AB_Poultry =="little_overused"~ "Little overused",
+                                        Overusage_AB_Poultry =="overused" ~ "Overused",
+                                        TRUE ~ Overusage_AB_Poultry 
+))%>%
+  mutate(Administering_antibiotics= case_when(Administering_antibiotics==
+                                                 "mostly_women" ~ "Mostly women",
+                                                Administering_antibiotics == "mostly_men" ~ "Mostly men",
+                                                Administering_antibiotics== "men_and_women_equally" ~ "Men and Women equally",
+                                                Administering_antibiotics== "almost_exclusively_men" ~ "Almost exclusively men",
+                                               Administering_antibiotics == "almost_exclusively_women" ~ "Almost exclusively women",
+    TRUE ~  Administering_antibiotics
+  )) %>%
+  mutate(Taking_care_of_the_chickens = case_when(
+    Taking_care_of_the_chickens == "mostly_women" ~ "Mostly women",
+    Taking_care_of_the_chickens == "mostly_men" ~ "Mostly men",
+    Taking_care_of_the_chickens == "men_and_women_equally" ~ "Men and Women equally",
+    Taking_care_of_the_chickens == "almost_exclusively_men" ~ "Almost exclusively men",
+    Taking_care_of_the_chickens == "almost_exclusively_women" ~ "Almost exclusively women",
+    TRUE ~ Taking_care_of_the_chickens
+  )) %>%
+
+
+
+ mutate(Water_providing_G  = case_when(
+    Water_providing_G  == "mostly_women" ~ "Mostly women",
+    Water_providing_G  == "mostly_men" ~ "Mostly men",
+    Water_providing_G  == "men_and_women_equally" ~ "Men and Women equally",
+    Water_providing_G  == "almost_exclusively_men" ~ "Almost exclusively men",
+    Water_providing_G  == "almost_exclusively_women" ~ "Almost exclusively women",
+    TRUE ~ Water_providing_G 
+  )) %>%
+
+  
+  mutate(Disposal_dead_broilers_G  = case_when(
+    Disposal_dead_broilers_G  == "mostly_women" ~ "Mostly women",
+    Disposal_dead_broilers_G  == "mostly_men" ~ "Mostly men",
+    Disposal_dead_broilers_G  == "men_and_women_equally" ~ "Men and Women equally",
+    Disposal_dead_broilers_G  == "almost_exclusively_men" ~ "Almost exclusively men",
+    Disposal_dead_broilers_G  == "almost_exclusively_women" ~ "Almost exclusively women",
+    TRUE ~ Disposal_dead_broilers_G 
+  )) %>%
+  
+  mutate(Decision_Treatment_G = case_when(
+    Decision_Treatment_G == "mostly_women" ~ "Mostly women",
+    Decision_Treatment_G == "mostly_men" ~ "Mostly men",
+    Decision_Treatment_G == "men_and_women_equally" ~ "Men and Women equally",
+    Decision_Treatment_G == "almost_exclusively_men" ~ "Almost exclusively men",
+    Decision_Treatment_G == "almost_exclusively_women" ~ "Almost exclusively women",
+    TRUE ~ Decision_Treatment_G
+  ))%>%
+  
+  mutate(AB_Disposal_G = case_when(
+    AB_Disposal_G == "mostly_women" ~ "Mostly women",
+    AB_Disposal_G == "mostly_men" ~ "Mostly men",
+    AB_Disposal_G == "Men and women equally" ~ "Men and Women equally",
+   
+    AB_Disposal_G == "men_and_women_equally" ~ "Men and Women equally",
+    AB_Disposal_G == "almost_exclusively_men" ~ "Almost exclusively men",
+    AB_Disposal_G == "almost_exclusively_women" ~ "Almost exclusively women",
+    TRUE ~ AB_Disposal_G
+  ))%>%
+
+  mutate(Income_Decision_G = case_when(
+    Income_Decision_G == "mostly_women" ~ "Mostly women",
+    Income_Decision_G == "mostly_men" ~ "Mostly men",
+     Income_Decision_G =="both_men_and_women" ~ "Both men and women",
+    Income_Decision_G == "men_and_women_equally" ~ "Men and Women equally",
+    Income_Decision_G == "almost_exclusively_men" ~ "Almost exclusively men",
+    Income_Decision_G == "almost_exclusively_women" ~ "Almost exclusively women",
+    TRUE ~ Income_Decision_G
+  ))%>%
+
+
+  mutate(Broiler_Disease_Outbreak_Human_Health==case_when(Broiler_Disease_Outbreak_Human_Health ==" high" ~ "High",
+                                                          Broiler_Disease_Outbreak_Human_Health =="low" ~ "Low",
+                                                          Broiler_Disease_Outbreak_Human_Health =="moderate" ~ "Moderate",
+                                                          TRUE ~ "Broiler_Disease_Outbreak_Human_Health"
+))%>% 
+  
+  
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+mutate(Source_Training_AB = case_when(Source_Training_AB == "Friends and family" ~ "Friends and Family",
+Source_Training_AB %in% c("church", 
+"From Lutheran church they provided us with the knowledge and books as guied(mchomvu))",
+"NCA-Erasto",
+"NCA-ERASTO",
+"NCA","Erasto",
+"NCA-ERASTO", "NCA-ERASTO",
+          "NRS","From the church."
+ ) ~ 'Church',
+                                                                  
+Source_Training_AB %in% c("Mabuki farm", "farm.", "Agricultural association services",
+"Agricultural association services Veterinary professionals","Localcommunitymeetings","local_community_meetings","local_community_meetings" ) ~ 'Local community',
+                     
+Source_Training_AB %in% c ("Sua","Training from SUA via ministry of livestock","College",
+            "Livestock College Madaba","Shinyanga",
+            "During the college as am animal health practitioner"
+            ) ~ 'Government',
+Source_Training_AB  %in%  c("I don't remember",
+                                          "I don't remember due to variety of companies that come to train us on how to grow our chicken",
+                                          "I don't remember they were from kenya","I dont remember" ) ~ 'Unknown',
+                                        
+ 
+Source_Training_AB %in% c("Alvin",
+                          "Alvin Company",
+                          "Arvin chicks companies",
+  "Arvin chikens companies",
+  "Arvin saso",
+  "Arvin supplier of chicks",
+  "Ashorkh", "KIBO","KUGIES", "Tao nutrition","Mabuki farm",
+  "NGOKMG","NRS","Saso Silverland","Shinyanga",
+  "Silverland Iringa","Silverland saso","Chicks companies", 
+  "To agrovet shops","Harsho and silverland,","Harshoseminars",
+  "Harshok","HAVICK")  ~ 'Companies',
+TRUE ~ "Other" 
+))%>%
+  mutate(Source_info_AB_Use = case_when(Source_info_AB_Use == "veterinary professionals" ~ "Veterinary professionals",
+                                        Source_info_AB_Use=="local community meetings"~ "Local community meetings",
+                                        TRUE ~ Source_info_AB_Use))%>%
+                                        
+mutate(Concern_AMR_FarmProductivity=case_when(Concern_AMR_FarmProductivity == "less_concerned" ~ "Less concerned",
+                                        Concern_AMR_FarmProductivity == "very_concerned"~ "Very concerned", 
+                                        Concern_AMR_FarmProductivity == "concerned"~ "Concerned",
+                                        
+                                        TRUE ~ Concern_AMR_FarmProductivity))%>%
+  
+  mutate(Correct_AB_Usage=case_when(Correct_AB_Usage== "important"  ~ "Important",
+                                    Correct_AB_Usage== "very_important"  ~ "Very important",
+                                    TRUE  ~ Correct_AB_Usage))%>%
+  
+mutate(Know_IF_AB_Usage_AMR=case_when(Know_IF_AB_Usage_AMR== "yes__to_a_degree"  ~ "Yes, to a degree",
+                                    Know_IF_AB_Usage_AMR== "yes_but_only_a_limited_effect"  ~ "Yes but only a limited effect",
+                                    Know_IF_AB_Usage_AMR== "yes__very_much"  ~   "Yes, very much",
+                                    TRUE  ~ Know_IF_AB_Usage_AMR  ))%>% 
+                                    
+mutate(Know_IF_AB_GrowthP_AMR=case_when(Know_IF_AB_GrowthP_AMR== "yes__to_a_degree"  ~ "Yes, to a degree",
+                                    Know_IF_AB_GrowthP_AMR== "yes_but_a_negligible_effect"  ~   "Yes but only a neglible effect",
+                                    Know_IF_AB_GrowthP_AMR== "yes__very_much"  ~ "Yes, very much",
+                                    TRUE  ~ Know_IF_AB_GrowthP_AMR))     
+
+                                                                                                                                                                   
+                                                                
+                                                                                                                                                                                                                                                       
+
+
+
+```
+```{r}
+INIKA<-INIKAKAT%>%
+  select(-starts_with("Tap_to_record"))
+
+
+write.csv(INIKA, file = paste("K:/FAG/Tverrfaglig/AMR/FoU-aktiviteter & prosjekter/31218_INIKA_OH_TZ/WP2/INIKAKAT.csv", sep = ""))
+         
+
+
+```
+
+```{r}
+QUEST_1<-INIKAKAT%>%
+  select(-start, -end, -username, -deviceid, -phonenumber, -DateI,-INIKA_OH_TZ_ID)
+
+get_frequencies <- function(df) {
+  freq_list <- lapply(df, function(col) {
+    freq_table <- as.data.frame(table(col, useNA = "ifany"))
+    colnames(freq_table) <- c("Value", "Frequency")
+    return(freq_table)
+  })
+  names(freq_list) <- colnames(df)
+  return(freq_list)
+}
+
+# Apply the function to the dataset
+frequencies <- get_frequencies(QUEST_1)
+
+# Combine the frequencies into a single dataframe
+combined_frequenciesQUEST <- bind_rows(
+  lapply(names(frequencies), function(colname) {
+    freq_table <- frequencies[[colname]]
+    freq_table <- mutate(freq_table, Column = colname)
+  }),
+  .id = "id"
+)
+
+write.csv(combined_frequenciesQUEST, file = paste("K:/FAG/Tverrfaglig/AMR/FoU-aktiviteter & prosjekter/31218_INIKA_OH_TZ/WP2/combined_frequenciesQUEST.csv", sep = ""))
+
+```
+
+
+
+
+```{r}
+KAP_Demo <- INIKAKAT%>% 
+  select(INIKA_OH_TZ_ID,Respondent,FarmPurp,Age_R,Gender_R,Status_R,Ethnic_R,Education_R,Occupation_R,Gender_F,Status_F,
+         Ethnic_F,Education_F,,Ward,District,Region,Herdsize,Flockage,
+         No_Sheds,Breed,NoWorkers,No_Prod)
+```
+
+```{r}
+colnames(INIKAKAT)
+```
+
+
+
+```{r}
+KAP_Knowledge<- INIKAKAT%>%        
+        select (INIKA_OH_TZ_ID,Knowlede_AB,AB_Understanding,AB_training,Source_Training_AB,Source_info_AB_Use,
+         Specify_OTHERS_SOURCE_AB,AB_Thoughts,Heard_AMR,Knowledge_AMR,Explanation_AMR,AMR_CONS,
+,AMR_CONS_OTHERS_SPEC,
+
+         Preventing_AMR_Guidelines,
+         PREV_NOUSAGE,
+Preventing_AMR_Biosecurity,
+         Preventing_AMR_SwitchBreed,
+         Preventing_AMR_Genral_Husbandry,
+         Preventing_AMR_POLICIES,
+         Peventing_AMR_Others)
+
+
+```
+
+ 
+
+```{r}
+KAP_OH<-INIKAKAT%>%        
+      select (INIKA_OH_TZ_ID,Heard_OH,Explanation_OH,Broiler_Disease_Outbreak_Human_Health,Knowledge_Collaborative_OH ,, Explaination_Collaborative_OH, Participation_Training_OH, Explain_Training_content_OH)
+        
+```
+
+
+```{r}
+KAP_ATTITUDE<-INIKAKAT%>%        
+        select (INIKA_OH_TZ_ID,Concern_AMR_FarmProductivity,Correct_AB_Usage,Overusage_AB_Poultry,
+         AMR_Knowledge_Perception,Know_IF_AB_Usage_AMR,Know_IF_AB_GrowthP_AMR)
+```
+```{r}
+KAP_Practises<-INIKAKAT%>% 
+  select(INIKA_OH_TZ_ID,Practices_AB_Causes_AMR,Administer_AB_Consult_Animal_HEALTH, Administer_AB_Knowhow,Purpose_of_Broiler_F,Feed_use,Time_Since_Chichensick, Disease_Last_time, Usage_OF_AB, Usage_OF_AB_Frequency, Where_do_you_obtain_antibiotics, Feed_use_Others, Time_Since_Chichensick, Usage_OF_AB, Usage_OF_AB_Frequency, Never_usage_Know 
+                                                                                                                    
+              
+                                                                                                                                                                
+)                                                                                                                                                                                                                                                     
+
+```{r}
+KAP_ECO<-INIKAKAT%>%        
+      select (INIKA_OH_TZ_ID,Support, SUPPORT_RATE,
+SOURCE_INFO_AMR,SOURCE_AMR_RATE ,
+LOCALCOMM, PARTFREK ,  PARTUSE ,EMPLOY, INCOMEPRIMARY,  INCOMESOURCEBROILER,NOCHICKENSOLDMONTHLY ,   LOAN_CRED , NOFAMILY_MEMB                                                                            )
+```
+
+```{r}
+KAP_GENDER<-INIKAKAT%>% 
+  select (INIKA_OH_TZ_ID,GENDERSROLE,REASON_GENDERBROILER)
+  
+```
+```{r}
+KAP_POTENTIAL<-%>% 
+  select (INIKA_OH_TZ_ID,)
+```
+
+```{r}
+KAPREST<-INIKAKAT%>%
+  select(-GENDERSROLE,-REASON_GENDERBROILER,-INIKA_OH_TZ_ID,-Support, -SUPPORT_RATE,-AB_Understanding,
+-SOURCE_INFO_AMR,-SOURCE_AMR_RATE ,-
+LOCALCOMM,- PARTFREK ,-  PARTUSE ,-EMPLOY,- INCOMEPRIMARY,-  INCOMESOURCEBROILER,-NOCHICKENSOLDMONTHLY ,-   LOAN_CRED ,- NOFAMILY_MEMB,-Practices_AB_Causes_AMR,-Administer_AB_Consult_Animal_HEALTH,- Administer_AB_Knowhow,-Purpose_of_Broiler_F,-Feed_use,-Time_Since_Chichensick,- Disease_Last_time,- Usage_OF_AB,- Usage_OF_AB_Frequency,- Where_do_you_obtain_antibiotics,- Feed_use_Others,- Time_Since_Chichensick,- Usage_OF_AB,- Usage_OF_AB_Frequency,- Never_usage_Know,-Concern_AMR_FarmProductivity,-Correct_AB_Usage,-Overusage_AB_Poultry,-
+         AMR_Knowledge_Perception,-Know_IF_AB_Usage_AMR,-Know_IF_AB_GrowthP_AMR,-Knowlede_AB,-AB_Understanding,-AB_training,-Source_Training_AB,-Source_info_AB_Use,-
+         Specify_OTHERS_SOURCE_AB,-AB_Thoughts,-Heard_AMR,-Knowledge_AMR,-Explanation_AMR,-AMR_CONS,
+,-AMR_CONS_OTHERS_SPEC,-
+Preventing_AMR_Guidelines,-
+         PREV_NOUSAGE,-
+Preventing_AMR_Biosecurity,-
+         Preventing_AMR_SwitchBreed,-
+         Preventing_AMR_Genral_Husbandry,-
+         Preventing_AMR_POLICIES,-
+         Peventing_AMR_Others,- INIKA_OH_TZ_ID,-Concern_AMR_FarmProductivity,-Correct_AB_Usage,-Overusage_AB_Poultry,-
+         AMR_Knowledge_Perception,-Know_IF_AB_Usage_AMR,-Know_IF_AB_GrowthP_AMR,-Heard_OH,-Explanation_OH,-Broiler_Disease_Outbreak_Human_Health,-Knowledge_Collaborative_OH ,- Explaination_Collaborative_OH,- Participation_Training_OH,- Explain_Training_content_OH)
+
+
+```
+
+
+```{r}
+get_frequencies <- function(df) {
+  freq_list <- lapply(df, function(col) {
+    freq_table <- as.data.frame(table(col, useNA = "ifany"))
+    colnames(freq_table) <- c("Value", "Frequency")
+    return(freq_table)
+  })
+  names(freq_list) <- colnames(df)
+  return(freq_list)
+}
+
+# Apply the function to the dataset
+frequencies <- get_frequencies(KAP_OH)
+
+# Combine the frequencies into a single dataframe
+combined_frequencies <- bind_rows(
+  lapply(names(frequencies), function(colname) {
+    freq_table <- frequencies[[colname]]
+    freq_table <- mutate(freq_table, Column = colname)
+  }),
+  .id = "id"
+)
+
+```
+                                                                                                                                                                            )
+```{r}
+  KAPOH_FREK<-KAP_OH%>%
+  select(-INIKA_OH_TZ_ID)  
+```
+        
+```{r}
+KAP_ATT<-KAP_ATTITUDE%>%
+select(-INIKA_OH_TZ_ID)  
+```
+```{r}
+# Apply the function to the dataset
+frequencies <- get_frequencies(KAP_ATT)
+
+# Combine the frequencies into a single dataframe
+combined_frequenciesATT <- bind_rows(
+  lapply(names(frequencies), function(colname) {
+    freq_table <- frequencies[[colname]]
+    freq_table <- mutate(freq_table, Column = colname)
+  }),
+  .id = "id"
+)
+
+```
+```{r}
+
+
+write.csv(INIKAKAT, file = paste("K:/FAG/Tverrfaglig/AMR/FoU-aktiviteter & prosjekter/31218_INIKA_OH_TZ/WP2/INIKAKATNEW.csv", sep = ""))
+
+```
+```{r}
+write.csv(KAP_Demo, file = paste("K:/FAG/Tverrfaglig/AMR/FoU-aktiviteter & prosjekter/31218_INIKA_OH_TZ/WP2/KAP_Demo.csv", sep = ""))
+write.csv(KAP_ECO, file = paste("K:/FAG/Tverrfaglig/AMR/FoU-aktiviteter & prosjekter/31218_INIKA_OH_TZ/WP2/KAP_ECO.csv", sep = ""))
+write.csv(KAP_ATTITUDE, file = paste("K:/FAG/Tverrfaglig/AMR/FoU-aktiviteter & prosjekter/31218_INIKA_OH_TZ/WP2/KAP_Attitude.csv", sep = ""))
+write.csv(KAP_Knowledge, file = paste("K:/FAG/Tverrfaglig/AMR/FoU-aktiviteter & prosjekter/31218_INIKA_OH_TZ/WP2/KAP_Knowledge.csv", sep = ""))
+write.csv(KAP_OH, file = paste("K:/FAG/Tverrfaglig/AMR/FoU-aktiviteter & prosjekter/31218_INIKA_OH_TZ/WP2/KAP_OH.csv", sep = ""))
+write.csv(KAP_Practises, file = paste("K:/FAG/Tverrfaglig/AMR/FoU-aktiviteter & prosjekter/31218_INIKA_OH_TZ/WP2/KAP_Practise.csv", sep = ""))
+write.csv(KAPREST, file = paste("K:/FAG/Tverrfaglig/AMR/FoU-aktiviteter & prosjekter/31218_INIKA_OH_TZ/WP2/KAP_Rest.csv", sep = ""))
+```
+
+
