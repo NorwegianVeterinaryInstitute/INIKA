@@ -11,7 +11,8 @@ get_frequencies <- function(df) {
 }
 
 # Apply the function to the dataset
-frequencies <- get_frequencies(INIKA_SURVEY_ID)
+#frequencies <- get_frequencies(INIKA_SURVEY_ID)
+frequencies<-get_frequencies(INIKAKAT)
 
 # Combine the frequencies into a single dataframe
 combined_frequencies <- bind_rows(
@@ -22,7 +23,7 @@ combined_frequencies <- bind_rows(
   .id = "id"
 )
 
-frequencies <- get_frequencies(INIKA_SURVEY_ID)
+frequencies <- get_frequencies(INIKAKAT)
 
 # Combine the frequencies into a single dataframe
 combined_frequencies <- bind_rows(

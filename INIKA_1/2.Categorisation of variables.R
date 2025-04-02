@@ -131,6 +131,18 @@ mutate(Gender_F = case_when(Gender_F == "female" ~ "Female",
     TRUE ~ Knowlede_AB
   ))%>%
   
+  mutate(AB_Thoughts==case_when(
+    AB_Thoughts=="no" ~ "No",
+    AB_Thoughts== "yes" ~ "Yes",
+    TRUE ~ AB_Thoughts
+  ))%>%
+  
+  
+mutate(Heard_AMR==case_when(
+  Heard_AMR =="no" ~ "No",
+  Heard_AMR== "yes" ~ "Yes",
+  TRUE ~ Heard_AMR
+))%>%
   mutate(AB_training = case_when(
     AB_training == "no" ~ "No",
     AB_training== "yes" ~ "Yes",
@@ -270,7 +282,7 @@ mutate(Gender_F = case_when(Gender_F == "female" ~ "Female",
   ))%>%
   
   mutate(Breed = case_when
-         (Breed %in% c("Alvin", "Arvin broiler", "Arvin broilersBroiler", "Broiler - arvin", "Broiler -arvin", "Broiler and croiler", "Broiler and Saso", "Broiler arvin", "Broiler Ross 308", "Broiler silverland", "Broiler, Kuroirer and Saso", "Broiler, layers", "Broiler, saso", "Broiler,alvin", "Broiler,layers", "Broiler,Saso", "Broilers alvin", "Cob 500", "Cobb 500", "Cobb and Rose", "Cobb500", "cobb500 & sasso", "Conb500Roos 308", "Ros308", "Ross 305", "Ross 308", "Ross300", "Ross308", "Intercheeck broiler", "Interchick", "Interchicks", "Interchicks and centrachicks", "Interchicks and centrochicks","Saso and broiler",  "Silverland broiler",
+         (Breed %in% c("Alvin", "Arvin broiler", "Arvin broilersBroiler", "Broiler - arvin", "Broiler -arvin", "Broiler and croiler", "Broiler and Saso", "Broiler arvin", "Broiler Ross 308", "Broiler silverland", "Broiler, Kuroirer and Saso", "Broiler, layers", "Broiler, saso", "Broiler,alvin", "Broiler,layers", "Broiler,Saso", "Broilers alvin", "Cob 500", "Cobb 500", "Conb500", "Cobb and Rose", "Cobb500", "cobb500 & sasso", "Conb500Roos 308", "Ros308", "Ross 305", "Ross 308", "Ross300", "Ross308", "Intercheeck broiler", "Interchick", "Interchicks", "Interchicks and centrachicks", "Interchicks and centrochicks","Saso and broiler",  "Silverland broiler",
                        "Saso and Broiler", "Saso Ross", "Saso Ross 308", "Silverland broiler", "Arvin broiler", "Arvin broilersBroiler", "Broiler - arvin", "Broiler -arvin", "Broiler and croiler", "Broiler and Saso", "Broiler arvin", "Broiler Ross 308", "Broiler silverland", "Broiler, Kuroirer and Saso", "Broiler, layers", "Broiler, saso", "Broiler,alvin", "Broiler,layers", "Broiler,Saso", "Broilers alvin", "Cob 500", "Cobb 500", "Cobb and Rose", "Cobb500", "cobb500 & sasso", "Conb500Roos 308", "Ros308", "Ross 305", "Ross 308", "Ross300", "Ross308", "Intercheeck broiler","Saso and broiler", "Silverland broiler", "Saso and Broiler", "Saso Ross", 
                        "Saso Ross 308","Saso, kroiler and Broiler", "Arvin broilers", "300", "Roos 308") ~ "Broiler", 
            Breed %in% c("Saso silverland", "Saso silverland 308", "Chroirer", "Croiler", "Croiler - Interchicks", "Croiler and Saso",
@@ -400,6 +412,8 @@ mutate(Access_InformationAB=
   TRUE ~ Access_InformationAB
   ))
 
+
+DATA<- select
 
 
 write.csv(INIKAKAT, file = paste(outputFilbane,"Resultat\\","INIKAKAT.csv", sep = ""))

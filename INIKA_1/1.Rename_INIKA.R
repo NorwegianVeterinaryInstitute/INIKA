@@ -76,9 +76,10 @@ QUEST<-INIKA%>%
          AMR_CONS_OTHERS_SPEC= "If others, please specify...62",
 
          
-        Preventing_AMR_Guidelines= "Strictly follow the recommended antibiotic use guidelines or the advice and prescription guidance from veterinarians.",                                                                       
-         Preventing_AMR_NO_USAGE ="Don't use antibiotics at all",                                                                                                                                                                                                                                                                                                                            
-         Preventing_AMR_Biosecurity =  "Increase biosecurity measures"   ,                                                                                                                                                              
+        Preventing_AMR_Guidelines= "Strictly follow the recommended antibiotic use guidelines or the advice and prescription guidance from veterinarians.",
+  
+       
+                                                                                                                                                                                                                                                                                                                                  Preventing_AMR_Biosecurity =  "Increase biosecurity measures"   ,                                                                                                                                                              
          Preventing_AMR_SwitchBreed =  "Switch to other breeds"  ,                                                                                                                                                                      
          Preventing_AMR_Genral_Husbandry =  "Following good chicken-keeping practices (General husbandry)"   ,                                                                                                                               
          Preventing_AMR_POLICIES=  "Advocate for policies to regulate antibiotic use"      ,                                                                                                                                        
@@ -207,10 +208,15 @@ QUEST<-INIKA%>%
                 Ethnic_F_3 = "If_you_are_not_the_f_on_on_the_farm_owner/ethnicity_of_the_farm_owner",
                 Education_F_3 = "If_you_are_not_the_f_on_on_the_farm_owner/education_level_of_the_farm_owner",
                 Occupation_F3 = "If_you_are_not_the_f_on_on_the_farm_owner/occupation_of_the_farm_owner",
+        ADM_antibiotics_G="Administering antibiotics",
+
+
+  #      Preventing_AMR_NO_USAGE ="Don't use antibiotics at all" )
+
+# The variable above is not possible to change? error message saying it does not exist?
+
         
-        
-        ####################################################################
-       # All below has been removed from the dataset as there were no content, !!!!
+    
           
                 Location_2="Location_of_farmer"  ,
                 Ward_2 = "Location_of_farmer/option_1__ward" ,
@@ -299,4 +305,9 @@ QUEST<-INIKA%>%
                                                 is.na(GPS_Precision) ~ GPS_Precision_2
   ))
   
+
+,                                                                       
+
+
+Preventing_AMR_NO_USAGE ="Don't use antibiotics at all",  
          
