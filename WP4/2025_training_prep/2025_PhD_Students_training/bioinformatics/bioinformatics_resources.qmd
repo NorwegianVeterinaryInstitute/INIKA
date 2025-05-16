@@ -1,0 +1,34 @@
+# Ressources for bioinformatics
+
+- [Galaxy Project](https://galaxyproject.org/). Multiple servers, including in Africa.  
+    - [Galaxy Africa server](https://galaxyproject.org/use/galaxy-africa/) for genomics (part of the european server and supported by the Danes ...)
+    - regular training events, shared tutorials 
+    - You can choose server you want to use: [list](https://galaxyproject.org/use/) by speciality or location (or busy -ness ...)
+
+
+
+- Note: not only bioinformatics but also data analysis. machine learning ... For []data science tutorials in Galaxy](https://training.galaxyproject.org/training-material/topics/data-science/) 
+
+
+
+- Example https://training.galaxyproject.org/training-material/events/tracks/gta2025-bioNT.html
+
+
+# Software 
+
+- [MOB Suite](https://github.com/phac-nml/mob-suite) Software tools for clustering, reconstruction and typing of plasmids from draft assemblies
+> usage for AMR : detection plasmids
+
+- [PlasmidFinder (2)](https://cge.food.dtu.dk/services/PlasmidFinder/) ? 
+
+# Databases
+- [NCBI PLSDB Plasmid database](https://ccb-microbe.cs.uni-saarland.de/plsdb2025)
+
+
+# References
+
+
+Robertson, James, and John H E Nash. “MOB-suite: software tools for clustering, reconstruction and typing of plasmids from draft assemblies.” Microbial genomics vol. 4,8 (2018): e000206. doi:10.1099/mgen.0.000206
+
+Robertson, James et al. “Universal whole-sequence-based plasmid typing and its utility to prediction of host range and epidemiological surveillance.” Microbial genomics vol. 6,10 (2020): mgen000435. doi:10.1099/mgen.0.000435
+
